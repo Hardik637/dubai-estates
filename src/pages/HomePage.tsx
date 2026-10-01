@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditorialHero } from '../components/home/EditorialHero';
+import { CinematicHero } from '../components/home/CinematicHero';
 import { AsymmetricEditorialSpread } from '../components/home/AsymmetricEditorialSpread';
 import { ChevronTransition } from '../components/home/ChevronTransition';
 import { DubaiEditorialSection } from '../components/home/DubaiEditorialSection';
@@ -9,8 +9,8 @@ import { FinalCTA } from '../components/home/FinalCTA';
 export const HomePage: React.FC = () => {
   return (
     <div className="relative w-full bg-[#FFFFFF] text-[#111111] overflow-x-clip">
-      {/* SCENE 01 — INTRODUCTION: White, Minimal, Oversized Headline "DUBAI HAS MORE TO OFFER", Small Image Block */}
-      <EditorialHero />
+      {/* 01. Cinematic Scroll-Controlled Camera Journey Hero */}
+      <CinematicHero />
 
       {/* SCENE 02 & 04 — EDITORIAL IMAGE COMPOSITION & BRAND STATEMENT: Asymmetric Spread in Warm Cream */}
       <AsymmetricEditorialSpread />
