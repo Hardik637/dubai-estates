@@ -1,7 +1,6 @@
 import React from 'react';
 import { CinematicHero } from '../components/home/CinematicHero';
 import { AsymmetricEditorialSpread } from '../components/home/AsymmetricEditorialSpread';
-import { ChevronTransition } from '../components/home/ChevronTransition';
 import { DubaiEditorialSection } from '../components/home/DubaiEditorialSection';
 import { EditorialPropertyFeatures } from '../components/home/EditorialPropertyFeatures';
 import { FinalCTA } from '../components/home/FinalCTA';
@@ -9,14 +8,11 @@ import { FinalCTA } from '../components/home/FinalCTA';
 export const HomePage: React.FC = () => {
   return (
     <div className="relative w-full bg-[#FFFFFF] text-[#111111] overflow-x-clip">
-      {/* 01. Cinematic Scroll-Controlled Camera Journey Hero */}
+      {/* 01. Floating Editorial Frame Hero */}
       <CinematicHero />
 
       {/* SCENE 02 & 04 — EDITORIAL IMAGE COMPOSITION & BRAND STATEMENT: Asymmetric Spread in Warm Cream */}
       <AsymmetricEditorialSpread />
-
-      {/* SCENE 03 — CHEVRON TRANSITION: Architectural Horizontal Chevron Slider (> > > > >) */}
-      <ChevronTransition />
 
       {/* SCENE 05 — DUBAI: Interactive Editorial Storytelling (Location on left, big image on right) */}
       <DubaiEditorialSection />
