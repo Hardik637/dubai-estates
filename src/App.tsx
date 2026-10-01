@@ -5,7 +5,6 @@ import { Footer } from './components/Footer';
 import { AuthModal } from './components/AuthModal';
 import { GoldenVisaModal } from './components/GoldenVisaModal';
 import { RegisterInterestDrawer } from './components/RegisterInterestDrawer';
-import { WhatsAppFloat } from './components/WhatsAppFloat';
 
 // Primary Pages
 import { HomePage } from './pages/HomePage';
@@ -62,7 +61,6 @@ const MainContent: React.FC = () => {
       <AuthModal />
       <GoldenVisaModal />
       <RegisterInterestDrawer />
-      <WhatsAppFloat />
     </div>
   );
 };
