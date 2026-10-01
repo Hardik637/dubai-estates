@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Property, PropertyType, ListingStatus } from '../types';
 import confetti from 'canvas-confetti';
@@ -516,7 +516,7 @@ export const SellPropertyPage: React.FC = () => {
                       <option value="Emaar Properties">Emaar Properties</option>
                       <option value="Nakheel">Nakheel</option>
                       <option value="DAMAC">DAMAC</option>
-                      <option value="Sobha Realty">Sobha Realty</option>
+                      <option value="Omniyat">Omniyat</option>
                       <option value="Meraas">Meraas</option>
                       <option value="Custom Builder">Custom / Private Builder</option>
                     </select>

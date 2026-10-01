@@ -67,18 +67,14 @@ export const RegisterInterestDrawer: React.FC = () => {
   };
 
   const projectsList = [
-    'The Woods Abode - Sobha Sanctuary',
-    'The Woods Serenity - Sobha Sanctuary',
-    'Capeside Marina Residences - Siniya Island',
-    'Skyvue Altier - Sobha Hartland II',
-    'The Mirage - Sobha Central',
-    'The Tranquil - Sobha Central',
-    'The Element - Sobha One',
-    'Sobha SeaHaven - Dubai Harbour',
-    'Sobha Orbis - Motor City',
-    'Sobha Solis - Motor City',
-    'Palm Jumeirah Crown Mansions',
-    'Downtown Skyvue Signature Suite'
+    'Palm Jumeirah Signature Beachfront Villa',
+    'Downtown Dubai Sky Penthouse with Burj Khalifa View',
+    'Dubai Hills Estate Contemporary Fairway Villa',
+    'Dubai Marina Duplex Sky Penthouse',
+    'Emirates Hills Montgomerie Golf Estate',
+    'Jumeirah Bay Island Contemporary Waterfront Residence',
+    'Off-Market Private Portfolio Advisory Mandate',
+    'General Private Portfolio Inquiry'
   ];
 
   return (

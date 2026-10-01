@@ -2,81 +2,165 @@
 
 @layer base {
   :root {
-    --choc-bg: #1a1310;
-    --choc-surface: #231a15;
-    --choc-card: #2b201a;
-    --choc-card-hover: #332720;
-    --choc-border: #3d2f27;
-    --choc-border-highlight: #523f35;
-    --accent-cognac: #c87a50;
-    --accent-cognac-hover: #d9875c;
-    --accent-cognac-glow: rgba(200, 122, 80, 0.25);
-    --text-linen: #f5ede6;
-    --text-cashmere: #baa99c;
-    --text-muted: #857467;
+    --bg-obsidian: #0a0b0d;
+    --bg-charcoal: #121316;
+    --bg-surface: #18191d;
+    --bg-surface-elevated: #202126;
+    --border-hairline: rgba(255, 255, 255, 0.08);
+    --border-refined: rgba(255, 255, 255, 0.14);
+    --accent-champagne: #c4ad8e;
+    --accent-champagne-light: #dfcbaf;
+    --accent-champagne-dark: #917c60;
+    --accent-emerald-subtle: #14241d;
+    --text-ivory: #f7f5f0;
+    --text-sand: #eae6df;
+    --text-muted: #96938a;
+    --text-subtle: #63615b;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #0a0b0d;
+    color: #f7f5f0;
   }
 
   body {
-    background-color: #1a1310;
-    color: #f5ede6;
+    background-color: #0a0b0d;
+    color: #f7f5f0;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 }
 
-/* Custom scrollbar in dirty chocolate & cognac copper */
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom Architectural Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #150f0d;
+  background: #0a0b0d;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3b2c24;
-  border-radius: 4px;
+  background: #23252a;
+  border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #c87a50;
+  background: #c4ad8e;
 }
 
-/* Dirty Chocolate Frosted Glass Helpers */
-.choc-glass-nav {
-  background: rgba(26, 19, 16, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(61, 47, 39, 0.9);
+/* Typography Helpers */
+.font-editorial {
+  font-family: 'Cormorant Garamond', 'Cinzel', Georgia, serif;
+}
+.font-serif-luxury {
+  font-family: 'Cinzel', Georgia, serif;
 }
 
-.choc-glass-card {
-  background: rgba(43, 32, 26, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(61, 47, 39, 0.8);
-}
-
-.cognac-gradient-text {
-  background: linear-gradient(135deg, #df8a5e 0%, #b8683b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.cognac-btn, .gold-btn {
-  background: linear-gradient(135deg, #c87a50 0%, #a8582e 100%);
-  color: #fbf7f4;
+/* Editorial Minimalist Buttons */
+.editorial-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #f7f5f0;
+  color: #0a0b0d;
+  font-size: 0.75rem;
   font-weight: 600;
-  transition: all 0.25s ease;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.875rem 1.75rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid #f7f5f0;
 }
-.cognac-btn:hover, .gold-btn:hover {
-  background: linear-gradient(135deg, #d9875c 0%, #bd6436 100%);
-  box-shadow: 0 4px 20px rgba(200, 122, 80, 0.35);
+.editorial-btn-primary:hover {
+  background-color: #c4ad8e;
+  border-color: #c4ad8e;
+  color: #0a0b0d;
   transform: translateY(-1px);
 }
 
-.gold-gradient-text {
-  background: linear-gradient(135deg, #df8a5e 0%, #b8683b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.editorial-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: #f7f5f0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.875rem 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.editorial-btn-secondary:hover {
+  border-color: #f7f5f0;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
+.editorial-btn-champagne {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #c4ad8e;
+  color: #0a0b0d;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.875rem 1.75rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid #c4ad8e;
+}
+.editorial-btn-champagne:hover {
+  background-color: #dfcbaf;
+  border-color: #dfcbaf;
+  transform: translateY(-1px);
+}
+
+/* Glassmorphism restrained */
+.nav-frosted-dark {
+  background: rgba(10, 11, 13, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Line reveal animation utilities */
+.clip-reveal {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Legacy helper aliases for backwards compatibility with secondary subpages */
+.cognac-btn, .gold-btn {
+  background: #f7f5f0;
+  color: #0a0b0d;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+}
+.cognac-btn:hover, .gold-btn:hover {
+  background: #c4ad8e;
+  color: #0a0b0d;
+}
+.cognac-gradient-text, .gold-gradient-text {
+  color: #c4ad8e;
+}

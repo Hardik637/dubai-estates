@@ -97,7 +97,7 @@ export const GoldenVisaModal: React.FC = () => {
             <Building className="w-4 h-4 text-[#df8a5e] mt-0.5 shrink-0" />
             <div>
               <h4 className="text-xs font-semibold text-[#f5ede6]">Off-Plan & Mortgages Allowed</h4>
-              <p className="text-[11px] text-[#baa99c]">Approved projects by Sobha, Emaar, and Nakheel qualify with minimum paid capital.</p>
+              <p className="text-[11px] text-[#baa99c]">Approved prime projects by Emaar, Nakheel, and Dubai developers qualify with minimum paid capital.</p>
             </div>
           </div>
 

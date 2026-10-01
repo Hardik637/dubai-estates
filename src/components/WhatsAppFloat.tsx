@@ -16,7 +16,7 @@ export const WhatsAppFloat: React.FC = () => {
   };
 
   const handleOpenEnquiry = () => {
-    setSelectedDrawerProject('The Woods Abode - Sobha Sanctuary');
+    setSelectedDrawerProject('General Private Portfolio Inquiry');
     setIsEnquiryDrawerOpen(true);
   };
 
@@ -98,7 +98,7 @@ export const WhatsAppFloat: React.FC = () => {
                 <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="e.g. Inquiring about The Woods Abode or Sobha Hartland II sky villas..."
+                  placeholder="e.g. Inquiring about Palm Jumeirah villas or Downtown sky penthouses..."
                   className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl p-2.5 text-xs text-[#f5ede6] placeholder-[#857467] focus:outline-none focus:border-[#c87a50] resize-none h-18"
                 />
                 <button

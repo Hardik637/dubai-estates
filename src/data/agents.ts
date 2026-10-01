@@ -50,6 +50,6 @@ export const agentsData: Agent[] = [
     reviewsCount: 65,
     languages: ['English', 'Arabic'],
     specializations: ['Emaar Launch Specialist', 'Commercial Assets', 'High ROI Portfolios'],
-    bio: 'Tariq maintains direct top-tier developer relations with Emaar, Nakheel, DAMAC, and Sobha, securing exclusive VIP pre-launch allocations for Dubai Estates clientele.'
+    bio: 'Tariq maintains direct top-tier developer relations with leading institutional master developers, securing exclusive VIP pre-launch allocations for Dubai Estates clientele.'
   }
 ];

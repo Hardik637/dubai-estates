@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { useApp } from '../context/AppContext';
+import React, { useState, useEffect } from 'react';
+import { useApp } from '../../src/context/AppContext';
 import { 
-  Building2, 
   Heart, 
   User, 
   Menu, 
   X, 
   ChevronDown, 
-  PlusCircle,
-  Search
+  Search,
+  ArrowUpRight
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -20,7 +19,6 @@ export const Navbar: React.FC = () => {
     favorites, 
     user, 
     setIsAuthModalOpen,
-    setIsGoldenVisaModalOpen,
     setIsEnquiryDrawerOpen,
     setSelectedDrawerProject,
     setFilters
@@ -28,34 +26,39 @@ export const Navbar: React.FC = () => {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
-  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [searchBarOpen, setSearchBarOpen] = useState(false);
   const [searchVal, setSearchVal] = useState('');
   const [scrolled, setScrolled] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 25);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { label: 'ABOUT', page: 'about' as const },
-    { label: 'COMMUNITIES', page: 'communities' as const },
+    { label: 'Properties', page: 'properties' as const },
+    { label: 'Communities', page: 'communities' as const },
+    { label: 'Sell With Us', page: 'sell' as const },
+    { label: 'About', page: 'about' as const },
     { 
-      label: 'PROPERTIES', 
-      page: 'properties' as const,
-      action: () => setFilters(prev => ({ ...prev, listingType: 'For Sale' }))
-    },
-    { 
-      label: 'GOLDEN VISA', 
+      label: 'Journal', 
       page: 'home' as const,
-      action: () => setIsGoldenVisaModalOpen(true)
-    },
-    { label: 'AGENTS', page: 'agent' as const },
-    { label: 'CONTACT US', page: 'contact' as const },
+      action: () => {
+        if (currentPage !== 'home') {
+          setCurrentPage('home');
+          setTimeout(() => {
+            const el = document.querySelector('section:nth-of-type(8)');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 150);
+        } else {
+          const el = document.querySelector('section:nth-of-type(8)');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
   ];
 
   const handleNavClick = (link: { label: string; page: any; action?: () => void }) => {
@@ -78,269 +81,220 @@ export const Navbar: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleEnquire = () => {
+    setSelectedDrawerProject('General Private Portfolio Inquiry');
+    setIsEnquiryDrawerOpen(true);
+    setMobileMenuOpen(false);
+  };
+
   const currencies = ['AED', 'USD', 'EUR', 'GBP', 'SAR'] as const;
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ${
       scrolled 
-        ? 'bg-[#1a1310]/95 backdrop-blur-xl border-b border-[#3d2f27] shadow-xl py-3.5' 
-        : 'bg-gradient-to-b from-black/80 via-black/40 to-transparent border-b border-transparent shadow-none py-4 sm:py-5'
+        ? 'nav-frosted-dark py-4 shadow-xl' 
+        : 'bg-transparent py-5 sm:py-6 border-b border-transparent'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex items-center justify-between">
 
-        {/* ================= BRAND LOGO & NAME ================= */}
+        {/* ================= MINIMAL TYPOGRAPHIC WORDMARK ================= */}
         <div 
           onClick={() => { setCurrentPage('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-          className="flex-shrink-0 flex items-center gap-2.5 sm:gap-3 cursor-pointer group select-none"
+          className="flex-shrink-0 flex items-center gap-3 cursor-pointer group select-none"
         >
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-gradient-to-br from-[#df8a5e] via-[#c87a50] to-[#8c4826] flex items-center justify-center shadow-md shadow-[#c87a50]/25 group-hover:scale-105 transition-transform duration-300">
-            <Building2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-white font-bold" />
-          </div>
           <div className="flex flex-col text-left">
-            <span className="font-serif-luxury text-sm sm:text-base lg:text-lg font-bold tracking-[0.2em] leading-tight text-[#f5ede6] group-hover:text-[#df8a5e] transition-colors whitespace-nowrap">
-              DUBAI ESTATES
+            <span className="font-editorial text-lg sm:text-xl font-normal tracking-[0.24em] uppercase text-[#f7f5f0] group-hover:text-[#c4ad8e] transition-colors leading-tight">
+              Dubai Estates
             </span>
-            <span className="text-[7px] sm:text-[8px] tracking-[0.28em] uppercase font-semibold text-[#c87a50] transition-colors">
+            <span className="text-[7.5px] tracking-[0.38em] uppercase font-mono text-[#96938a] mt-0.5">
               The Private Office
             </span>
           </div>
         </div>
 
-        {/* ================= CENTER DESKTOP NAVIGATION ================= */}
-        <nav className="hidden xl:flex items-center space-x-1 lg:space-x-1.5">
+        {/* ================= MINIMAL EDITORIAL DESKTOP NAVIGATION ================= */}
+        <nav className="hidden lg:flex items-center space-x-7 xl:space-x-9">
           {navLinks.map((link) => {
-            const isActive = currentPage === link.page && link.label !== 'GOLDEN VISA';
+            const isActive = currentPage === link.page && link.label !== 'Journal';
             return (
               <button
                 key={link.label}
                 onClick={() => handleNavClick(link)}
-                className={`px-3 py-1.5 text-[11px] font-bold tracking-[0.15em] uppercase transition-all duration-300 cursor-pointer relative group ${
+                className={`text-xs tracking-[0.18em] uppercase font-medium transition-colors duration-300 cursor-pointer relative py-1 ${
                   isActive
-                    ? 'text-[#df8a5e]'
-                    : 'text-[#f5ede6]/85 hover:text-[#df8a5e]'
+                    ? 'text-[#f7f5f0]'
+                    : 'text-[#b8b5ad] hover:text-[#f7f5f0]'
                 }`}
               >
                 {link.label}
-                <span className={`absolute bottom-0 left-3 right-3 h-[1.5px] bg-[#c87a50] transition-transform duration-300 origin-left ${
-                  isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                }`} />
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#c4ad8e]" />
+                )}
               </button>
             );
           })}
         </nav>
 
         {/* ================= RIGHT UTILITY ACTIONS ================= */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5">
+        <div className="flex items-center gap-3 sm:gap-4">
           
-          {/* Search Toggle */}
+          {/* Search Trigger */}
           <div className="relative">
             <button
               onClick={() => setSearchBarOpen(!searchBarOpen)}
-              className="p-2 rounded-full text-[#f5ede6]/90 hover:text-[#df8a5e] hover:bg-[#251c17] transition cursor-pointer"
-              title="Search Developments"
+              className="p-2 text-[#b8b5ad] hover:text-[#f7f5f0] transition cursor-pointer"
+              title="Search Portfolio"
               aria-label="Search"
             >
               <Search className="w-4 h-4" />
             </button>
 
-            {/* Quick Search Overlay Dropdown */}
+            {/* Quick Search Dropdown */}
             {searchBarOpen && (
               <form 
                 onSubmit={handleSearchSubmit}
-                className="absolute right-0 top-12 w-72 sm:w-80 bg-[#251c17] border border-[#3d2f27] rounded-xl shadow-2xl p-2 z-50 flex items-center gap-2 animate-fadeIn"
+                className="absolute right-0 top-12 w-72 sm:w-80 bg-[#121316] border border-white/10 p-2.5 z-50 flex items-center gap-2 shadow-2xl animate-fadeIn"
               >
-                <Search className="w-4 h-4 text-[#baa99c] ml-2" />
+                <Search className="w-3.5 h-3.5 text-[#96938a] ml-1.5" />
                 <input
                   type="text"
                   autoFocus
-                  placeholder="Search Sobha, Palm, Downtown..."
+                  placeholder="Palm Jumeirah, Villa, Penthouse..."
                   value={searchVal}
                   onChange={(e) => setSearchVal(e.target.value)}
-                  className="w-full text-xs text-[#f5ede6] placeholder-[#857467] bg-transparent focus:outline-none py-1.5 pr-2"
+                  className="w-full text-xs text-[#f7f5f0] placeholder-[#63615b] bg-transparent focus:outline-none py-1 px-1 font-light"
                 />
                 <button
                   type="submit"
-                  className="px-3 py-1 bg-[#c87a50] hover:bg-[#b8683b] text-white text-[10px] font-bold rounded-lg uppercase tracking-wider transition cursor-pointer"
+                  className="px-2.5 py-1 bg-[#f7f5f0] text-[#0a0b0d] text-[10px] font-semibold uppercase tracking-wider transition hover:bg-[#c4ad8e] cursor-pointer"
                 >
-                  Go
+                  Search
                 </button>
               </form>
             )}
           </div>
 
           {/* Currency Switcher */}
-          <div className="relative">
+          <div className="relative hidden sm:block">
             <button
               onClick={() => setCurrencyDropdownOpen(!currencyDropdownOpen)}
-              className="px-2.5 py-1 text-[11px] font-bold rounded-full border border-[#3d2f27] bg-[#251c17] hover:bg-[#2f231d] text-[#f5ede6] flex items-center gap-1 transition cursor-pointer"
+              className="px-2.5 py-1 text-[10px] tracking-wider uppercase font-mono border border-white/10 text-[#d8d4cc] hover:text-[#f7f5f0] hover:border-white/25 flex items-center gap-1 transition cursor-pointer"
             >
               <span>{currency}</span>
-              <ChevronDown className="w-2.5 h-2.5 opacity-70" />
+              <ChevronDown className="w-2.5 h-2.5 opacity-60" />
             </button>
             {currencyDropdownOpen && (
               <div 
-                className="absolute right-0 mt-2 w-28 bg-[#251c17] border border-[#3d2f27] rounded-xl shadow-2xl py-1.5 z-50 text-[#f5ede6]"
+                className="absolute right-0 mt-2 w-28 bg-[#121316] border border-white/10 py-1 z-50 shadow-2xl text-[#f7f5f0]"
                 onMouseLeave={() => setCurrencyDropdownOpen(false)}
               >
                 {currencies.map(c => (
                   <button
                     key={c}
                     onClick={() => { setCurrency(c); setCurrencyDropdownOpen(false); }}
-                    className={`w-full text-left px-3 py-1.5 text-xs font-medium transition cursor-pointer flex justify-between ${
-                      currency === c ? 'text-[#df8a5e] bg-[#c87a50]/15 font-bold' : 'text-[#baa99c] hover:bg-[#2f231d]'
+                    className={`w-full text-left px-3 py-1.5 text-xs font-mono transition cursor-pointer flex justify-between ${
+                      currency === c ? 'text-[#c4ad8e] bg-white/5 font-semibold' : 'text-[#b8b5ad] hover:bg-white/5'
                     }`}
                   >
                     <span>{c}</span>
-                    <span className="text-[#857467]">{c === 'AED' ? 'د.إ' : c === 'USD' ? '$' : c === 'EUR' ? '€' : c === 'GBP' ? '£' : '﷼'}</span>
+                    <span className="text-[#63615b]">{c === 'AED' ? 'د.إ' : c === 'USD' ? '$' : c === 'EUR' ? '€' : c === 'GBP' ? '£' : '﷼'}</span>
                   </button>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Saved wishlist */}
+          {/* Saved / Favorites */}
           <button
-            onClick={() => { setCurrentPage('dashboard'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            className="relative p-2 rounded-full text-[#f5ede6]/90 hover:text-[#df8a5e] hover:bg-[#251c17] transition cursor-pointer"
-            title="Saved Properties"
-            aria-label="Wishlist"
+            onClick={() => {
+              setCurrentPage('dashboard');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="p-2 text-[#b8b5ad] hover:text-[#f7f5f0] transition relative cursor-pointer"
+            title="Saved Residences"
+            aria-label="Saved Residences"
           >
             <Heart className="w-4 h-4" />
             {favorites.length > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[#c87a50] text-[#fbf7f4] text-[8px] sm:text-[9px] font-bold rounded-full flex items-center justify-center shadow">
-                {favorites.length}
-              </span>
+              <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-[#c4ad8e]" />
             )}
           </button>
 
-          {/* VIP Action Button: ENQUIRE NOW */}
+          {/* User Account */}
           <button
-            onClick={() => {
-              setSelectedDrawerProject('The Woods Abode - Sobha Sanctuary');
-              setIsEnquiryDrawerOpen(true);
-            }}
-            className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.18em] uppercase transition-all duration-300 shadow-md cursor-pointer bg-[#c87a50] hover:bg-[#b8683b] text-white hover:shadow-[#c87a50]/30 hover:scale-[1.02]"
+            onClick={() => setIsAuthModalOpen(true)}
+            className="p-2 text-[#b8b5ad] hover:text-[#f7f5f0] transition cursor-pointer hidden sm:block"
+            title={user.isLoggedIn ? user.name : "Client Sign In"}
+            aria-label="User Account"
           >
-            <span>ENQUIRE NOW</span>
+            <User className="w-4 h-4" />
           </button>
 
-          {/* User Profile or Sign In */}
-          {user.isLoggedIn ? (
-            <div className="relative">
-              <button
-                onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className="flex items-center gap-1.5 p-1 sm:pl-1.5 sm:pr-2.5 sm:py-1 rounded-full border border-[#3d2f27] bg-[#251c17] hover:bg-[#2f231d] text-[#f5ede6] transition cursor-pointer"
-              >
-                <img 
-                  src={user.avatar} 
-                  alt={user.name} 
-                  className="w-5 h-5 sm:w-6 sm:h-6 rounded-full object-cover border border-[#c87a50]"
-                />
-                <span className="text-xs font-semibold hidden md:inline">{user.name}</span>
-                <ChevronDown className="w-2.5 h-2.5 opacity-70" />
-              </button>
+          {/* Primary CTA: Enquire */}
+          <button
+            onClick={handleEnquire}
+            className="editorial-btn-secondary py-2 px-4 sm:px-5 text-[11px] tracking-[0.16em] uppercase cursor-pointer"
+          >
+            <span>Enquire</span>
+          </button>
 
-              {userDropdownOpen && (
-                <div 
-                  className="absolute right-0 mt-2 w-48 bg-[#251c17] border border-[#3d2f27] rounded-2xl shadow-2xl py-2 z-50 text-xs text-[#f5ede6]"
-                  onMouseLeave={() => setUserDropdownOpen(false)}
-                >
-                  <div className="px-3.5 py-2 border-b border-[#3d2f27]">
-                    <p className="font-semibold text-[#f5ede6]">{user.name}</p>
-                    <p className="text-[#baa99c] text-[11px] truncate">{user.email}</p>
-                  </div>
-                  <button
-                    onClick={() => { setCurrentPage('dashboard'); setUserDropdownOpen(false); }}
-                    className="w-full text-left px-3.5 py-2 hover:bg-[#2f231d] text-[#f5ede6] transition cursor-pointer flex items-center gap-2"
-                  >
-                    <User className="w-3.5 h-3.5 text-[#df8a5e]" />
-                    Investor Portfolio
-                  </button>
-                  <button
-                    onClick={() => { setCurrentPage('sell'); setUserDropdownOpen(false); }}
-                    className="w-full text-left px-3.5 py-2 hover:bg-[#2f231d] text-[#f5ede6] transition cursor-pointer flex items-center gap-2"
-                  >
-                    <PlusCircle className="w-3.5 h-3.5 text-[#df8a5e]" />
-                    List My Property
-                  </button>
-                  <div className="border-t border-[#3d2f27] my-1"></div>
-                  <button
-                    onClick={() => {
-                      setIsAuthModalOpen(true);
-                      setUserDropdownOpen(false);
-                    }}
-                    className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/30 text-red-400 transition cursor-pointer"
-                  >
-                    Switch Account / Logout
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <button
-              onClick={() => setIsAuthModalOpen(true)}
-              className="px-3 py-1.5 rounded-full border border-white/20 text-[#f5ede6] hover:bg-white/10 text-xs font-semibold cursor-pointer"
-            >
-              Sign In
-            </button>
-          )}
-
-          {/* Mobile Menu Hamburger */}
+          {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden p-2 rounded-full transition focus:outline-none cursor-pointer text-[#f5ede6] bg-[#251c17] hover:bg-[#2f231d] border border-[#3d2f27]"
-            aria-label="Toggle menu"
+            className="lg:hidden p-2 text-[#f7f5f0] hover:text-[#c4ad8e] transition cursor-pointer"
+            aria-label="Toggle navigation"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5 text-[#df8a5e]" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
         </div>
+
       </div>
 
-      {/* Floating Mobile Drawer */}
+      {/* ================= FULLSCREEN MOBILE EDITORIAL DRAWER ================= */}
       {mobileMenuOpen && (
-        <div className="xl:hidden w-full bg-[#1e1613]/98 border-b border-[#3d2f27] shadow-2xl px-6 pt-4 pb-8 space-y-5 animate-fadeIn mt-3 text-[#f5ede6]">
-          <div className="flex flex-col space-y-2 pb-4 border-b border-[#3d2f27]">
-            {navLinks.map((link) => (
+        <div className="lg:hidden fixed inset-0 top-[65px] bg-[#0a0b0d] z-40 p-8 flex flex-col justify-between overflow-y-auto animate-fadeIn border-t border-white/10">
+          <div className="space-y-6 pt-4">
+            <span className="text-[10px] tracking-[0.3em] uppercase text-[#c4ad8e] font-semibold block mb-4">
+              Navigation
+            </span>
+
+            {navLinks.map((link, idx) => (
               <button
                 key={link.label}
                 onClick={() => handleNavClick(link)}
-                className="text-left px-3 py-2 text-xs font-bold tracking-[0.15em] uppercase text-[#f5ede6]/90 hover:text-[#df8a5e] hover:bg-[#251c17] rounded-xl transition cursor-pointer"
+                className="w-full text-left font-editorial text-3xl text-[#f7f5f0] hover:text-[#c4ad8e] transition-colors py-2 flex items-center justify-between border-b border-white/5 cursor-pointer"
               >
-                {link.label}
+                <span>{link.label}</span>
+                <span className="font-mono text-xs text-[#63615b]">0{idx + 1}</span>
               </button>
             ))}
           </div>
 
-          <div className="flex items-center justify-between pt-1">
-            <span className="text-xs text-[#baa99c] font-medium">Selected Currency:</span>
-            <div className="flex gap-1">
-              {currencies.map(c => (
-                <button
-                  key={c}
-                  onClick={() => setCurrency(c)}
-                  className={`px-2.5 py-1 text-[11px] rounded-lg border cursor-pointer ${
-                    currency === c 
-                      ? 'bg-[#c87a50] text-white font-bold border-[#c87a50]' 
-                      : 'border-[#3d2f27] text-[#baa99c] bg-[#251c17]'
-                  }`}
-                >
-                  {c}
-                </button>
-              ))}
+          <div className="pt-8 border-t border-white/10 space-y-4">
+            <div className="flex items-center justify-between text-xs text-[#96938a]">
+              <span>Currency</span>
+              <div className="flex gap-2">
+                {currencies.map(c => (
+                  <button
+                    key={c}
+                    onClick={() => setCurrency(c)}
+                    className={`px-2 py-0.5 text-xs font-mono uppercase ${
+                      currency === c ? 'text-[#c4ad8e] font-bold border-b border-[#c4ad8e]' : 'text-[#63615b]'
+                    }`}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div className="pt-2">
             <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setSelectedDrawerProject('The Woods Abode - Sobha Sanctuary');
-                setIsEnquiryDrawerOpen(true);
-              }}
-              className="w-full py-3.5 rounded-xl bg-[#c87a50] hover:bg-[#b8683b] text-white font-bold text-xs uppercase tracking-[0.2em] shadow-lg shadow-[#c87a50]/25 text-center cursor-pointer"
+              onClick={handleEnquire}
+              className="editorial-btn-primary w-full justify-center py-3.5 text-xs tracking-[0.2em] cursor-pointer mt-4"
             >
-              REGISTER YOUR INTEREST
+              <span>Speak With An Advisor</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

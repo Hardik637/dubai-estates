@@ -1,108 +1,95 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Building2, Mail, Phone, MapPin, ShieldCheck, ArrowRight, CheckCircle2, Star } from 'lucide-react';
+import { Mail, Phone, MapPin, ShieldCheck, ArrowUpRight, Star } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { setCurrentPage, setIsGoldenVisaModalOpen, setIsEnquiryDrawerOpen, setSelectedDrawerProject, showToast } = useApp();
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
+  const { setCurrentPage, setIsGoldenVisaModalOpen, setIsEnquiryDrawerOpen, setSelectedDrawerProject } = useApp();
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubscribed(true);
-    showToast('Subscribed to Dubai Estates Private Market Intelligence!');
-    setEmail('');
-  };
-
-  const handleApartmentClick = (projectName: string) => {
-    setSelectedDrawerProject(projectName);
+  const handleEnquiryClick = (mandateName: string) => {
+    setSelectedDrawerProject(mandateName);
     setIsEnquiryDrawerOpen(true);
   };
 
   return (
-    <footer className="bg-[#140e0c] border-t border-[#3d2f27] text-[#baa99c] text-xs">
+    <footer className="bg-[#0a0b0d] border-t border-white/10 text-[#96938a] text-xs">
       
-      {/* Footer Top Header: Logo & Architectural Tagline */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 border-b border-[#3d2f27] flex flex-col md:flex-row items-center justify-between gap-6">
+      {/* Footer Top Header: Wordmark & Regulatory Badges */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-16 pb-12 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div 
           onClick={() => { setCurrentPage('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-          className="flex items-center gap-3 cursor-pointer select-none group"
+          className="cursor-pointer select-none group"
         >
-          <div className="w-9 h-9 rounded-md bg-gradient-to-br from-[#df8a5e] via-[#c87a50] to-[#8c4826] flex items-center justify-center text-white shadow-md">
-            <Building2 className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="font-serif-luxury text-xl font-bold tracking-[0.2em] text-[#f5ede6] group-hover:text-[#df8a5e] transition-colors">
-              DUBAI ESTATES
+          <div className="flex flex-col text-left">
+            <span className="font-editorial text-2xl font-light tracking-[0.24em] uppercase text-[#f7f5f0] group-hover:text-[#c4ad8e] transition-colors">
+              Dubai Estates
             </span>
-            <p className="text-[8px] tracking-[0.28em] uppercase text-[#c87a50] font-semibold">
-              The Private Office • Premier Luxury Real Estate
-            </p>
+            <span className="text-[8px] tracking-[0.35em] uppercase font-mono text-[#c4ad8e] mt-0.5">
+              The Private Office • Prime Real Estate Marketplace
+            </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-[#baa99c] text-[11px] tracking-wider uppercase font-medium">
-          <ShieldCheck className="w-4 h-4 text-[#c87a50]" />
+        <div className="flex items-center gap-2 text-[#b8b5ad] text-[11px] tracking-wider uppercase font-medium">
+          <ShieldCheck className="w-4 h-4 text-[#c4ad8e]" />
           <span>Regulated by Dubai Real Estate Regulatory Agency • ORN #88921</span>
         </div>
       </div>
 
       {/* Main 4 Columns */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         
-        {/* Column 1: APARTMENTS & RESIDENCES */}
+        {/* Column 1: FEATURED RESIDENCES */}
         <div className="space-y-4">
-          <h4 className="text-[#f5ede6] text-xs font-bold uppercase tracking-[0.18em] font-serif-luxury pb-1 border-b border-[#3d2f27]">
+          <h4 className="text-[#f7f5f0] text-xs font-semibold uppercase tracking-[0.2em] font-mono pb-2 border-b border-white/10">
             Featured Residences
           </h4>
-          <ul className="space-y-2.5 text-[#baa99c] text-xs font-light">
+          <ul className="space-y-2.5 text-[#b8b5ad] text-xs font-light">
             <li>
               <button 
-                onClick={() => handleApartmentClick('The Woods Abode - Sobha Sanctuary')}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
+                onClick={() => handleEnquiryClick('Palm Jumeirah Signature Beachfront Villa')}
+                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
               >
-                The Woods Abode
+                Palm Jumeirah Signature Villa
               </button>
             </li>
             <li>
               <button 
-                onClick={() => handleApartmentClick('The Woods Serenity - Sobha Sanctuary')}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
+                onClick={() => handleEnquiryClick('Downtown Dubai Sky Penthouse')}
+                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
               >
-                The Woods Serenity
+                Downtown Dubai Sky Penthouse
               </button>
             </li>
             <li>
               <button 
-                onClick={() => handleApartmentClick('Capeside Marina Residences - Siniya Island')}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
+                onClick={() => handleEnquiryClick('Dubai Hills Estate Fairway Vista')}
+                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
               >
-                Capeside Marina Residences
+                Dubai Hills Fairway Vista
               </button>
             </li>
             <li>
               <button 
-                onClick={() => handleApartmentClick('Skyvue Altier - Sobha Hartland II')}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
+                onClick={() => handleEnquiryClick('Dubai Marina Duplex Sky Penthouse')}
+                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
               >
-                Skyvue Altier
+                Dubai Marina Sky Duplex
               </button>
             </li>
             <li>
               <button 
-                onClick={() => handleApartmentClick('The Mirage - Sobha Central')}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
+                onClick={() => handleEnquiryClick('Emirates Hills Montgomerie Estate')}
+                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
               >
-                The Mirage at Sobha Central
+                Emirates Hills Golf Estate
               </button>
             </li>
             <li>
               <button 
-                onClick={() => handleApartmentClick('Sobha SeaHaven - Dubai Harbour')}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
+                onClick={() => handleEnquiryClick('Jumeirah Bay Island Waterfront Residence')}
+                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
               >
-                Sobha SeaHaven Sky Villas
+                Jumeirah Bay Island Residence
               </button>
             </li>
           </ul>
@@ -110,71 +97,33 @@ export const Footer: React.FC = () => {
 
         {/* Column 2: COMMUNITIES */}
         <div className="space-y-4">
-          <h4 className="text-[#f5ede6] text-xs font-bold uppercase tracking-[0.18em] font-serif-luxury pb-1 border-b border-[#3d2f27]">
+          <h4 className="text-[#f7f5f0] text-xs font-semibold uppercase tracking-[0.2em] font-mono pb-2 border-b border-white/10">
             Sovereign Enclaves
           </h4>
-          <ul className="space-y-2.5 text-[#baa99c] text-xs font-light">
-            <li>
-              <button 
-                onClick={() => { setCurrentPage('communities'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
-              >
-                Sobha Hartland & Hartland II
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => { setCurrentPage('communities'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
-              >
-                Sobha Sanctuary • Meydan
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => { setCurrentPage('communities'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
-              >
-                Sobha Siniya Island
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => { setCurrentPage('communities'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
-              >
-                Palm Jumeirah & Crown Mansions
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => { setCurrentPage('communities'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
-              >
-                Downtown Dubai & Opera District
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => { setCurrentPage('communities'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
-              >
-                Dubai Hills Estate & Sanctuary
-              </button>
-            </li>
+          <ul className="space-y-2.5 text-[#b8b5ad] text-xs font-light">
+            {['Palm Jumeirah', 'Downtown Dubai', 'Emirates Hills', 'Dubai Hills Estate', 'Dubai Marina', 'Business Bay'].map((comm) => (
+              <li key={comm}>
+                <button 
+                  onClick={() => { setCurrentPage('communities'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
+                >
+                  {comm}
+                </button>
+              </li>
+            ))}
           </ul>
         </div>
 
         {/* Column 3: ADVISORY & SERVICES */}
         <div className="space-y-4">
-          <h4 className="text-[#f5ede6] text-xs font-bold uppercase tracking-[0.18em] font-serif-luxury pb-1 border-b border-[#3d2f27]">
+          <h4 className="text-[#f7f5f0] text-xs font-semibold uppercase tracking-[0.2em] font-mono pb-2 border-b border-white/10">
             Advisory & Privileges
           </h4>
-          <ul className="space-y-2.5 text-[#baa99c] text-xs font-light">
+          <ul className="space-y-2.5 text-[#b8b5ad] text-xs font-light">
             <li>
               <button 
                 onClick={() => setIsGoldenVisaModalOpen(true)}
-                className="text-[#df8a5e] hover:underline transition cursor-pointer font-medium text-left"
+                className="text-[#c4ad8e] hover:underline transition cursor-pointer font-medium text-left"
               >
                 UAE 10-Year Golden Visa Office
               </button>
@@ -182,31 +131,31 @@ export const Footer: React.FC = () => {
             <li>
               <button 
                 onClick={() => { setCurrentPage('sell'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
+                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
               >
-                Sell or Consign Your Trophy Asset
+                List Or Consign Your Trophy Estate
               </button>
             </li>
             <li>
               <button 
                 onClick={() => { setCurrentPage('agent'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
+                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
               >
-                Senior RERA Certified Directors
+                Senior RERA Certified Advisory Directors
               </button>
             </li>
             <li>
               <button 
                 onClick={() => { setCurrentPage('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
+                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
               >
-                The Art of the Detail • Heritage
+                Our Heritage & Fiduciary Standards
               </button>
             </li>
             <li>
               <button 
                 onClick={() => { setCurrentPage('contact'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#df8a5e] transition cursor-pointer text-left"
+                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
               >
                 DIFC Private Office Concierge
               </button>
@@ -214,41 +163,41 @@ export const Footer: React.FC = () => {
           </ul>
         </div>
 
-        {/* Column 4: GOOGLE REVIEWS & CONTACT */}
+        {/* Column 4: CLIENT FEEDBACK & CONTACT */}
         <div className="space-y-5">
-          {/* Google Review Badge */}
-          <div className="p-4 rounded-xl bg-[#1d1511] border border-[#3d2f27] space-y-2">
+          {/* Rating Badge */}
+          <div className="p-4 bg-[#121316] border border-white/10 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="font-bold text-[#f5ede6] text-xs font-serif-luxury tracking-wide">
-                Dubai Estates Rating
+              <span className="font-editorial text-sm text-[#f7f5f0]">
+                Client Experience
               </span>
-              <span className="text-[11px] font-bold text-[#df8a5e] bg-[#c87a50]/15 px-2 py-0.5 rounded-md">
-                4.8 / 5.0
+              <span className="text-[11px] font-mono text-[#c4ad8e] bg-white/5 px-2 py-0.5 border border-white/10">
+                4.9 / 5.0
               </span>
             </div>
-            <div className="flex items-center gap-1 text-[#df8a5e]">
+            <div className="flex items-center gap-1 text-[#c4ad8e]">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-3.5 h-3.5 fill-[#df8a5e] text-transparent" />
+                <Star key={i} className="w-3.5 h-3.5 fill-[#c4ad8e] text-transparent" />
               ))}
             </div>
-            <p className="text-[10px] text-[#857467] leading-tight">
-              Based on 1,420+ verified sovereign and ultra-high-net-worth investor reviews across the UAE.
+            <p className="text-[10px] text-[#96938a] leading-tight font-light">
+              Representing verified sovereign wealth and ultra-high-net-worth investors across 42 countries.
             </p>
           </div>
 
           {/* DIFC Contact */}
-          <div className="text-[#baa99c] text-[11px] space-y-1.5 font-light">
+          <div className="text-[#b8b5ad] text-[11px] space-y-1.5 font-light">
             <p className="flex items-center gap-2">
-              <MapPin className="w-3.5 h-3.5 text-[#c87a50] shrink-0" />
+              <MapPin className="w-3.5 h-3.5 text-[#c4ad8e] shrink-0" />
               <span>Burj Daman Tower, DIFC, Dubai, UAE</span>
             </p>
             <p className="flex items-center gap-2">
-              <Phone className="w-3.5 h-3.5 text-[#c87a50] shrink-0" />
-              <span>+971 800 76242 (24/7 VIP Desk)</span>
+              <Phone className="w-3.5 h-3.5 text-[#c4ad8e] shrink-0" />
+              <span>+971 4 800 3782 (Private Desk)</span>
             </p>
             <p className="flex items-center gap-2">
-              <Mail className="w-3.5 h-3.5 text-[#c87a50] shrink-0" />
-              <span>vip@dubaiestates.ae</span>
+              <Mail className="w-3.5 h-3.5 text-[#c4ad8e] shrink-0" />
+              <span>private@dubaiestates.ae</span>
             </p>
           </div>
         </div>
@@ -256,21 +205,14 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Footer Bottom Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 border-t border-[#3d2f27] flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-[#857467]">
-        <p>© 2026 DUBAI ESTATES. All rights reserved. Registered under Dubai Land Department (DLD).</p>
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-[#63615b]">
+        <p>© 2026 DUBAI ESTATES. All rights reserved. Licensed under Dubai Land Department (DLD).</p>
         <div className="flex items-center gap-5">
-          <span className="hover:text-[#f5ede6] transition cursor-pointer">Privacy Policy</span>
+          <span className="hover:text-[#f7f5f0] transition cursor-pointer">Privacy Charter</span>
           <span>•</span>
-          <span className="hover:text-[#f5ede6] transition cursor-pointer">Sitemap</span>
+          <span className="hover:text-[#f7f5f0] transition cursor-pointer">Regulatory Disclosures</span>
           <span>•</span>
-          <span className="hover:text-[#f5ede6] transition cursor-pointer">Terms of Service</span>
-          <span>•</span>
-          <button 
-            onClick={() => { setCurrentPage('not-found'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            className="hover:text-[#f5ede6] transition cursor-pointer"
-          >
-            404 Page
-          </button>
+          <span className="hover:text-[#f7f5f0] transition cursor-pointer">Terms of Representation</span>
         </div>
       </div>
 
