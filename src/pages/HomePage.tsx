@@ -1,30 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
-import { PropertyCard } from '../components/PropertyCard';
-import { AutoCarousel } from '../components/AutoCarousel';
 import { 
-  Search, 
-  MapPin, 
-  Home, 
   ChevronRight, 
-  CheckCircle, 
-  ShieldCheck, 
-  TrendingUp, 
-  Award, 
+  ChevronLeft, 
+  ArrowRight, 
+  CheckCircle2, 
   Sparkles, 
-  ArrowUpRight,
-  SlidersHorizontal,
-  Building,
-  Star,
-  Quote,
+  MapPin, 
+  Building2, 
+  Waves, 
+  Trees, 
+  Compass, 
+  Phone, 
+  Mail, 
+  ShieldCheck, 
+  Award, 
   Calendar,
-  Layers,
-  ChevronDown,
-  Building2,
-  Compass,
-  FileCheck,
-  Briefcase,
-  ArrowRight
+  Send,
+  ArrowUpRight,
+  ExternalLink
 } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
@@ -35,944 +29,966 @@ export const HomePage: React.FC = () => {
     setFilters, 
     navigateToCommunity, 
     navigateToProperty, 
-    setIsGoldenVisaModalOpen 
+    setIsGoldenVisaModalOpen,
+    setIsEnquiryDrawerOpen,
+    setSelectedDrawerProject,
+    showToast
   } = useApp();
 
-  const [searchTab, setSearchTab] = useState<'Buy' | 'Rent' | 'Projects'>('Buy');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedType, setSelectedType] = useState('All');
-  const [heroSceneIdx, setHeroSceneIdx] = useState(0);
+  // ================= 1. HERO BANNER SLIDER STATE =================
+  const [heroIdx, setHeroIdx] = useState(0);
 
-  const heroScenes = [
+  const heroBanners = [
     {
-      title: 'Downtown Dubai',
-      subtitle: 'Burj Khalifa & The Dubai Fountain at Golden Sunset',
-      image: '/backgrounds/burj_sunset.jpg'
+      id: 'banner-1',
+      title: 'THE WOODS',
+      subheading: 'Where Wellness Shapes Everyday Living',
+      tag: 'Sobha Sanctuary • Meydan',
+      image: '/backgrounds/hills_villas.jpg',
+      ctaProject: 'The Woods Abode - Sobha Sanctuary',
+      linkTarget: 'properties'
     },
     {
-      title: 'Dubai Marina & JBR',
-      subtitle: 'Illuminated Skyscraper Canyon & Luxury Yachts',
-      image: '/backgrounds/marina_twilight.jpg'
+      id: 'banner-2',
+      title: 'SOBHA HARTLAND II',
+      subheading: 'Spaces Where Life Unfolds',
+      tag: 'Waterfront Lagoon Living • MBR City',
+      image: '/backgrounds/burj_sunset.jpg',
+      ctaProject: 'Skyvue Altier - Sobha Hartland II',
+      linkTarget: 'communities'
     },
     {
-      title: 'Palm Jumeirah',
-      subtitle: 'Iconic Palm Island, Atlantis & Turquoise Gulf Waters',
-      image: '/backgrounds/palm_aerial.jpg'
+      id: 'banner-3',
+      title: 'CAPESIDE MARINA',
+      subheading: 'A Maritime Island Sanctuary On The Arabian Gulf',
+      tag: 'Siniya Island • Private Yacht Moorings',
+      image: '/backgrounds/marina_twilight.jpg',
+      ctaProject: 'Capeside Marina Residences - Siniya Island',
+      linkTarget: 'properties'
     },
     {
-      title: 'Dubai Hills Estate',
-      subtitle: 'Championship Golf Course Fairways & Modern Mansions',
-      image: '/backgrounds/hills_villas.jpg'
+      id: 'banner-4',
+      title: 'PALM CROWN MANSIONS',
+      subheading: 'A City Planned With Precision & Timeless Luxury',
+      tag: 'Palm Jumeirah • Private Beachfront',
+      image: '/backgrounds/palm_aerial.jpg',
+      ctaProject: 'Palm Jumeirah Crown Mansions',
+      linkTarget: 'properties'
     }
   ];
 
-  // Auto-advance scenes smoothly every 6.5s
-  React.useEffect(() => {
+  // Auto-play hero slider every 7s
+  useEffect(() => {
     const timer = setInterval(() => {
-      setHeroSceneIdx(prev => (prev + 1) % heroScenes.length);
-    }, 6500);
+      setHeroIdx(prev => (prev + 1) % heroBanners.length);
+    }, 7000);
     return () => clearInterval(timer);
-  }, [heroScenes.length]);
+  }, [heroBanners.length]);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFilters(prev => ({
-      ...prev,
-      keyword: searchQuery,
-      listingType: searchTab === 'Rent' ? 'For Rent' : 'For Sale',
-      propertyType: selectedType === 'All' ? 'All' : selectedType
-    }));
-    setCurrentPage('properties');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleHeroPrev = () => {
+    setHeroIdx(prev => (prev === 0 ? heroBanners.length - 1 : prev - 1));
   };
 
-  const scrollToExplore = () => {
-    const el = document.getElementById('firm-overview');
+  const handleHeroNext = () => {
+    setHeroIdx(prev => (prev + 1) % heroBanners.length);
+  };
+
+  const handleHeroDiscover = (banner: typeof heroBanners[0]) => {
+    setSelectedDrawerProject(banner.ctaProject);
+    const el = document.getElementById('latest-launches');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  // 3 Curated trophy highlights for editorial showcase on Home
-  const trophyHighlights = properties.filter(p => p.featured).slice(0, 3);
+  // ================= 2. LATEST LAUNCHES SHOWCASE (SOBHA SLIDER) =================
+  const [activeLaunchIdx, setActiveLaunchIdx] = useState(0);
 
-  // Exclusive Off-Plan Branded Residences
-  const offPlanProjects = [
+  const latestLaunches = [
     {
-      id: 'off-1',
-      title: 'Bulgari Lighthouse Jumeirah Bay',
-      developer: 'Meraas',
-      community: 'Jumeirah Bay Island',
-      startingPrice: 'AED 45,000,000',
+      id: 'launch-woods-abode',
+      title: 'The Woods Abode',
+      subtitle: 'Sobha Sanctuary • Meydan',
+      badge: 'New Launch 2026',
+      price: 'Starting from AED 4,950,000',
+      handover: 'Q4 2027',
+      paymentPlan: '60/40 Payment Plan',
+      image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&q=85',
+      logoText: 'THE WOODS',
+      logoSub: 'ABODE',
+      amenities: [
+        { label: 'Pool Deck & Lagoon', icon: 'pool' },
+        { label: 'Yoga & Meditation Deck', icon: 'yoga' },
+        { label: 'Serenity Garden', icon: 'garden' },
+        { label: 'Outdoor Fitness Zones', icon: 'gym' }
+      ]
+    },
+    {
+      id: 'launch-skyvue',
+      title: 'Skyvue Altier',
+      subtitle: 'Sobha Hartland II • Ras Al Khor',
+      badge: 'Waterfront Tower',
+      price: 'Starting from AED 2,400,000',
+      handover: 'Q2 2028',
+      paymentPlan: '70/30 Payment Plan',
+      image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1400&q=85',
+      logoText: 'SKYVUE',
+      logoSub: 'ALTIER',
+      amenities: [
+        { label: 'Infinity Leisure Pool', icon: 'pool' },
+        { label: 'Open Cinema Area', icon: 'cinema' },
+        { label: 'Kids Adventure Park', icon: 'garden' },
+        { label: 'Calisthenics Sky Gym', icon: 'gym' }
+      ]
+    },
+    {
+      id: 'launch-capeside',
+      title: 'Capeside Marina Residences',
+      subtitle: 'Sobha Siniya Island • Natural Lagoon',
+      badge: 'Island Sanctuary',
+      price: 'Starting from AED 3,200,000',
+      handover: 'Q1 2028',
+      paymentPlan: '60/40 Payment Plan',
+      image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=85',
+      logoText: 'CAPESIDE',
+      logoSub: 'MARINA RESIDENCES',
+      amenities: [
+        { label: 'Yacht Club & Mooring', icon: 'yacht' },
+        { label: 'Pristine Lagoon Beach', icon: 'pool' },
+        { label: '18-Hole Golf Course', icon: 'golf' },
+        { label: 'Mangrove Walking Trails', icon: 'garden' }
+      ]
+    },
+    {
+      id: 'launch-mirage',
+      title: 'The Mirage',
+      subtitle: 'Sobha Central • Prime Urban Oasis',
+      badge: 'Modern Architecture',
+      price: 'Starting from AED 1,850,000',
       handover: 'Q3 2027',
-      paymentPlan: '60/40',
-      type: 'Sky Villa & Penthouse',
-      image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85',
-      badge: 'Ultra Luxury'
+      paymentPlan: '70/30 Payment Plan',
+      image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1400&q=85',
+      logoText: 'THE MIRAGE',
+      logoSub: 'SOBHA CENTRAL',
+      amenities: [
+        { label: 'Leisure Pool & Cabanas', icon: 'pool' },
+        { label: 'Family BBQ & Dining Deck', icon: 'bbq' },
+        { label: 'Outdoor Calisthenics', icon: 'gym' },
+        { label: 'Picnic Lawn & Courtyard', icon: 'garden' }
+      ]
     },
     {
-      id: 'off-2',
-      title: 'Armani Beach Residences',
-      developer: 'Arada',
-      community: 'Palm Jumeirah',
-      startingPrice: 'AED 21,500,000',
+      id: 'launch-seahaven',
+      title: 'Sobha SeaHaven',
+      subtitle: 'Dubai Harbour • Superyacht Marina',
+      badge: 'Ultra Luxury Waterfront',
+      price: 'Starting from AED 21,500,000',
       handover: 'Q4 2026',
-      paymentPlan: '70/30',
-      type: 'Branded Seafront Suites',
-      image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85',
-      badge: 'Private Beach'
-    },
-    {
-      id: 'off-3',
-      title: 'Bugatti Residences by Binghatti',
-      developer: 'Binghatti',
-      community: 'Business Bay',
-      startingPrice: 'AED 19,000,000',
-      handover: 'Q4 2026',
-      paymentPlan: '70/30',
-      type: 'French Riviera Inspired Penthouses',
-      image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=85',
-      badge: 'Private Car Lift'
-    },
-    {
-      id: 'off-4',
-      title: 'Mercedes-Benz Places',
-      developer: 'Binghatti',
-      community: 'Downtown Dubai',
-      startingPrice: 'AED 8,800,000',
-      handover: 'Q2 2027',
-      paymentPlan: '70/30',
-      type: 'Skyline Luxury Residences',
-      image: 'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?auto=format&fit=crop&w=1200&q=85',
-      badge: 'Burj Khalifa View'
-    },
-    {
-      id: 'off-5',
-      title: 'Palm Flower by Foster + Partners',
-      developer: 'Alpago Properties',
-      community: 'Palm Jumeirah',
-      startingPrice: 'AED 65,000,000',
-      handover: 'Q1 2027',
-      paymentPlan: '50/50',
-      type: 'Full Floor Sky Mansions',
-      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85',
-      badge: 'Exclusive 11 Units'
-    },
-    {
-      id: 'off-6',
-      title: 'Sobha Seahaven Sky Edition',
-      developer: 'Sobha Realty',
-      community: 'Dubai Harbour',
-      startingPrice: 'AED 15,200,000',
-      handover: 'Q4 2026',
-      paymentPlan: '80/20',
-      type: 'Ultra-Luxury Seafront Suites',
-      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85',
-      badge: 'Yacht Club Access'
+      paymentPlan: '80/20 Payment Plan',
+      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=85',
+      logoText: 'SOBHA SEAHAVEN',
+      logoSub: 'SKY RESIDENCES',
+      amenities: [
+        { label: 'Private Yacht Berths', icon: 'yacht' },
+        { label: 'Infinity Sky Pool 50F', icon: 'pool' },
+        { label: 'Panoramic Sea & Ain Dubai', icon: 'cinema' },
+        { label: 'Private Helipad Access', icon: 'garden' }
+      ]
     }
   ];
 
-  // International High-Net-Worth Investor Testimonials
-  const investorTestimonials = [
+  const currentLaunch = latestLaunches[activeLaunchIdx];
+
+  const handleLaunchRegister = (launch: typeof latestLaunches[0]) => {
+    setSelectedDrawerProject(`${launch.title} - ${launch.subtitle}`);
+    setIsEnquiryDrawerOpen(true);
+  };
+
+  // ================= 3. SOVEREIGN COMMUNITIES DATA =================
+  const sobhaCommunities = [
     {
-      id: 't-1',
-      name: 'Lord Alistair Sterling',
-      origin: 'London, United Kingdom',
-      portfolio: 'Palm Jumeirah Signature Villa & 3 Downtown Units',
-      yield: '8.4% Net ROI',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-      comment: 'Dubai Estates handled our family office acquisition flawlessly. From international currency escrow to Title Deed issuance and 10-Year Golden Visa delivery in under two weeks.'
+      id: 'sobha-hartland',
+      name: 'Sobha Hartland & Hartland II',
+      tagline: '8 Million Sq. Ft. Waterfront Sanctuary in MBR City',
+      startingPrice: 'AED 1.8M',
+      propertyCount: '24 Available Residences',
+      image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
+      filterVal: 'Sobha Hartland'
     },
     {
-      id: 't-2',
-      name: 'Elena Rostova',
-      origin: 'Zurich, Switzerland',
-      portfolio: 'Dubai Hills Fairway Villa',
-      yield: '9.2% Capital Growth',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80',
-      comment: 'The level of discretion, legal rigor, and fiduciary transparency provided by their RERA advisory team exceeded London and Geneva private banking standards.'
+      id: 'palm-jumeirah',
+      name: 'Palm Jumeirah & Crown Mansions',
+      tagline: 'World-Renowned Island of Private Beachfront Palaces',
+      startingPrice: 'AED 9.5M',
+      propertyCount: '18 Ultra-Luxury Units',
+      image: '/backgrounds/palm_aerial.jpg',
+      filterVal: 'Palm Jumeirah'
     },
     {
-      id: 't-3',
-      name: 'Marcus & Chloe Vance',
-      origin: 'Singapore',
-      portfolio: '2 Waterfront Penthouses at Dubai Marina',
-      yield: '7.9% Short-Stay Yield',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
-      comment: 'Complete turnkey concierge. They oversaw bespoke furnishing, DTCM holiday-home licensing, premium guest placement, and monthly net remittances directly to our account.'
+      id: 'siniya-island',
+      name: 'Sobha Siniya Island',
+      tagline: 'Untouched Natural Mangrove & Marina Island Haven',
+      startingPrice: 'AED 3.2M',
+      propertyCount: '15 Maritime Suites',
+      image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80',
+      filterVal: 'Siniya Island'
     },
     {
-      id: 't-4',
-      name: 'Sheikh Tariq Al-Ghamdi',
-      origin: 'Riyadh, Saudi Arabia',
-      portfolio: 'Commercial & Trophy Penthouse Portfolio',
-      yield: '11.4% Total Return',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
-      comment: 'First-class agency for high-capital off-market acquisitions. They secured exclusive developer VIP allocations during private pre-launch phases with zero delay.'
+      id: 'downtown-dubai',
+      name: 'Downtown Dubai & Opera District',
+      tagline: 'The Center of Now with Unrivalled Burj Khalifa Vistas',
+      startingPrice: 'AED 3.5M',
+      propertyCount: '32 Skyline Penthouses',
+      image: '/backgrounds/burj_sunset.jpg',
+      filterVal: 'Downtown Dubai'
+    },
+    {
+      id: 'dubai-hills',
+      name: 'Dubai Hills Estate & Sanctuary',
+      tagline: 'Championship 18-Hole Golf Fairways & Forest Enclaves',
+      startingPrice: 'AED 4.2M',
+      propertyCount: '20 Modern Mansions',
+      image: '/backgrounds/hills_villas.jpg',
+      filterVal: 'Dubai Hills Estate'
+    },
+    {
+      id: 'dubai-harbour',
+      name: 'Dubai Harbour & SeaHaven',
+      tagline: 'The Region’s Most Prestigious Superyacht Marina',
+      startingPrice: 'AED 5.1M',
+      propertyCount: '12 Waterfront Penthouses',
+      image: '/backgrounds/marina_twilight.jpg',
+      filterVal: 'Dubai Harbour'
     }
   ];
+
+  // ================= 4. PRESS RELEASES / STORIES DATA =================
+  const pressReleases = [
+    {
+      id: 'pr-1',
+      title: 'Project Management Institute and Dubai Estates Partner to Strengthen Project Management Excellence',
+      date: '11 Aug 2026',
+      badge: 'Corporate Partnership',
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=700&q=80'
+    },
+    {
+      id: 'pr-2',
+      title: 'Dubai Estates Marks All-Time Delivery Record with 6,819 Units Set for Handover in 2026',
+      date: '22 Jul 2026',
+      badge: 'Record Deliveries',
+      image: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=700&q=80'
+    },
+    {
+      id: 'pr-3',
+      title: 'Dubai Estates and Leading UAE Banks Team Up to Offer Integrated Direct VIP Financing',
+      date: '02 Jul 2026',
+      badge: 'Financial Services',
+      image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=700&q=80'
+    },
+    {
+      id: 'pr-4',
+      title: 'Dubai Estates and Keeta Drone Sign Strategic MoU, Launching Autonomous Air Delivery in Communities',
+      date: '18 May 2026',
+      badge: 'Innovation',
+      image: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=700&q=80'
+    }
+  ];
+
+  // ================= 5. NEWSLETTER SIGNUP STATE =================
+  const [subscriberEmail, setSubscriberEmail] = useState('');
+  const [subscriberName, setSubscriberName] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!subscriberEmail) return;
+    setSubscribed(true);
+    showToast('Subscribed to Dubai Estates Private Market Intelligence!');
+    setSubscriberEmail('');
+    setSubscriberName('');
+  };
 
   return (
-    <div className="bg-[#fcfbfa] text-[#16191f] overflow-hidden">
+    <div className="bg-[#fcfbfa] text-[#16191f] overflow-hidden selection:bg-[#b88d3d] selection:text-white">
       
       {/* ========================================================================= */}
-      {/* 01. HERO BANNER: CINEMATIC, PURE LUXURY, NO SEARCH BAR                     */}
+      {/* SECTION 1: HOMEPAGE HERO BANNER (Sobha .home-banner)                      */}
       {/* ========================================================================= */}
-      <section className="relative h-[92vh] min-h-[700px] max-h-[1050px] flex flex-col justify-between items-center pt-28 sm:pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden select-none">
+      <section className="relative w-full h-screen min-h-[680px] max-h-[1050px] bg-[#0c1017] overflow-hidden flex items-end sm:items-center">
         
-        {/* Dynamic Dubai Scenery Slider (Clear, Radiant, No Heavy Scrims) */}
-        <div className="absolute inset-0 z-0">
-          {heroScenes.map((scene, idx) => {
-            const isActive = idx === heroSceneIdx;
-            return (
-              <div
-                key={scene.image}
-                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                  isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                }`}
+        {/* Background Images with Crossfade */}
+        {heroBanners.map((banner, index) => {
+          const isActive = index === heroIdx;
+          return (
+            <div
+              key={banner.id}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                isActive ? 'opacity-100 z-10 scale-100' : 'opacity-0 z-0 scale-105'
+              } transform transition-transform duration-[7000ms]`}
+            >
+              <img
+                src={banner.image}
+                alt={banner.title}
+                className="w-full h-full object-cover object-center filter brightness-[0.82] contrast-[1.05]"
+              />
+              {/* Subtle architectural gradient for legibility */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/40" />
+            </div>
+          );
+        })}
+
+        {/* Hero Content Overlay */}
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-20 sm:pb-0 pt-28">
+          <div className="max-w-3xl space-y-4 sm:space-y-6">
+            
+            {/* Tag / Community Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-[#d4af37] text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#b88d3d] animate-ping" />
+              <span>{heroBanners[heroIdx].tag}</span>
+            </div>
+
+            {/* Banner Heading (Sobha .homepage-hero-banner-heading) */}
+            <h1 className="font-serif-luxury text-4xl sm:text-6xl lg:text-7xl font-bold tracking-[0.12em] text-white uppercase leading-[1.08] drop-shadow-2xl">
+              {heroBanners[heroIdx].title}
+            </h1>
+
+            {/* Banner Subheading (Sobha .homepage-hero-banner-subheading) */}
+            <p className="text-base sm:text-xl lg:text-2xl text-slate-200 font-light tracking-wide max-w-2xl drop-shadow-md">
+              {heroBanners[heroIdx].subheading}
+            </p>
+
+            {/* CTA Button: DISCOVER (Sobha .homepage-hero-banner-cta) */}
+            <div className="pt-2 sm:pt-4 flex items-center gap-4">
+              <button
+                onClick={() => handleHeroDiscover(heroBanners[heroIdx])}
+                className="group inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-white/10 hover:bg-[#b88d3d] text-white border border-white/40 hover:border-[#b88d3d] backdrop-blur-md font-bold text-xs uppercase tracking-[0.25em] transition-all duration-300 shadow-xl cursor-pointer"
               >
-                <img
-                  src={scene.image}
-                  alt={scene.title}
-                  className={`w-full h-full object-cover object-center transition-transform duration-[10000ms] ease-out ${
-                    isActive ? 'scale-105' : 'scale-100'
-                  }`}
-                />
-              </div>
-            );
-          })}
+                <span>DISCOVER</span>
+                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
+              </button>
 
-          {/* Light cinematic gradient so typography is crystalline while scenery remains vivid */}
-          <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/60 via-black/20 to-black/40 pointer-events-none" />
-        </div>
+              <button
+                onClick={() => {
+                  setSelectedDrawerProject(heroBanners[heroIdx].ctaProject);
+                  setIsEnquiryDrawerOpen(true);
+                }}
+                className="hidden sm:inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#b88d3d] hover:bg-[#a67c2e] text-white font-bold text-xs uppercase tracking-[0.2em] transition-all shadow-xl cursor-pointer"
+              >
+                <span>REGISTER INTEREST</span>
+              </button>
+            </div>
 
-        {/* Center Content: Brand Narrative & Grand Typography */}
-        <div className="relative z-20 max-w-4xl mx-auto text-center flex flex-col items-center mt-auto mb-auto">
-          {/* Subtle Private Office Tag */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-amber-300 text-[11px] font-semibold tracking-[0.22em] uppercase mb-6 shadow-xl">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>The Private Office • Dubai, UAE</span>
-          </div>
-
-          {/* Majestic Headline */}
-          <h1 className="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-wide leading-[1.15] drop-shadow-[0_4px_18px_rgba(0,0,0,0.8)]">
-            Curating Dubai's Most Prestigious Living Spaces
-          </h1>
-
-          {/* Refined Tagline */}
-          <p className="mt-5 text-sm sm:text-lg text-white/90 font-light max-w-2xl leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-            Representing sovereign capital, family offices, and discerning individuals in acquiring extraordinary residential architecture across the Emirates.
-          </p>
-
-          {/* Minimal Action Triggers */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
-            <button
-              onClick={scrollToExplore}
-              className="gold-btn px-8 py-3.5 rounded-full text-xs font-bold tracking-wider uppercase cursor-pointer shadow-xl flex items-center gap-2"
-            >
-              <span>Explore The Firm</span>
-              <ArrowDownIcon className="w-3.5 h-3.5 animate-bounce" />
-            </button>
-            <button
-              onClick={() => {
-                setCurrentPage('properties');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="px-7 py-3.5 rounded-full text-xs font-semibold tracking-wider uppercase text-white bg-black/35 hover:bg-black/55 backdrop-blur-md border border-white/30 hover:border-white/60 transition cursor-pointer flex items-center gap-2"
-            >
-              <span>View Prime Portfolio</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
           </div>
         </div>
 
-        {/* Bottom Bar: Scene Switcher Pills & Scroll Indicator */}
-        <div className="relative z-20 w-full max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/15">
-          {/* Scene Switcher */}
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {heroScenes.map((scene, idx) => {
-              const isSelected = idx === heroSceneIdx;
-              return (
+        {/* Hero Slider Progress & Navigation Controls */}
+        <div className="absolute bottom-6 sm:bottom-10 left-0 right-0 z-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            
+            {/* Slide Indicators */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              {heroBanners.map((b, idx) => (
                 <button
-                  key={scene.title}
-                  onClick={() => setHeroSceneIdx(idx)}
-                  className={`px-3 py-1 rounded-full text-[11px] font-medium backdrop-blur-md border transition-all duration-300 cursor-pointer flex items-center gap-1.5 ${
-                    isSelected 
-                      ? 'bg-[#b88d3d] text-white border-[#b88d3d] font-bold shadow-md' 
-                      : 'bg-black/30 text-white/80 border-white/15 hover:border-white/40 hover:bg-black/50'
+                  key={b.id}
+                  onClick={() => setHeroIdx(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
+                    heroIdx === idx ? 'w-10 sm:w-14 bg-[#b88d3d]' : 'w-3 bg-white/40 hover:bg-white/70'
                   }`}
-                >
-                  <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : 'bg-amber-400'}`}></span>
-                  <span>{scene.title}</span>
-                </button>
-              );
-            })}
-          </div>
+                  aria-label={`Slide ${idx + 1}`}
+                />
+              ))}
+            </div>
 
-          {/* Smooth Scroll Cue */}
-          <button 
-            onClick={scrollToExplore}
-            className="flex items-center gap-2 text-white/80 hover:text-white text-xs font-medium tracking-wider uppercase transition cursor-pointer"
-          >
-            <span>Scroll to Discover</span>
-            <ChevronDown className="w-4 h-4 animate-bounce text-amber-300" />
-          </button>
+            {/* Arrows */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleHeroPrev}
+                className="w-10 h-10 rounded-full bg-black/30 hover:bg-black/60 text-white border border-white/20 backdrop-blur-md flex items-center justify-center transition cursor-pointer"
+                aria-label="Previous Slide"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={handleHeroNext}
+                className="w-10 h-10 rounded-full bg-black/30 hover:bg-black/60 text-white border border-white/20 backdrop-blur-md flex items-center justify-center transition cursor-pointer"
+                aria-label="Next Slide"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+          </div>
         </div>
       </section>
 
-
       {/* ========================================================================= */}
-      {/* 02. CURTAIN REVEAL: PAGE APPEARS OUT OF THE BOTTOM OF THE HERO BANNER       */}
+      {/* SECTION 2: THE ART OF THE DETAIL (Sobha .art-of-detail-sec)               */}
       {/* ========================================================================= */}
-      <div 
-        id="firm-overview" 
-        className="relative z-20 -mt-16 sm:-mt-24 rounded-t-[36px] sm:rounded-t-[56px] bg-[#f8f6f2] shadow-[0_-30px_70px_rgba(0,0,0,0.35)] border-t border-white/80 pt-8 sm:pt-12 transition-all duration-700"
-      >
-        {/* Subtle Top Accent Grip Handle */}
-        <div className="w-14 h-1.5 rounded-full bg-[#b88d3d]/30 mx-auto mb-10"></div>
-
-
-        {/* ======================================================================= */}
-        {/* 03. PRIVATE PORTFOLIO SEARCH (RELOCATED DOWN FROM HERO BANNER)          */}
-        {/* ======================================================================= */}
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-20">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-[#e8e2d8]">
-            {/* Header with Switcher Tabs */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-[#f0eae1]">
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#b88d3d] block mb-1">
-                  Private Discovery
-                </span>
-                <h3 className="font-serif-luxury text-xl font-bold text-[#16191f]">
-                  Find Your Dubai Residence
-                </h3>
-              </div>
-
-              {/* Tabs */}
-              <div className="flex items-center gap-1 p-1 bg-[#f4efe9] rounded-xl self-start sm:self-auto">
-                {(['Buy', 'Rent', 'Projects'] as const).map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setSearchTab(tab)}
-                    className={`px-4 py-1.5 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                      searchTab === tab
-                        ? 'bg-white text-[#16191f] shadow-sm font-bold'
-                        : 'text-[#606979] hover:text-[#16191f]'
-                    }`}
-                  >
-                    {tab === 'Buy' ? 'Buy Property' : tab === 'Rent' ? 'Rent Luxury' : 'Off-Plan'}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Input Row */}
-            <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row items-center gap-3">
-              <div className="relative flex-1 w-full">
-                <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#b88d3d]" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Location, enclave or development (e.g. Palm Jumeirah, Downtown, Golf Villa)..."
-                  className="w-full bg-[#f8f6f2] border border-[#e8e2d8] rounded-xl pl-10 pr-4 py-3 text-xs sm:text-sm text-[#16191f] placeholder-[#8b94a2] focus:outline-none focus:border-[#b88d3d] focus:bg-white transition"
-                />
-              </div>
-
-              <div className="relative w-full md:w-52">
-                <Home className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#b88d3d] pointer-events-none" />
-                <select
-                  value={selectedType}
-                  onChange={(e) => setSelectedType(e.target.value)}
-                  className="w-full bg-[#f8f6f2] border border-[#e8e2d8] rounded-xl pl-10 pr-8 py-3 text-xs sm:text-sm text-[#16191f] focus:outline-none focus:border-[#b88d3d] focus:bg-white appearance-none transition cursor-pointer"
-                >
-                  <option value="All">All Typologies</option>
-                  <option value="Villa">Private Villa</option>
-                  <option value="Penthouse">Sky Penthouse</option>
-                  <option value="Mansion">Golf & Sea Mansion</option>
-                  <option value="Apartment">Luxury Residence</option>
-                </select>
-                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#8b94a2] text-xs">
-                  ▼
+      <section className="relative py-20 lg:py-32 bg-[#fcfbfa] border-b border-[#e8e2d8]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            {/* Left Column: Brand Signature Copy */}
+            <div className="lg:col-span-6 space-y-6 sm:space-y-8">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#d4af37] via-[#b88d3d] to-[#8c641c] flex items-center justify-center text-white shadow-md">
+                  <Building2 className="w-5 h-5" />
                 </div>
+                <span className="text-xs font-bold tracking-[0.3em] uppercase text-[#b88d3d]">
+                  DUBAI ESTATES SIGNATURE
+                </span>
               </div>
 
-              <button
-                type="submit"
-                className="w-full md:w-auto gold-btn px-8 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md whitespace-nowrap"
-              >
-                <Search className="w-4 h-4" />
-                <span>Search Portfolio</span>
-              </button>
-            </form>
-
-            <div className="mt-4 pt-3 flex flex-col sm:flex-row items-center justify-between text-xs text-[#6e7787] gap-2">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#b88d3d]" />
-                All listings verified with Dubai Land Department (DLD) title deeds
-              </span>
-              <button
-                onClick={() => {
-                  setCurrentPage('properties');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="text-[#b88d3d] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
-              >
-                <span>Browse with interactive map view</span>
-                <ChevronRight className="w-3 h-3" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-
-        {/* ======================================================================= */}
-        {/* 04. ABOUT THE FIRM & HERITAGE (THE PRIMARY FOCUS OF HOME)              */}
-        {/* ======================================================================= */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Narrative */}
-            <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#b88d3d]/10 text-[#9e7529] border border-[#b88d3d]/20 text-[11px] font-bold tracking-widest uppercase">
-                <Building2 className="w-3.5 h-3.5" />
-                <span>The Private Office & Heritage</span>
-              </div>
-              
-              <h2 className="font-serif-luxury text-3xl sm:text-4xl lg:text-5xl font-bold text-[#16191f] leading-tight">
-                A Legacy of Trust, Discretion & Fiduciary Access
+              <h2 className="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[0.1em] text-[#16191f] uppercase leading-[1.12]">
+                The Art of the Detail
               </h2>
 
-              <p className="text-sm sm:text-base text-[#545c6b] leading-relaxed">
-                Headquartered in the Dubai International Financial Centre (DIFC), Dubai Estates operates as a bespoke private real estate office representing sovereign families, multinational executives, and global entrepreneurs.
+              <div className="w-20 h-[2px] bg-[#b88d3d]" />
+
+              <p className="text-sm sm:text-base text-[#4a5568] leading-relaxed font-light">
+                At Dubai Estates, we understand that true excellence lies in the meticulous attention to detail and the artistry of craftsmanship. Guided by an uncompromising commitment to perfection, we believe in crafting not just residences, but immersive living environments where every architectural line, natural light aperture, and bespoke texture is thoughtfully considered.
               </p>
 
-              <p className="text-sm sm:text-base text-[#545c6b] leading-relaxed">
-                Unlike mass-market agencies, 70% of our portfolio comprises off-market private treaty residences: unlisted waterfront plots on Palm Jumeirah, private island estates, and crown-floor penthouses traded with absolute confidentiality.
-              </p>
-
-              <div className="pt-2 flex flex-wrap gap-4">
+              <div className="pt-2">
                 <button
                   onClick={() => {
                     setCurrentPage('about');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="px-6 py-3 rounded-full text-xs font-bold bg-[#16191f] text-white hover:bg-[#b88d3d] transition cursor-pointer flex items-center gap-2 shadow-md"
+                  className="group inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-[#16191f] hover:bg-[#b88d3d] text-white text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 shadow-md cursor-pointer"
                 >
-                  <span>Learn About Our Heritage</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => setIsGoldenVisaModalOpen(true)}
-                  className="px-6 py-3 rounded-full text-xs font-semibold bg-white text-[#16191f] border border-[#e8e2d8] hover:bg-[#f2eee8] transition cursor-pointer flex items-center gap-2"
-                >
-                  <Award className="w-3.5 h-3.5 text-[#b88d3d]" />
-                  <span>UAE Golden Visa Advisory</span>
+                  <span>Discover More</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </button>
               </div>
             </div>
 
-            {/* Right: 4 Prestigious Stat Badges */}
-            <div className="lg:col-span-6 grid grid-cols-2 gap-5">
-              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#e8e2d8] shadow-sm hover:shadow-lg transition-all">
-                <div className="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#b88d3d] mb-1">
-                  AED 14.8B+
+            {/* Right Column: High-Res Luxury Architectural Photography */}
+            <div className="lg:col-span-6 relative">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+                <img
+                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85"
+                  alt="The Art of the Detail - Dubai Luxury Architecture"
+                  className="w-full h-[420px] sm:h-[500px] object-cover hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-[#16191f]/80 backdrop-blur-md border border-white/10 text-white flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-[#d4af37] font-semibold">Master Quality Benchmark</p>
+                    <p className="text-sm font-bold font-serif-luxury">Italian Calacatta & Hand-Laid Hardwood</p>
+                  </div>
+                  <Award className="w-6 h-6 text-[#b88d3d]" />
                 </div>
-                <div className="text-xs font-bold uppercase tracking-wider text-[#16191f] mb-1">
-                  Transaction Volume
-                </div>
-                <p className="text-[11px] text-[#6d7685] leading-relaxed">
-                  Cumulative private treaty residential acquisitions transacted since 2018.
-                </p>
               </div>
 
-              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#e8e2d8] shadow-sm hover:shadow-lg transition-all">
-                <div className="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#16191f] mb-1">
-                  98%
-                </div>
-                <div className="text-xs font-bold uppercase tracking-wider text-[#16191f] mb-1">
-                  Off-Market Discretion
-                </div>
-                <p className="text-[11px] text-[#6d7685] leading-relaxed">
-                  Confidential transfers executed under strict non-disclosure covenants.
-                </p>
-              </div>
-
-              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#e8e2d8] shadow-sm hover:shadow-lg transition-all">
-                <div className="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#16191f] mb-1">
-                  150+
-                </div>
-                <div className="text-xs font-bold uppercase tracking-wider text-[#16191f] mb-1">
-                  Certified Advisors
-                </div>
-                <p className="text-[11px] text-[#6d7685] leading-relaxed">
-                  RERA and DLD accredited consultants with average 9+ years Dubai expertise.
-                </p>
-              </div>
-
-              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-[#e8e2d8] shadow-sm hover:shadow-lg transition-all">
-                <div className="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#b88d3d] mb-1">
-                  10-Day
-                </div>
-                <div className="text-xs font-bold uppercase tracking-wider text-[#16191f] mb-1">
-                  Golden Visa Service
-                </div>
-                <p className="text-[11px] text-[#6d7685] leading-relaxed">
-                  Fast-track family residency processing backed by property title deeds.
-                </p>
-              </div>
+              {/* Decorative Accent Framing */}
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 border-b-2 border-l-2 border-[#b88d3d] -z-10 rounded-bl-3xl hidden sm:block" />
             </div>
+
           </div>
-        </section>
+        </div>
+      </section>
 
-
-        {/* ======================================================================= */}
-        {/* 05. THE 4 PILLARS OF OUR ADVISORY PRACTICE                             */}
-        {/* ======================================================================= */}
-        <section className="py-16 bg-[#f2eee8] border-y border-[#e8e2d8]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <div className="inline-flex items-center gap-1.5 text-xs text-[#b88d3d] font-bold tracking-widest uppercase mb-1">
-                <Compass className="w-3.5 h-3.5" /> Fiduciary Advisory
-              </div>
-              <h2 className="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#16191f]">
-                What We Do For Discerning Clients
-              </h2>
-              <p className="text-xs sm:text-sm text-[#606979] mt-2">
-                A full-suite institutional advisory engineered to protect capital and maximize lifestyle comfort
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* Pillar 1 */}
-              <div className="bg-white rounded-2xl p-6 border border-[#e8e2d8] shadow-sm hover:shadow-md transition">
-                <div className="w-12 h-12 rounded-xl bg-[#b88d3d]/10 text-[#b88d3d] flex items-center justify-center mb-4">
-                  <ShieldCheck className="w-6 h-6" />
-                </div>
-                <h3 className="font-serif-luxury text-lg font-bold text-[#16191f] mb-2">
-                  Off-Market Private Treaty
-                </h3>
-                <p className="text-xs text-[#545c6b] leading-relaxed">
-                  Accessing unlisted penthouses and private beachfront compounds unavailable on portals, negotiated privately between principals.
-                </p>
-              </div>
-
-              {/* Pillar 2 */}
-              <div className="bg-white rounded-2xl p-6 border border-[#e8e2d8] shadow-sm hover:shadow-md transition">
-                <div className="w-12 h-12 rounded-xl bg-[#b88d3d]/10 text-[#b88d3d] flex items-center justify-center mb-4">
-                  <Award className="w-6 h-6" />
-                </div>
-                <h3 className="font-serif-luxury text-lg font-bold text-[#16191f] mb-2">
-                  10-Year Golden Visa
-                </h3>
-                <p className="text-xs text-[#545c6b] leading-relaxed">
-                  End-to-end liaison with the Dubai Land Department and immigration authorities to secure renewable 10-year residency for your entire family.
-                </p>
-              </div>
-
-              {/* Pillar 3 */}
-              <div className="bg-white rounded-2xl p-6 border border-[#e8e2d8] shadow-sm hover:shadow-md transition">
-                <div className="w-12 h-12 rounded-xl bg-[#b88d3d]/10 text-[#b88d3d] flex items-center justify-center mb-4">
-                  <Briefcase className="w-6 h-6" />
-                </div>
-                <h3 className="font-serif-luxury text-lg font-bold text-[#16191f] mb-2">
-                  Family Office Concierge
-                </h3>
-                <p className="text-xs text-[#545c6b] leading-relaxed">
-                  SPV corporate establishment, cross-border currency transfers, multi-jurisdiction tax planning, and escrow execution.
-                </p>
-              </div>
-
-              {/* Pillar 4 */}
-              <div className="bg-white rounded-2xl p-6 border border-[#e8e2d8] shadow-sm hover:shadow-md transition">
-                <div className="w-12 h-12 rounded-xl bg-[#b88d3d]/10 text-[#b88d3d] flex items-center justify-center mb-4">
-                  <TrendingUp className="w-6 h-6" />
-                </div>
-                <h3 className="font-serif-luxury text-lg font-bold text-[#16191f] mb-2">
-                  Turnkey Yield Management
-                </h3>
-                <p className="text-xs text-[#545c6b] leading-relaxed">
-                  Bespoke interior design, DTCM licensed holiday home management, and high-occupancy guest curation delivering 7–10% net yields.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-
-        {/* ======================================================================= */}
-        {/* 06. ARCHITECTURAL TROPHY TEASER (FEATURING ONLY 3 HIGHLIGHTS)          */}
-        {/* ======================================================================= */}
-        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
-            <div>
-              <div className="inline-flex items-center gap-1.5 text-xs text-[#b88d3d] font-bold tracking-widest uppercase mb-1">
-                <Sparkles className="w-3.5 h-3.5" /> Curated Architectural Teaser
-              </div>
-              <h2 className="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#16191f]">
-                Trophy Residences of the Season
-              </h2>
-              <p className="text-xs sm:text-sm text-[#606979] mt-1">
-                A private glimpse into our curated collection. Explore all 120+ listings on the dedicated Properties page.
-              </p>
+      {/* ========================================================================= */}
+      {/* SECTION 3: DEFINING OUR PILLARS (Sobha .new-launch-section)               */}
+      {/* ========================================================================= */}
+      <section className="py-20 lg:py-28 bg-[#f8f6f2] border-b border-[#e8e2d8]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Section Header with Sobha Lines on Sides */}
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+            <div className="flex items-center justify-center gap-4">
+              <div className="h-[1px] w-12 sm:w-20 bg-[#b88d3d]/50" />
+              <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#b88d3d] uppercase">
+                FROM CONCEPT TO COMPLETION
+              </span>
+              <div className="h-[1px] w-12 sm:w-20 bg-[#b88d3d]/50" />
             </div>
             
-            <button
-              onClick={() => {
-                setCurrentPage('properties');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold bg-[#16191f] text-white hover:bg-[#b88d3d] transition cursor-pointer shadow-sm"
-            >
-              <span>Explore All Listings</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
+            <h2 className="font-serif-luxury text-2xl sm:text-4xl lg:text-5xl font-bold tracking-[0.08em] text-[#16191f] uppercase leading-tight">
+              Defining Our Pillars
+            </h2>
+            <p className="text-xs sm:text-sm text-[#545c6b] max-w-xl mx-auto font-light leading-relaxed">
+              Every master planned enclave is governed by our three unyielding standards of architectural excellence.
+            </p>
           </div>
 
-          {/* 3 Trophy Highlight Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {trophyHighlights.map((property) => (
-              <PropertyCard key={property.id} property={property} featured={true} />
-            ))}
-          </div>
-
-          {/* Big Editorial Banner Directing to Properties Page */}
-          <div className="mt-12 p-8 rounded-3xl bg-white border border-[#e8e2d8] shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
-            <div>
-              <span className="text-[10px] uppercase tracking-widest font-bold text-[#b88d3d]">Complete Inventory</span>
-              <h3 className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#16191f] mt-0.5">
-                Seeking a specific penthouse, beachfront plot, or golf villa?
-              </h3>
-              <p className="text-xs text-[#606979] mt-1 max-w-xl">
-                Our complete inventory includes interactive maps, comprehensive floorplans, high-res photo galleries, and payment plans.
-              </p>
-            </div>
-            <button
-              onClick={() => {
-                setCurrentPage('properties');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="gold-btn px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap cursor-pointer shadow-md"
-            >
-              View Full Properties Catalog →
-            </button>
-          </div>
-        </section>
-
-
-        {/* ======================================================================= */}
-        {/* 07. SOVEREIGN DESTINATIONS (COMMUNITIES CAROUSEL)                      */}
-        {/* ======================================================================= */}
-        <section className="py-20 bg-[#f2eee8] border-y border-[#e8e2d8]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
-              <div>
-                <div className="inline-flex items-center gap-1.5 text-xs text-[#b88d3d] font-bold tracking-widest uppercase mb-1">
-                  <MapPin className="w-3.5 h-3.5" /> Sovereign Enclaves
+          {/* 3 Pillars Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            {/* Pillar 1: Craftsmanship */}
+            <div className="group bg-white rounded-2xl overflow-hidden border border-[#e8e2d8] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+              <div className="h-64 overflow-hidden relative">
+                <img
+                  src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80"
+                  alt="Craftsmanship"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[#d4af37] text-[10px] font-bold tracking-widest uppercase">
+                  Pillar 01
                 </div>
-                <h2 className="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#16191f]">
-                  Dubai's Most Sought-After Neighborhoods
-                </h2>
-                <p className="text-xs sm:text-sm text-[#606979] mt-1">
-                  Explore iconic master communities from private island living to bustling urban business centers
-                </p>
               </div>
-              <button
-                onClick={() => {
-                  setCurrentPage('communities');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#b88d3d] hover:text-[#9e7529] transition group cursor-pointer"
-              >
-                <span>Explore All Communities</span>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-4">
+                <div>
+                  <h3 className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#16191f] tracking-wide mb-2">
+                    Craftsmanship
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#545c6b] leading-relaxed font-light">
+                    When building a home, attention to detail is essential. Dubai Estates recognizes this, and we inspect every nuance—whether it's the quality of the materials, bespoke joinery, bookmatched Italian marble, solid core acoustic doors, or precision sanitary fittings. A true craftsman for a harmonious life.
+                  </p>
+                </div>
+                <div className="pt-2 flex items-center text-xs font-bold text-[#b88d3d] uppercase tracking-wider gap-1.5 group-hover:translate-x-1 transition-transform">
+                  <span>Explore Standard</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
+              </div>
             </div>
 
-            {/* Auto-moving Carousel for Communities */}
-            <AutoCarousel 
-              intervalMs={4200}
-              itemClassName="shrink-0 w-[78vw] sm:w-[290px] lg:w-[320px] snap-start"
-            >
-              {communities.map((comm) => (
-                <div
-                  key={comm.id}
-                  onClick={() => navigateToCommunity(comm.id)}
-                  className="group relative h-96 rounded-2xl overflow-hidden cursor-pointer border border-[#e8e2d8] hover:border-[#b88d3d] transition-all duration-300 shadow-sm hover:shadow-xl"
+            {/* Pillar 2: Thoughtful Design */}
+            <div className="group bg-white rounded-2xl overflow-hidden border border-[#e8e2d8] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+              <div className="h-64 overflow-hidden relative">
+                <img
+                  src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80"
+                  alt="Thoughtful Design"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[#d4af37] text-[10px] font-bold tracking-widest uppercase">
+                  Pillar 02
+                </div>
+              </div>
+              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-4">
+                <div>
+                  <h3 className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#16191f] tracking-wide mb-2">
+                    Thoughtful Design
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#545c6b] leading-relaxed font-light">
+                    At Dubai Estates, home design is not just a structure; it's a beautiful piece of art. Residences that are spacious with well-utilized floorplates, biophilic inner light-wells, private sky pools, and curated panoramic sightlines. We consider every stage of planning to ensure thoughtful, enduring design.
+                  </p>
+                </div>
+                <div className="pt-2 flex items-center text-xs font-bold text-[#b88d3d] uppercase tracking-wider gap-1.5 group-hover:translate-x-1 transition-transform">
+                  <span>Explore Standard</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
+              </div>
+            </div>
+
+            {/* Pillar 3: Signature Quality */}
+            <div className="group bg-white rounded-2xl overflow-hidden border border-[#e8e2d8] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+              <div className="h-64 overflow-hidden relative">
+                <img
+                  src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"
+                  alt="Signature Quality"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-[#d4af37] text-[10px] font-bold tracking-widest uppercase">
+                  Pillar 03
+                </div>
+              </div>
+              <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-4">
+                <div>
+                  <h3 className="font-serif-luxury text-xl sm:text-2xl font-bold text-[#16191f] tracking-wide mb-2">
+                    Signature Quality
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#545c6b] leading-relaxed font-light">
+                    We are involved in every stage of the lifecycle, from developer compliance and materials vetting to turnkey handover. Every residence we represent is subjected to rigorous quality inspections, giving complete control, transparency, and assurance over your generational investment.
+                  </p>
+                </div>
+                <div className="pt-2 flex items-center text-xs font-bold text-[#b88d3d] uppercase tracking-wider gap-1.5 group-hover:translate-x-1 transition-transform">
+                  <span>Explore Standard</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* SECTION 4: EXPLORE OUR LUXURY PROPERTIES (Sobha .latest-launch-section)   */}
+      {/* ========================================================================= */}
+      <section id="latest-launches" className="py-20 lg:py-28 bg-[#fcfbfa] border-b border-[#e8e2d8]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
+            <div className="flex items-center justify-center gap-4">
+              <div className="h-[1px] w-12 sm:w-20 bg-[#b88d3d]/50" />
+              <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#b88d3d] uppercase">
+                FEATURED RESIDENCES & NEW LAUNCHES
+              </span>
+              <div className="h-[1px] w-12 sm:w-20 bg-[#b88d3d]/50" />
+            </div>
+
+            <h2 className="font-serif-luxury text-2xl sm:text-4xl lg:text-5xl font-bold tracking-[0.08em] text-[#16191f] uppercase leading-tight">
+              Explore Our Luxury Properties in the UAE
+            </h2>
+          </div>
+
+          {/* Project Tabs / Switcher */}
+          <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
+            {latestLaunches.map((item, idx) => {
+              const isSelected = idx === activeLaunchIdx;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveLaunchIdx(idx)}
+                  className={`px-4 sm:px-5 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 whitespace-nowrap cursor-pointer ${
+                    isSelected
+                      ? 'bg-[#16191f] text-white shadow-md'
+                      : 'bg-[#f0eae1] text-[#3b4352] hover:bg-[#e8e0d4]'
+                  }`}
                 >
-                  <img
-                    src={comm.heroImage}
-                    alt={comm.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-
-                  {/* Badge */}
-                  <div className="absolute top-4 left-4">
-                    <span className="px-2.5 py-1 text-[10px] font-bold uppercase rounded-md bg-[#b88d3d] text-white shadow-md">
-                      {comm.category}
-                    </span>
-                  </div>
-
-                  {/* Content */}
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="text-xs text-amber-300 font-semibold mb-1">
-                      {comm.stats.propertiesCount}+ Properties Available
-                    </div>
-                    <h3 className="font-serif-luxury text-xl font-bold text-white group-hover:text-amber-200 transition-colors">
-                      {comm.name}
-                    </h3>
-                    <div className="mt-2 pt-2 border-t border-white/20 flex items-center justify-between text-xs text-slate-200">
-                      <span>Avg: {comm.stats.averagePriceAED.split('-')[0]}</span>
-                      <span className="text-emerald-400 font-semibold">{comm.stats.rentalYield} Yield</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </AutoCarousel>
+                  {item.title}
+                </button>
+              );
+            })}
           </div>
-        </section>
 
-
-        {/* ======================================================================= */}
-        {/* 08. EXCLUSIVE OFF-PLAN & BRANDED RESIDENCES (CAROUSEL)                 */}
-        {/* ======================================================================= */}
-        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
-            <div>
-              <div className="inline-flex items-center gap-1.5 text-xs text-[#b88d3d] font-bold tracking-widest uppercase mb-1">
-                <Building className="w-3.5 h-3.5" /> Iconic Off-Plan Launches
+          {/* Active Launch Card (Sobha .latest-launch-slide-box) */}
+          <div className="bg-white rounded-3xl overflow-hidden border border-[#e8e2d8] shadow-xl">
+            
+            {/* Launch Banner Render */}
+            <div className="relative h-[340px] sm:h-[460px] lg:h-[520px] overflow-hidden group">
+              <img
+                src={currentLaunch.image}
+                alt={currentLaunch.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              
+              {/* Top Launch Badge */}
+              <div className="absolute top-6 left-6 flex items-center gap-2">
+                <span className="px-3.5 py-1.5 rounded-full bg-[#b88d3d] text-white text-[11px] font-bold tracking-widest uppercase shadow-md">
+                  {currentLaunch.badge}
+                </span>
+                <span className="px-3.5 py-1.5 rounded-full bg-black/50 backdrop-blur-md text-white text-[11px] font-medium tracking-wide">
+                  {currentLaunch.handover}
+                </span>
               </div>
-              <h2 className="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#16191f]">
-                Branded Residences & Master Developments
-              </h2>
-              <p className="text-xs sm:text-sm text-[#606979] mt-1">
-                VIP investor allocations with flexible payment plans and high capital appreciation potential
-              </p>
+
+              {/* Price Tag Overlay */}
+              <div className="absolute top-6 right-6 px-4 py-2 rounded-full bg-white/90 backdrop-blur-md text-[#16191f] text-xs font-bold shadow-lg">
+                {currentLaunch.price}
+              </div>
+
+              {/* Bottom Project Title and Subtitle */}
+              <div className="absolute bottom-6 left-6 right-6 sm:bottom-10 sm:left-10 sm:right-10 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.25em] text-[#d4af37] font-semibold mb-1">
+                    {currentLaunch.subtitle}
+                  </p>
+                  <h3 className="font-serif-luxury text-3xl sm:text-5xl font-bold text-white uppercase tracking-wider">
+                    {currentLaunch.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-300 font-light mt-1">
+                    {currentLaunch.paymentPlan}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => handleLaunchRegister(currentLaunch)}
+                    className="px-6 py-3 rounded-full bg-[#b88d3d] hover:bg-[#a67c2e] text-white text-xs font-bold tracking-[0.2em] uppercase transition shadow-lg cursor-pointer"
+                  >
+                    Register Interest
+                  </button>
+                  <button
+                    onClick={() => {
+                      setFilters(prev => ({ ...prev, keyword: currentLaunch.title }));
+                      setCurrentPage('properties');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="p-3 rounded-full bg-white/20 hover:bg-white text-white hover:text-[#16191f] backdrop-blur-md transition cursor-pointer"
+                    title="View Property Details"
+                  >
+                    <ArrowUpRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
             </div>
+
+            {/* Launch Amenities Row (Sobha .launch-amenitites-container) */}
+            <div className="p-6 sm:p-8 bg-[#fdfbf9] border-t border-[#e8e2d8]">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                
+                {/* Project Logo/Monogram Box */}
+                <div className="lg:col-span-3 border-b lg:border-b-0 lg:border-r border-[#e8e2d8] pb-4 lg:pb-0 lg:pr-6 text-center lg:text-left">
+                  <div className="font-serif-luxury text-xl sm:text-2xl font-bold tracking-[0.18em] text-[#16191f] uppercase leading-tight">
+                    {currentLaunch.logoText}
+                  </div>
+                  <span className="text-[10px] tracking-[0.25em] uppercase text-[#b88d3d] font-bold">
+                    {currentLaunch.logoSub}
+                  </span>
+                </div>
+
+                {/* 4 Amenity Badges */}
+                <div className="lg:col-span-9 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  {currentLaunch.amenities.map((amenity, i) => (
+                    <div 
+                      key={i}
+                      className="p-3.5 rounded-xl bg-white border border-[#e8e2d8] flex items-center gap-3 shadow-xs hover:border-[#b88d3d] transition-colors"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-[#b88d3d]/10 text-[#b88d3d] flex items-center justify-center flex-shrink-0">
+                        {amenity.icon === 'pool' && <Waves className="w-4 h-4" />}
+                        {amenity.icon === 'yoga' && <Sparkles className="w-4 h-4" />}
+                        {amenity.icon === 'garden' && <Trees className="w-4 h-4" />}
+                        {amenity.icon === 'gym' && <Award className="w-4 h-4" />}
+                        {amenity.icon === 'yacht' && <Compass className="w-4 h-4" />}
+                        {amenity.icon === 'cinema' && <Building2 className="w-4 h-4" />}
+                        {amenity.icon === 'golf' && <Trees className="w-4 h-4" />}
+                        {amenity.icon === 'bbq' && <Building2 className="w-4 h-4" />}
+                      </div>
+                      <span className="text-xs font-semibold text-[#16191f] leading-snug">
+                        {amenity.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          {/* Explore All CTA Button (Sobha .view-all button) */}
+          <div className="text-center pt-10">
             <button
               onClick={() => {
-                setFilters(prev => ({ ...prev, propertyType: 'Penthouse' }));
                 setCurrentPage('properties');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#b88d3d] hover:text-[#9e7529] transition group cursor-pointer"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-[#16191f] hover:bg-[#16191f] text-[#16191f] hover:text-white text-xs font-bold tracking-[0.2em] uppercase transition duration-300 cursor-pointer"
             >
-              <span>Explore All Projects</span>
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <span>Explore All UAE Developments</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
-          <AutoCarousel
-            intervalMs={4500}
-            itemClassName="shrink-0 w-[82vw] sm:w-[350px] lg:w-[380px] snap-start"
-          >
-            {offPlanProjects.map((project) => (
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* SECTION 5: MASTER COMMUNITIES (Sobha Communities Showcase)                */}
+      {/* ========================================================================= */}
+      <section className="py-20 lg:py-28 bg-[#f8f6f2] border-b border-[#e8e2d8]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Section Header */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-12">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-2 h-2 rounded-full bg-[#b88d3d]" />
+                <span className="text-[11px] font-bold tracking-[0.25em] text-[#b88d3d] uppercase">
+                  MASTER DEVELOPMENTS
+                </span>
+              </div>
+              <h2 className="font-serif-luxury text-2xl sm:text-4xl lg:text-5xl font-bold tracking-[0.08em] text-[#16191f] uppercase leading-tight">
+                Our Sovereign Communities
+              </h2>
+            </div>
+
+            <button
+              onClick={() => {
+                setCurrentPage('communities');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.18em] uppercase text-[#16191f] hover:text-[#b88d3d] transition cursor-pointer"
+            >
+              <span>View All Enclaves</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Communities Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {sobhaCommunities.map((comm) => (
               <div
-                key={project.id}
+                key={comm.id}
                 onClick={() => {
-                  setFilters(prev => ({ ...prev, keyword: project.title }));
+                  setFilters(prev => ({ ...prev, community: comm.filterVal }));
                   setCurrentPage('properties');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="group bg-white rounded-2xl overflow-hidden border border-[#e8e2d8] hover:border-[#b88d3d]/60 transition-all duration-300 shadow-sm hover:shadow-xl cursor-pointer flex flex-col h-full"
+                className="group relative h-80 sm:h-96 rounded-2xl overflow-hidden shadow-md cursor-pointer border border-[#e8e2d8]"
               >
-                {/* Image banner */}
-                <div className="relative h-56 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/20" />
-                  
-                  <div className="absolute top-3 left-3 flex gap-2">
-                    <span className="px-2.5 py-1 text-[10px] font-bold uppercase rounded-md bg-[#b88d3d] text-white shadow-md">
-                      {project.badge}
-                    </span>
-                    <span className="px-2.5 py-1 text-[10px] font-semibold rounded-md bg-black/60 text-white backdrop-blur-md">
-                      {project.developer}
-                    </span>
-                  </div>
+                <img
+                  src={comm.image}
+                  alt={comm.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10 group-hover:from-black/90 transition-colors" />
 
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-white font-medium">
-                    <span className="flex items-center gap-1 text-slate-200">
-                      <MapPin className="w-3 h-3 text-[#b88d3d]" />
-                      {project.community}
-                    </span>
-                    <span className="flex items-center gap-1 text-amber-300 font-semibold">
-                      <Calendar className="w-3 h-3" />
-                      {project.handover}
-                    </span>
-                  </div>
+                {/* Top Badge */}
+                <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-[#d4af37] text-[10px] font-bold tracking-wider uppercase">
+                  {comm.propertyCount}
                 </div>
 
-                {/* Body */}
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div>
-                    <span className="text-[11px] text-[#b88d3d] font-semibold uppercase tracking-wider">
-                      {project.type}
-                    </span>
-                    <h3 className="font-serif-luxury text-lg font-bold text-[#16191f] group-hover:text-[#b88d3d] transition-colors mt-1">
-                      {project.title}
-                    </h3>
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-[#f0eae1] flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] text-[#8b94a2] block uppercase">Starting From</span>
-                      <span className="text-base font-bold text-[#b88d3d]">{project.startingPrice}</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-[10px] text-[#8b94a2] block uppercase">Payment Plan</span>
-                      <span className="text-xs font-semibold text-[#16191f] px-2 py-0.5 rounded bg-[#f4efe9] border border-[#e8e2d8]">
-                        {project.paymentPlan}
-                      </span>
-                    </div>
+                {/* Bottom Content */}
+                <div className="absolute bottom-6 left-6 right-6 space-y-2">
+                  <p className="text-[10px] tracking-[0.2em] uppercase text-[#d4af37] font-semibold">
+                    Starting from {comm.startingPrice}
+                  </p>
+                  <h3 className="font-serif-luxury text-xl sm:text-2xl font-bold text-white tracking-wide leading-snug">
+                    {comm.name}
+                  </h3>
+                  <p className="text-xs text-slate-300 font-light line-clamp-2">
+                    {comm.tagline}
+                  </p>
+                  <div className="pt-2 flex items-center gap-1.5 text-xs font-bold text-[#b88d3d] uppercase tracking-wider group-hover:translate-x-1.5 transition-transform">
+                    <span>Explore Community</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
               </div>
             ))}
-          </AutoCarousel>
-        </section>
-
-
-        {/* ======================================================================= */}
-        {/* 09. DIRECT DEVELOPER PARTNERSHIPS (TIER-1 ALLIANCES)                    */}
-        {/* ======================================================================= */}
-        <section className="py-12 bg-white border-y border-[#e8e2d8]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-[#8b94a2] block mb-6">
-              Official Direct Master Developer Partnerships
-            </span>
-            <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-75">
-              {['EMAAR', 'NAKHEEL', 'MERAAS', 'OMNIYAT', 'DAMAC', 'SOBHA REALTY', 'ALDAR', 'ELLINGTON'].map(dev => (
-                <span key={dev} className="font-serif-luxury text-base sm:text-lg font-semibold tracking-wider text-[#16191f] hover:text-[#b88d3d] transition-colors">
-                  {dev}
-                </span>
-              ))}
-            </div>
           </div>
-        </section>
 
+        </div>
+      </section>
 
-        {/* ======================================================================= */}
-        {/* 10. VERIFIED INVESTOR TESTIMONIALS (CAROUSEL)                          */}
-        {/* ======================================================================= */}
-        <section className="py-20 bg-[#f8f6f2]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <div className="inline-flex items-center gap-1.5 text-xs text-[#b88d3d] font-bold tracking-widest uppercase mb-1">
-                <Quote className="w-3.5 h-3.5" /> Client Endorsements
-              </div>
-              <h2 className="font-serif-luxury text-3xl sm:text-4xl font-bold text-[#16191f]">
-                Trusted by Discerning Global Families
-              </h2>
-              <p className="text-xs sm:text-sm text-[#606979] mt-2">
-                Discover how sovereign wealth, private funds, and luxury homeowners experience our advisory
-              </p>
+      {/* ========================================================================= */}
+      {/* SECTION 6: PRESS RELEASES / SOBHA STORIES (Sobha .sobha-stories-sec)      */}
+      {/* ========================================================================= */}
+      <section className="py-20 lg:py-28 bg-[#fcfbfa] border-b border-[#e8e2d8]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
+            <div className="flex items-center justify-center gap-4">
+              <div className="h-[1px] w-12 sm:w-20 bg-[#b88d3d]/50" />
+              <span className="text-[10px] sm:text-xs font-bold tracking-[0.25em] text-[#b88d3d] uppercase">
+                MEDIA & MARKET INTELLIGENCE
+              </span>
+              <div className="h-[1px] w-12 sm:w-20 bg-[#b88d3d]/50" />
             </div>
 
-            <AutoCarousel
-              intervalMs={5200}
-              itemClassName="shrink-0 w-[84vw] sm:w-[350px] lg:w-[380px] snap-start"
-            >
-              {investorTestimonials.map((t) => (
-                <div
-                  key={t.id}
-                  className="bg-white rounded-2xl p-6 border border-[#e8e2d8] shadow-sm flex flex-col justify-between h-full"
-                >
-                  <div>
-                    {/* Rating Stars and Yield Badge */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex gap-1 text-[#b88d3d]">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-[#b88d3d]" />
-                        ))}
-                      </div>
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        {t.yield}
-                      </span>
-                    </div>
+            <h2 className="font-serif-luxury text-2xl sm:text-4xl lg:text-5xl font-bold tracking-[0.08em] text-[#16191f] uppercase leading-tight">
+              Press Releases
+            </h2>
+          </div>
 
-                    <p className="text-xs sm:text-sm text-[#4a5260] italic leading-relaxed mb-6">
-                      "{t.comment}"
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-[#f0eae1] flex items-center gap-3">
-                    <img
-                      src={t.avatar}
-                      alt={t.name}
-                      className="w-11 h-11 rounded-full object-cover border border-[#b88d3d]"
-                    />
-                    <div>
-                      <h4 className="text-xs font-bold text-[#16191f]">{t.name}</h4>
-                      <p className="text-[11px] text-[#b88d3d] font-medium">{t.origin}</p>
-                      <p className="text-[10px] text-[#8b94a2] truncate mt-0.5">{t.portfolio}</p>
-                    </div>
+          {/* Stories Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {pressReleases.map((pr) => (
+              <div 
+                key={pr.id}
+                className="group bg-white rounded-2xl overflow-hidden border border-[#e8e2d8] shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer"
+                onClick={() => showToast(`Opening: ${pr.title}`)}
+              >
+                <div className="h-44 overflow-hidden relative">
+                  <img
+                    src={pr.image}
+                    alt={pr.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-[#d4af37] text-[9px] font-bold tracking-wider uppercase">
+                    {pr.badge}
                   </div>
                 </div>
-              ))}
-            </AutoCarousel>
+
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+                  <h4 className="text-xs font-bold text-[#16191f] leading-snug line-clamp-3 group-hover:text-[#b88d3d] transition-colors">
+                    {pr.title}
+                  </h4>
+
+                  <div className="pt-2 border-t border-[#e8e2d8] flex items-center justify-between text-[11px] text-[#6d7685]">
+                    <span>Published on</span>
+                    <span className="font-semibold text-[#16191f]">{pr.date}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </section>
 
+          {/* View All Stories Button */}
+          <div className="text-center pt-10">
+            <button
+              onClick={() => showToast('Opening Dubai Estates Media & Press Center')}
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-[#16191f] hover:bg-[#16191f] text-[#16191f] hover:text-white text-xs font-bold tracking-[0.2em] uppercase transition duration-300 cursor-pointer"
+            >
+              <span>View All Releases</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
 
-        {/* ======================================================================= */}
-        {/* 11. PRIVATE INQUIRY & SELLER CONSULTATION BANNER                        */}
-        {/* ======================================================================= */}
-        <section className="py-20 bg-gradient-to-br from-[#16191f] via-[#1f242e] to-[#16191f] text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-10">
-            <div>
-              <span className="text-[10px] font-bold text-amber-300 uppercase tracking-widest block mb-2">
-                Confidential Client Representation
-              </span>
-              <h2 className="font-serif-luxury text-3xl sm:text-4xl font-bold leading-tight">
-                Contemplating Acquiring or Divesting Luxury Assets in Dubai?
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-300 mt-3 max-w-2xl leading-relaxed">
-                Schedule a confidential consultation with a Senior Advisory Partner at our DIFC office, or request an off-market valuation of your prime residence.
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* SECTION 7: VIP INSIDER UPDATES & NEWSLETTER (Sobha Subscription Form)     */}
+      {/* ========================================================================= */}
+      <section className="py-20 bg-[#16191f] text-white relative overflow-hidden">
+        
+        {/* Subtle background glow */}
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#b88d3d]/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#b88d3d]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[#d4af37] text-[10px] font-bold tracking-[0.25em] uppercase">
+            <Sparkles className="w-3.5 h-3.5 text-[#b88d3d]" />
+            <span>CONFIDENTIAL ADVISORY</span>
+          </div>
+
+          <h2 className="font-serif-luxury text-2xl sm:text-4xl lg:text-5xl font-bold tracking-[0.08em] uppercase">
+            Be the First to Know All Insider Updates
+          </h2>
+
+          <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto font-light leading-relaxed">
+            Join our private investor registry to receive pre-launch allocations, confidential floor plans, and sovereign real estate market intelligence before public release.
+          </p>
+
+          {subscribed ? (
+            <div className="p-6 bg-white/10 border border-[#b88d3d] rounded-2xl max-w-md mx-auto space-y-2">
+              <CheckCircle2 className="w-8 h-8 text-[#d4af37] mx-auto" />
+              <p className="font-serif-luxury text-base font-bold text-white">
+                You are registered for Private Updates
+              </p>
+              <p className="text-xs text-slate-300">
+                Exclusive previews will be dispatched directly to your inbox.
               </p>
             </div>
-            
-            <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-              <button
-                onClick={() => {
-                  setCurrentPage('contact');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="gold-btn px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-xl cursor-pointer"
-              >
-                Schedule Private Consultation
-              </button>
-              <button
-                onClick={() => {
-                  setCurrentPage('sell');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="px-6 py-3.5 rounded-full text-xs font-semibold text-white bg-white/10 hover:bg-white/20 transition cursor-pointer border border-white/20"
-              >
-                List Your Property
-              </button>
-            </div>
-          </div>
-        </section>
+          ) : (
+            <form onSubmit={handleSubscribe} className="max-w-xl mx-auto grid grid-cols-1 sm:grid-cols-12 gap-3 pt-2">
+              <div className="sm:col-span-5">
+                <input
+                  type="text"
+                  required
+                  placeholder="Your Full Name *"
+                  value={subscriberName}
+                  onChange={(e) => setSubscriberName(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-slate-400 text-xs focus:outline-none focus:border-[#b88d3d] transition"
+                />
+              </div>
+              <div className="sm:col-span-4">
+                <input
+                  type="email"
+                  required
+                  placeholder="Email Address *"
+                  value={subscriberEmail}
+                  onChange={(e) => setSubscriberEmail(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-slate-400 text-xs focus:outline-none focus:border-[#b88d3d] transition"
+                />
+              </div>
+              <div className="sm:col-span-3">
+                <button
+                  type="submit"
+                  className="w-full py-3 px-4 rounded-xl bg-[#b88d3d] hover:bg-[#a67c2e] text-white font-bold text-xs uppercase tracking-[0.18em] transition shadow-lg cursor-pointer"
+                >
+                  Subscribe
+                </button>
+              </div>
+            </form>
+          )}
 
-      </div>
+          <div className="flex items-center justify-center gap-2 text-[11px] text-slate-400 pt-2">
+            <ShieldCheck className="w-4 h-4 text-[#b88d3d]" />
+            <span>Strictly Confidential • No spam • Direct Private Desk</span>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 };
-
-function ArrowDownIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg 
-      fill="none" 
-      viewBox="0 0 24 24" 
-      strokeWidth={2.5} 
-      stroke="currentColor" 
-      {...props}
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" />
-    </svg>
-  );
-}

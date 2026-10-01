@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { AuthModal } from './components/AuthModal';
 import { GoldenVisaModal } from './components/GoldenVisaModal';
+import { RegisterInterestDrawer } from './components/RegisterInterestDrawer';
 import { WhatsAppFloat } from './components/WhatsAppFloat';
 import { DubaiBackground } from './components/DubaiBackground';
 
@@ -61,6 +62,7 @@ const MainContent: React.FC = () => {
       <Footer />
       <AuthModal />
       <GoldenVisaModal />
+      <RegisterInterestDrawer />
       <WhatsAppFloat />
     </div>
   );

@@ -66,6 +66,10 @@ interface AppContextType {
   setIsAuthModalOpen: (open: boolean) => void;
   isGoldenVisaModalOpen: boolean;
   setIsGoldenVisaModalOpen: (open: boolean) => void;
+  isEnquiryDrawerOpen: boolean;
+  setIsEnquiryDrawerOpen: (open: boolean) => void;
+  selectedDrawerProject: string;
+  setSelectedDrawerProject: (project: string) => void;
   navigateToProperty: (propertyId: string) => void;
   navigateToCommunity: (communityId: string) => void;
   navigateToAgent: (agentId: string) => void;
@@ -103,6 +107,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [currency, setCurrency] = useState<Currency>('AED');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isGoldenVisaModalOpen, setIsGoldenVisaModalOpen] = useState(false);
+  const [isEnquiryDrawerOpen, setIsEnquiryDrawerOpen] = useState(false);
+  const [selectedDrawerProject, setSelectedDrawerProject] = useState('The Woods Abode - Sobha Sanctuary');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // User Profile initialized with "Hardik" to match Figma screen 08
@@ -312,6 +318,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsAuthModalOpen,
         isGoldenVisaModalOpen,
         setIsGoldenVisaModalOpen,
+        isEnquiryDrawerOpen,
+        setIsEnquiryDrawerOpen,
+        selectedDrawerProject,
+        setSelectedDrawerProject,
         navigateToProperty,
         navigateToCommunity,
         navigateToAgent,
