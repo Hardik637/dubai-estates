@@ -1,34 +1,18 @@
 import React from 'react';
-import { CinematicHero } from '../components/home/CinematicHero';
+import { CinematicMovieExperience } from '../components/home/CinematicMovieExperience';
 import { BrandStatement } from '../components/home/BrandStatement';
-import { DubaiLens } from '../components/home/DubaiLens';
-import { FeaturedProperties } from '../components/home/FeaturedProperties';
-import { SellWithUs } from '../components/home/SellWithUs';
-import { PropertyJournal } from '../components/home/PropertyJournal';
 import { FinalCTA } from '../components/home/FinalCTA';
 
 export const HomePage: React.FC = () => {
   return (
     <div className="relative w-full bg-[#FFFFFF] text-[#111111] overflow-x-clip">
-      {/* 01. Cinematic Scroll-Controlled Video Hero */}
-      <CinematicHero />
+      {/* 01. The Cinematic Scroll Film: Dubai Skyline -> Descent -> Villa -> Sanctuary */}
+      <CinematicMovieExperience />
 
-      {/* 02. The Brand Philosophy (Cream) */}
+      {/* 02. The Brand Philosophy Statement */}
       <BrandStatement />
 
-      {/* 03. Dubai, Through Our Lens (White) */}
-      <DubaiLens />
-
-      {/* 04. Curated Collection - Max 3 Properties (Cream) */}
-      <FeaturedProperties />
-
-      {/* 05. For Property Owners - Sell With Us (White) */}
-      <SellWithUs />
-
-      {/* 06. Dubai Property Journal (Cream) */}
-      <PropertyJournal />
-
-      {/* 07. Final Destination CTA (White) */}
+      {/* 03. Destination & Fiduciary Advisory CTA */}
       <FinalCTA />
     </div>
   );
