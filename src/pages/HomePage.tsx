@@ -4,7 +4,6 @@ import { AsymmetricEditorialSpread } from '../components/home/AsymmetricEditoria
 import { ChevronTransition } from '../components/home/ChevronTransition';
 import { DubaiEditorialSection } from '../components/home/DubaiEditorialSection';
 import { EditorialPropertyFeatures } from '../components/home/EditorialPropertyFeatures';
-import { BuySellRentSection } from '../components/home/BuySellRentSection';
 import { FinalCTA } from '../components/home/FinalCTA';
 
 export const HomePage: React.FC = () => {
@@ -25,10 +24,7 @@ export const HomePage: React.FC = () => {
       {/* SCENE 06 & 07 — PROPERTY DISCOVERY & EDITORIAL SPLIT: 3 Hand-Selected Alternating Spreads */}
       <EditorialPropertyFeatures />
 
-      {/* SCENE 08 — BUY / SELL / RENT: Massive Black (#111111) Transition with Giant White Typography */}
-      <BuySellRentSection />
-
-      {/* SCENE 09 — FINAL CTA: Minimalist White "FIND YOUR PLACE IN DUBAI" */}
+      {/* SCENE 08 — FINAL CTA: Minimalist White "FIND YOUR PLACE IN DUBAI" */}
       <FinalCTA />
     </div>
   );
