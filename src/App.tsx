@@ -53,8 +53,7 @@ const MainContent: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col text-slate-100 selection:bg-amber-500 selection:text-slate-950">
-      <DubaiBackground />
+    <div className="relative min-h-screen flex flex-col text-[#16191f] bg-[#fcfbfa] selection:bg-[#b88d3d] selection:text-white">
       <Navbar />
       <main className="flex-1">
         {renderPage()}
