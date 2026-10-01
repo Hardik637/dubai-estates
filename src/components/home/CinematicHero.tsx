@@ -263,12 +263,12 @@ export const CinematicHero: React.FC = () => {
         <div className="relative z-10 w-full my-auto flex flex-col items-center justify-center text-center pointer-events-none select-none py-4 sm:py-6">
           <h1 
             ref={megaTextRef}
-            className="font-sans font-light tracking-[0.06em] uppercase text-white/95 text-[15vw] sm:text-[14vw] md:text-[13vw] lg:text-[11.5vw] leading-[0.88] drop-shadow-[0_10px_35px_rgba(0,0,0,0.4)]"
+            className="font-sans font-extrabold sm:font-black tracking-[0.05em] uppercase text-white text-[15.5vw] sm:text-[14.5vw] md:text-[13.5vw] lg:text-[12vw] leading-[0.88] drop-shadow-[0_12px_45px_rgba(0,0,0,0.65)]"
             style={{ fontFamily: "'Plus Jakarta Sans', -apple-system, sans-serif" }}
           >
             DUBAI
           </h1>
-          <span className="font-mono text-[8px] sm:text-[9px] md:text-[10px] tracking-[0.45em] uppercase text-white/70 mt-2 font-medium">
+          <span className="font-mono text-[8px] sm:text-[9px] md:text-[10px] tracking-[0.45em] uppercase text-white/90 mt-2 font-semibold drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
             AN ARCHITECTURAL MONOGRAPH • PRIVATE PROPERTY HOUSE
           </span>
         </div>
