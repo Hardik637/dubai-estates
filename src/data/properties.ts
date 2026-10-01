@@ -1,0 +1,392 @@
+import { Property } from '../types';
+
+export const initialPropertiesData: Property[] = [
+  {
+    id: 'prop-1',
+    title: '4 Bedroom Contemporary Villa in Dubai Hills Estate',
+    slug: '4-bed-villa-dubai-hills-estate',
+    priceAED: 12500000,
+    listingType: 'For Sale',
+    propertyType: 'Villa',
+    bedrooms: 4,
+    bathrooms: 5,
+    areaSqFt: 6200,
+    plotSizeSqFt: 8400,
+    community: 'Dubai Hills Estate',
+    subCommunity: 'Club Villas',
+    address: 'Fairway Vista, Dubai Hills Estate, Dubai, UAE',
+    completionStatus: 'Ready',
+    handoverDate: 'Ready to Move',
+    furnishing: 'Unfurnished',
+    developer: 'Emaar Properties',
+    reraPermitNumber: '10346-77821',
+    referenceNumber: 'DE-DH-1204',
+    description: 'A stunning 4-bedroom villa in the heart of Dubai Hills Estate, offering modern design, spacious interiors, private landscaped garden, and an infinity swimming pool. Perfect for families seeking luxury and comfort in a prime master-planned golf community with panoramic Burj Khalifa skyline views.',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85',
+      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=1200&q=85'
+    ],
+    floorPlanUrl: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=80',
+    amenities: [
+      'Private Swimming Pool',
+      'Championship Golf Course View',
+      'Private Landscaped Garden',
+      'Smart Home Automation',
+      'Maid Room with En-suite',
+      'Covered 2-Car Garage',
+      '24/7 Gated Security',
+      'Walk to Dubai Hills Mall'
+    ],
+    coordinates: {
+      lat: 25.1185,
+      lng: 25.2443 > 50 ? 55.2443 : 55.2443
+    },
+    agentId: 'agent-1',
+    serviceChargePerSqFt: 3.5,
+    roiEstimatePercent: 7.4,
+    createdAt: '2026-09-15'
+  },
+  {
+    id: 'prop-2',
+    title: '3 Bedroom Luxury Sky Residence with Burj Khalifa View',
+    slug: '3-bed-luxury-sky-residence-downtown',
+    priceAED: 7800000,
+    listingType: 'For Sale',
+    propertyType: 'Apartment',
+    bedrooms: 3,
+    bathrooms: 4,
+    areaSqFt: 2100,
+    community: 'Downtown Dubai',
+    subCommunity: 'Opera District',
+    address: 'Il Primo Tower, Downtown Dubai, Dubai, UAE',
+    completionStatus: 'Ready',
+    handoverDate: 'Ready to Move',
+    furnishing: 'Furnished',
+    developer: 'Emaar Properties',
+    reraPermitNumber: '10346-99312',
+    referenceNumber: 'DE-DT-3301',
+    description: 'Ultra-exclusive corner high-floor residence directly confronting the world-famous Burj Khalifa and the Dubai Fountains. Features custom Italian marble flooring, floor-to-ceiling soundproof acoustic glass, bespoke Poliform kitchen, and dedicated valet concierge.',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1400&q=85',
+      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=85'
+    ],
+    amenities: [
+      'Direct Burj Khalifa Views',
+      'Direct Dubai Fountain Views',
+      'Infinity Pool & Sun Deck',
+      'State-of-the-Art Fitness Center',
+      '24/7 Five-Star Concierge',
+      'Private Resident Lounge',
+      'Walking Tunnel to Dubai Mall'
+    ],
+    coordinates: {
+      lat: 25.1950,
+      lng: 55.2760
+    },
+    agentId: 'agent-1',
+    serviceChargePerSqFt: 21.0,
+    roiEstimatePercent: 8.2,
+    createdAt: '2026-09-18'
+  },
+  {
+    id: 'prop-3',
+    title: '5 Bedroom Bespoke Waterfront Signature Villa',
+    slug: '5-bed-signature-villa-palm-jumeirah',
+    priceAED: 28000000,
+    listingType: 'For Sale',
+    propertyType: 'Villa',
+    bedrooms: 5,
+    bathrooms: 6,
+    areaSqFt: 8500,
+    plotSizeSqFt: 13400,
+    community: 'Palm Jumeirah',
+    subCommunity: 'Frond N',
+    address: 'Frond N, Palm Jumeirah, Dubai, UAE',
+    completionStatus: 'Ready',
+    handoverDate: 'Ready to Move',
+    furnishing: 'Furnished',
+    developer: 'Nakheel / Private Architect',
+    reraPermitNumber: '10346-44102',
+    referenceNumber: 'DE-PJ-5509',
+    description: 'An architectural masterpiece on the prestigious Fronds of Palm Jumeirah. Enjoy direct private white-sand beach frontage, temperature-regulated infinity pool, rooftop entertainment terrace with Atlantis views, and private mooring capabilities for your yacht.',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1400&q=85',
+      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=85'
+    ],
+    amenities: [
+      'Private Beachfront Access',
+      'Infinity Pool over Arabian Gulf',
+      'Rooftop Sky Lounge',
+      'Private Cinema Room',
+      'Staff Quarters & Chef Kitchen',
+      'Private Boat Mooring',
+      'Full Security Frond Gate'
+    ],
+    coordinates: {
+      lat: 25.1215,
+      lng: 55.1320
+    },
+    agentId: 'agent-2',
+    serviceChargePerSqFt: 5.2,
+    roiEstimatePercent: 8.9,
+    createdAt: '2026-09-20'
+  },
+  {
+    id: 'prop-4',
+    title: '2 Bedroom Marina Promenade Waterfront Apartment',
+    slug: '2-bed-marina-waterfront-apartment',
+    priceAED: 5200000,
+    listingType: 'For Sale',
+    propertyType: 'Apartment',
+    bedrooms: 2,
+    bathrooms: 3,
+    areaSqFt: 1450,
+    community: 'Dubai Marina',
+    subCommunity: 'Marina Promenade',
+    address: 'Attessa Tower, Dubai Marina, Dubai, UAE',
+    completionStatus: 'Ready',
+    handoverDate: 'Ready to Move',
+    furnishing: 'Semi-Furnished',
+    developer: 'Emaar Properties',
+    reraPermitNumber: '14829-11204',
+    referenceNumber: 'DE-DM-2041',
+    description: 'Wake up to luxury superyachts gliding along the Marina canal. This dual-aspect apartment boasts expansive open-plan living, renovated German kitchen, wrap-around sunset balcony, and direct access to Marina Walk.',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1400&q=85',
+      'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?auto=format&fit=crop&w=1200&q=85'
+    ],
+    amenities: [
+      'Direct Marina Water Views',
+      'Resort Style Swimming Pool',
+      'Fully Equipped Gymnasium',
+      'Squash & Badminton Courts',
+      'Kids Play Area',
+      'Steps to JBR Beach'
+    ],
+    coordinates: {
+      lat: 25.0765,
+      lng: 55.1340
+    },
+    agentId: 'agent-1',
+    serviceChargePerSqFt: 16.5,
+    roiEstimatePercent: 8.5,
+    createdAt: '2026-09-22'
+  },
+  {
+    id: 'prop-5',
+    title: '6 Bedroom Palatial Golf Course Mansion in Emirates Hills',
+    slug: '6-bed-palatial-mansion-emirates-hills',
+    priceAED: 48000000,
+    listingType: 'For Sale',
+    propertyType: 'Mansion',
+    bedrooms: 6,
+    bathrooms: 8,
+    areaSqFt: 14200,
+    plotSizeSqFt: 22000,
+    community: 'Emirates Hills',
+    subCommunity: 'Sector L',
+    address: 'Montgomerie Fairway, Emirates Hills, Dubai, UAE',
+    completionStatus: 'Ready',
+    handoverDate: 'Ready to Move',
+    furnishing: 'Furnished',
+    developer: 'Custom Palatial Build',
+    reraPermitNumber: '14829-90214',
+    referenceNumber: 'DE-EH-6601',
+    description: 'Bespoke mega-mansion situated on Dubai’s Billionaires Row. Encompasses six grand bedroom suites, private spa with Hammam, climate-controlled wine cellar, underground 8-car gallery, and unobstructed 18th-hole golf course panoramas.',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1400&q=85',
+      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=85'
+    ],
+    amenities: [
+      'Montgomerie Golf Fairway Frontage',
+      'Private Spa & Turkish Hammam',
+      'Underground 8-Car Showroom',
+      'Private 12-Seat Cinema',
+      'Smart Creston Automation',
+      'Elevator across 3 Levels'
+    ],
+    coordinates: {
+      lat: 25.0682,
+      lng: 55.1768
+    },
+    agentId: 'agent-2',
+    serviceChargePerSqFt: 4.8,
+    roiEstimatePercent: 6.5,
+    createdAt: '2026-09-10'
+  },
+  {
+    id: 'prop-6',
+    title: '4 Bedroom Royal Sky Penthouse in Palm Jumeirah',
+    slug: '4-bed-sky-penthouse-palm-jumeirah',
+    priceAED: 16500000,
+    listingType: 'For Sale',
+    propertyType: 'Penthouse',
+    bedrooms: 4,
+    bathrooms: 5,
+    areaSqFt: 5400,
+    community: 'Palm Jumeirah',
+    subCommunity: 'Palm Tower',
+    address: 'Palm Tower Residences, Palm Jumeirah, Dubai, UAE',
+    completionStatus: 'Ready',
+    handoverDate: 'Ready to Move',
+    furnishing: 'Furnished',
+    developer: 'Nakheel / St. Regis',
+    reraPermitNumber: '19402-33120',
+    referenceNumber: 'DE-PJ-4402',
+    description: 'An iconic crown jewel penthouse offering 360-degree views of the Palm Fronds, Arabian Gulf, and Dubai Marina skyline. Access St. Regis 5-star concierge, Aura Skypool, and direct private elevator foyer.',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=85',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85'
+    ],
+    amenities: [
+      '360° Panoramic Island & Gulf Views',
+      'Direct Elevator Access to Aura Skypool',
+      'St. Regis Hotel Concierge & Dining Privileges',
+      'Private Plunge Pool on Sky Terrace',
+      'Valet Parking & Chauffeur Lounge'
+    ],
+    coordinates: {
+      lat: 25.1140,
+      lng: 55.1415
+    },
+    agentId: 'agent-2',
+    serviceChargePerSqFt: 24.0,
+    roiEstimatePercent: 8.4,
+    createdAt: '2026-09-25'
+  },
+  {
+    id: 'prop-7',
+    title: '2 Bedroom Waterfront Suite on Dubai Canal',
+    slug: '2-bed-canal-waterfront-suite-business-bay',
+    priceAED: 3900000,
+    listingType: 'For Sale',
+    propertyType: 'Apartment',
+    bedrooms: 2,
+    bathrooms: 3,
+    areaSqFt: 1600,
+    community: 'Business Bay',
+    subCommunity: 'Peninsula',
+    address: 'Peninsula One, Business Bay, Dubai, UAE',
+    completionStatus: 'Ready',
+    handoverDate: 'Ready to Move',
+    furnishing: 'Furnished',
+    developer: 'Select Group',
+    reraPermitNumber: '19402-88124',
+    referenceNumber: 'DE-BB-2209',
+    description: 'Surrounded by the glistening waters of the Dubai Canal. This designer suite features floor-to-ceiling glass, Italian finishes, waterfront boardwalk dining right outside, and exceptional 9% rental yields.',
+    featured: false,
+    images: [
+      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1400&q=85',
+      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=85'
+    ],
+    amenities: [
+      'Direct Dubai Canal Promenade View',
+      'Water Taxi Access',
+      'Tennis & Padel Courts',
+      'Infinity Pool & Yoga Deck',
+      'Minutes to Downtown Dubai'
+    ],
+    coordinates: {
+      lat: 25.1855,
+      lng: 55.2690
+    },
+    agentId: 'agent-3',
+    serviceChargePerSqFt: 18.0,
+    roiEstimatePercent: 9.1,
+    createdAt: '2026-09-24'
+  },
+  {
+    id: 'prop-8',
+    title: '3 Bedroom Marina Haven with Private Boat Berth',
+    slug: '3-bed-marina-haven-dubai-marina-rent',
+    priceAED: 320000,
+    listingType: 'For Rent',
+    propertyType: 'Apartment',
+    bedrooms: 3,
+    bathrooms: 4,
+    areaSqFt: 2300,
+    community: 'Dubai Marina',
+    subCommunity: 'Marina Gate',
+    address: 'Marina Gate 2, Dubai Marina, Dubai, UAE',
+    completionStatus: 'Ready',
+    handoverDate: 'Immediately Available',
+    furnishing: 'Furnished',
+    developer: 'Select Group',
+    reraPermitNumber: '10346-66190',
+    referenceNumber: 'DE-DM-3108',
+    description: 'For Rent: An expansive 3-bedroom residence in premier Marina Gate. Features high ceilings, modern open plan layout, luxury designer furniture, and dual master suites facing the Marina sunset.',
+    featured: false,
+    images: [
+      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1400&q=85',
+      'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=85'
+    ],
+    amenities: [
+      'Full Marina Views',
+      'Illuminated Squash & Padel Courts',
+      'Infinity Pool with Marina Edge',
+      'Two Allocated Covered Parking Spaces',
+      'Direct Access to Marina Walk'
+    ],
+    coordinates: {
+      lat: 25.0865,
+      lng: 55.1450
+    },
+    agentId: 'agent-1',
+    createdAt: '2026-09-28'
+  },
+  {
+    id: 'prop-9',
+    title: '4 Bedroom Fairway Golf Villa in Dubai Hills for Lease',
+    slug: '4-bed-dubai-hills-fairway-villa-rent',
+    priceAED: 850000,
+    listingType: 'For Rent',
+    propertyType: 'Villa',
+    bedrooms: 4,
+    bathrooms: 5,
+    areaSqFt: 5800,
+    plotSizeSqFt: 7900,
+    community: 'Dubai Hills Estate',
+    subCommunity: 'Golf Grove',
+    address: 'Golf Grove, Dubai Hills Estate, Dubai, UAE',
+    completionStatus: 'Ready',
+    handoverDate: 'Immediately Available',
+    furnishing: 'Furnished',
+    developer: 'Emaar Properties',
+    reraPermitNumber: '14829-44510',
+    referenceNumber: 'DE-DH-4809',
+    description: 'For Lease: Pristine contemporary family villa with private temperature-controlled pool, landscaped botanical gardens, and rooftop sunset terrace directly adjacent to the championship fairways.',
+    featured: false,
+    images: [
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85',
+      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85'
+    ],
+    amenities: [
+      'Private Temperature-Controlled Pool',
+      'Full Golf Course Vistas',
+      'Rooftop Lounge & Barbecue Station',
+      'Maid and Driver Quarters',
+      'Covered Double Garage'
+    ],
+    coordinates: {
+      lat: 25.1130,
+      lng: 55.2470
+    },
+    agentId: 'agent-2',
+    createdAt: '2026-09-29'
+  }
+];
