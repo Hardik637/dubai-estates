@@ -63,10 +63,10 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
-          scrolled 
-            ? 'bg-white/95 backdrop-blur-md py-4 border-b border-[#E7E3DA] shadow-[0_1px_8px_rgba(0,0,0,0.03)]'
-            : 'bg-white/80 backdrop-blur-sm py-5 border-b border-[#E7E3DA]/60'
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ${
+          currentPage === 'home' && !scrolled
+            ? 'opacity-0 pointer-events-none -translate-y-4'
+            : 'opacity-100 pointer-events-auto translate-y-0 bg-white/95 backdrop-blur-md py-4 border-b border-[#E7E3DA] shadow-[0_1px_8px_rgba(0,0,0,0.03)]'
         }`}
       >
         <div className="editorial-container flex items-center justify-between">
