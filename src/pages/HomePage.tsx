@@ -1,5 +1,5 @@
 import React from 'react';
-import { Hero } from '../components/home/Hero';
+import { CinematicHero } from '../components/home/CinematicHero';
 import { FloatingSearch } from '../components/home/FloatingSearch';
 import { BrandStatement } from '../components/home/BrandStatement';
 import { DifferenceSection } from '../components/home/DifferenceSection';
@@ -13,8 +13,8 @@ import { FinalCTA } from '../components/home/FinalCTA';
 export const HomePage: React.FC = () => {
   return (
     <div className="relative w-full bg-[#0a0b0d] text-[#f7f5f0] overflow-x-hidden">
-      {/* 01. Cinematic Hero */}
-      <Hero />
+      {/* 01. Cinematic Scroll-Controlled Hero Journey */}
+      <CinematicHero />
 
       {/* Floating Minimal Search Bar */}
       <FloatingSearch />
