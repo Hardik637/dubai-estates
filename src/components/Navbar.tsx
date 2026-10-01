@@ -73,24 +73,19 @@ export const Navbar: React.FC = () => {
   const currencies = ['AED', 'USD', 'EUR', 'GBP', 'SAR'] as const;
 
   return (
-    <header className="fixed top-3 sm:top-5 left-0 right-0 z-50 px-3 sm:px-6 lg:px-8 pointer-events-none transition-all duration-300">
+    <header className="fixed top-2.5 sm:top-5 left-0 right-0 z-50 px-2.5 sm:px-6 lg:px-8 pointer-events-none transition-all duration-300">
       {/* Floating Pill Container matching Homeland.ae luxury aesthetic */}
-      <div className={`max-w-7xl mx-auto rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
+      <div className={`max-w-7xl mx-auto rounded-full px-3 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
         scrolled 
           ? 'bg-[#0b111e]/95 backdrop-blur-2xl border border-white/20 shadow-2xl shadow-black/80' 
-          : 'bg-[#0b111e]/70 backdrop-blur-xl border border-white/15 shadow-xl shadow-black/40 hover:border-white/25'
+          : 'bg-[#0b111e]/75 backdrop-blur-xl border border-white/15 shadow-xl shadow-black/40 hover:border-white/25'
       }`}>
 
-        
-        {/* ================= LEFT NAVIGATION OPTIONS ================= */}
-        <nav className="hidden lg:flex items-center space-x-1 flex-1 justify-start">
-          {leftNavLinks.map((link) => {
-            const isActive = currentPage === link.page && (
-              link.label === 'Buy' ? true : 
-              link.label === 'Rent' ? true : 
-              true
-            );
-            return (
+        {/* ================= LEFT NAVIGATION / MOBILE MENU ================= */}
+        <div className="flex-1 flex items-center justify-start">
+          {/* Desktop Left Nav Links */}
+          <nav className="hidden lg:flex items-center space-x-1">
+            {leftNavLinks.map((link) => (
               <button
                 key={link.label}
                 onClick={() => handleNavClick(link)}
@@ -102,41 +97,39 @@ export const Navbar: React.FC = () => {
               >
                 {link.label}
               </button>
-            );
-          })}
-        </nav>
+            ))}
+          </nav>
 
-        {/* Mobile menu button (Left on mobile) */}
-        <div className="flex lg:hidden items-center">
+          {/* Mobile menu button (Left on mobile) */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-slate-200 hover:text-white rounded-lg focus:outline-none cursor-pointer"
+            className="lg:hidden p-1.5 sm:p-2 text-slate-200 hover:text-white bg-white/5 hover:bg-white/10 rounded-full transition focus:outline-none cursor-pointer"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" /> : <Menu className="w-4 h-4 sm:w-5 sm:h-5" />}
           </button>
         </div>
 
         {/* ================= CENTER LOGO & BRAND NAME ================= */}
         <div 
           onClick={() => { setCurrentPage('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-          className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group select-none px-2 sm:px-4"
+          className="flex-shrink-0 flex items-center gap-1.5 sm:gap-2.5 cursor-pointer group select-none px-1 sm:px-3"
         >
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-700 flex items-center justify-center shadow-lg shadow-amber-500/25 group-hover:scale-105 transition-transform duration-300">
-            <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950 font-bold" />
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-700 flex items-center justify-center shadow-md shadow-amber-500/25 group-hover:scale-105 transition-transform duration-300">
+            <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-950 font-bold" />
           </div>
-          <div className="flex flex-col items-center sm:items-start text-center">
-            <span className="font-serif-luxury text-base sm:text-xl font-bold tracking-[0.18em] text-white leading-tight group-hover:text-amber-300 transition-colors">
+          <div className="flex flex-col items-center text-center">
+            <span className="font-serif-luxury text-xs sm:text-base lg:text-lg font-bold tracking-[0.14em] sm:tracking-[0.18em] text-white leading-tight group-hover:text-amber-300 transition-colors whitespace-nowrap">
               DUBAI ESTATES
             </span>
-            <span className="text-[8px] uppercase tracking-[0.25em] text-amber-400 font-semibold hidden sm:block">
+            <span className="text-[7px] tracking-[0.22em] uppercase text-amber-400 font-semibold hidden md:block">
               Luxury Real Estate
             </span>
           </div>
         </div>
 
         {/* ================= RIGHT NAVIGATION OPTIONS & ACTIONS ================= */}
-        <div className="flex items-center space-x-1 sm:space-x-2 flex-1 justify-end">
+        <div className="flex-1 flex items-center justify-end gap-1 sm:gap-2">
           {/* Desktop Right Links */}
           <nav className="hidden lg:flex items-center space-x-1 mr-2">
             {rightNavLinks.map((link) => (
@@ -158,10 +151,10 @@ export const Navbar: React.FC = () => {
           <div className="relative">
             <button
               onClick={() => setCurrencyDropdownOpen(!currencyDropdownOpen)}
-              className="px-2.5 py-1 text-[11px] sm:text-xs font-bold text-slate-200 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 flex items-center gap-1 transition cursor-pointer"
+              className="px-2 sm:px-2.5 py-1 text-[10px] sm:text-xs font-bold text-slate-200 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 flex items-center gap-0.5 sm:gap-1 transition cursor-pointer"
             >
               <span>{currency}</span>
-              <ChevronDown className="w-3 h-3 text-slate-400" />
+              <ChevronDown className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-slate-400" />
             </button>
             {currencyDropdownOpen && (
               <div 
@@ -189,10 +182,11 @@ export const Navbar: React.FC = () => {
             onClick={() => { setCurrentPage('dashboard'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
             className="relative p-1.5 sm:p-2 text-slate-200 hover:text-white hover:bg-white/5 rounded-full transition cursor-pointer"
             title="Saved Properties"
+            aria-label="Wishlist"
           >
-            <Heart className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+            <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             {favorites.length > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-amber-500 text-slate-950 text-[9px] font-bold rounded-full flex items-center justify-center shadow">
+              <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-amber-500 text-slate-950 text-[8px] sm:text-[9px] font-bold rounded-full flex items-center justify-center shadow">
                 {favorites.length}
               </span>
             )}
@@ -203,15 +197,15 @@ export const Navbar: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className="flex items-center gap-1.5 sm:gap-2 pl-1.5 pr-2.5 py-1 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 transition cursor-pointer"
+                className="flex items-center gap-1 sm:gap-2 p-1 sm:pl-1.5 sm:pr-2.5 sm:py-1 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 transition cursor-pointer"
               >
                 <img 
                   src={user.avatar} 
                   alt={user.name} 
-                  className="w-6 h-6 rounded-full object-cover border border-amber-500/50"
+                  className="w-5 h-5 sm:w-6 sm:h-6 rounded-full object-cover border border-amber-500/50"
                 />
                 <span className="text-xs font-semibold text-slate-200 hidden sm:inline">{user.name}</span>
-                <ChevronDown className="w-3 h-3 text-slate-400" />
+                <ChevronDown className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-slate-400" />
               </button>
 
               {userDropdownOpen && (
@@ -251,13 +245,26 @@ export const Navbar: React.FC = () => {
               )}
             </div>
           ) : (
-            <button
-              onClick={() => setIsAuthModalOpen(true)}
-              className="gold-btn px-3 sm:px-4 py-1.5 text-xs font-bold rounded-full flex items-center gap-1.5 cursor-pointer shadow-md"
-            >
-              <User className="w-3 h-3" />
-              <span>Sign In</span>
-            </button>
+            <>
+              {/* Mobile icon-only Sign In button */}
+              <button
+                onClick={() => setIsAuthModalOpen(true)}
+                className="sm:hidden p-1.5 rounded-full gold-btn cursor-pointer shadow-md"
+                aria-label="Sign In"
+                title="Sign In"
+              >
+                <User className="w-3.5 h-3.5" />
+              </button>
+
+              {/* Desktop Sign In button */}
+              <button
+                onClick={() => setIsAuthModalOpen(true)}
+                className="hidden sm:flex gold-btn px-3 sm:px-4 py-1.5 text-xs font-bold rounded-full items-center gap-1.5 cursor-pointer shadow-md"
+              >
+                <User className="w-3 h-3" />
+                <span>Sign In</span>
+              </button>
+            </>
           )}
         </div>
       </div>
