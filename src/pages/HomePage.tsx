@@ -12,7 +12,7 @@ import { FinalCTA } from '../components/home/FinalCTA';
 
 export const HomePage: React.FC = () => {
   return (
-    <div className="relative w-full bg-[#0a0b0d] text-[#f7f5f0] overflow-x-hidden">
+    <div className="relative w-full bg-[#0a0b0d] text-[#f7f5f0] overflow-x-clip">
       {/* 01. Cinematic Scroll-Controlled Hero Journey */}
       <CinematicHero />
 
