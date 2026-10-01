@@ -1,115 +1,108 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { Reveal } from '../motion/Reveal';
-import { ParallaxImage } from '../motion/ParallaxImage';
-import { ArrowUpRight, ShieldCheck, Globe, EyeOff, Award } from 'lucide-react';
+import { ArrowUpRight, ShieldCheck, Globe, Users } from 'lucide-react';
 
 export const SellWithUs: React.FC = () => {
-  const { setCurrentPage, setIsEnquiryDrawerOpen, setSelectedDrawerProject } = useApp();
+  const { setCurrentPage } = useApp();
 
-  const handleSpeakWithTeam = () => {
-    setSelectedDrawerProject('Private Advisory - Property Representation');
-    setIsEnquiryDrawerOpen(true);
-  };
+  const steps = [
+    { num: '01', title: 'Consultation & Valuation', desc: 'A discreet appraisal based on recent comparable registry transactions and architectural pedigree.' },
+    { num: '02', title: 'Architectural Media Production', desc: 'Editorial photography and cinema-grade film production tailored for high-net-worth distribution.' },
+    { num: '03', title: 'Private & Global Placement', desc: 'Direct presentation to verified family offices, sovereign principals, and private wealth networks.' },
+    { num: '04', title: 'Fiduciary Conveyance', desc: 'Full RERA title-deed compliance and bespoke escrow advisory from agreement to deed handover.' }
+  ];
 
   return (
-    <section className="relative py-28 sm:py-36 bg-[#0c0d10] border-b border-white/5 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <section className="section-white py-24 sm:py-36 border-b border-[#E7E3DA]">
+      <div className="editorial-container">
         
-        {/* Container with architectural frame */}
-        <div className="relative bg-[#121316] border border-white/10 overflow-hidden grid grid-cols-1 lg:grid-cols-12 items-stretch">
-          
-          {/* Left Text / Narrative (7 cols) */}
-          <div className="lg:col-span-7 p-8 sm:p-12 lg:p-16 flex flex-col justify-between z-10">
-            <div>
-              <Reveal delayMs={100}>
-                <div className="inline-flex items-center gap-2 mb-6 text-[10px] tracking-[0.3em] uppercase text-[#c4ad8e] font-semibold">
-                  <span>05 / Private Representation</span>
-                </div>
-              </Reveal>
-
-              <Reveal delayMs={200} durationMs={1000}>
-                <h2 className="font-editorial text-3xl sm:text-5xl lg:text-6xl font-light text-[#f7f5f0] leading-[1.08] tracking-[-0.01em] mb-6">
-                  Your Property Deserves<br />
-                  <span className="italic text-[#c4ad8e]">The Right Audience.</span>
-                </h2>
-              </Reveal>
-
-              <Reveal delayMs={350} durationMs={1000}>
-                <p className="text-sm sm:text-base text-[#b8b5ad] font-light leading-relaxed max-w-xl mb-10">
-                  Exceptional residences should not compete in crowded public portals. We place your asset directly before vetted sovereign wealth funds, family offices, and verified international purchasers seeking prime Dubai real estate.
-                </p>
-              </Reveal>
-
-              {/* 3 Pillars of Seller Representation */}
-              <Reveal delayMs={450}>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12 pt-8 border-t border-white/10 text-xs">
-                  <div>
-                    <div className="flex items-center gap-2 text-[#f7f5f0] font-editorial text-base sm:text-lg mb-1">
-                      <Globe className="w-4 h-4 text-[#c4ad8e] shrink-0" />
-                      <span>Global Capital</span>
-                    </div>
-                    <p className="text-[11px] text-[#96938a] font-light leading-normal">
-                      Direct marketing across top capital capitals in Europe, GCC & Asia.
-                    </p>
-                  </div>
-
-                  <div>
-                    <div className="flex items-center gap-2 text-[#f7f5f0] font-editorial text-base sm:text-lg mb-1">
-                      <EyeOff className="w-4 h-4 text-[#c4ad8e] shrink-0" />
-                      <span>Confidentiality</span>
-                    </div>
-                    <p className="text-[11px] text-[#96938a] font-light leading-normal">
-                      Discreet off-market option with signed NDAs before disclosure.
-                    </p>
-                  </div>
-
-                  <div>
-                    <div className="flex items-center gap-2 text-[#f7f5f0] font-editorial text-base sm:text-lg mb-1">
-                      <ShieldCheck className="w-4 h-4 text-[#c4ad8e] shrink-0" />
-                      <span>Vetted Buyers</span>
-                    </div>
-                    <p className="text-[11px] text-[#96938a] font-light leading-normal">
-                      Pre-qualified liquidity checks before viewings are scheduled.
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-
-            {/* CTAs */}
-            <Reveal delayMs={550}>
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                <button
-                  onClick={() => {
-                    setCurrentPage('sell');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="editorial-btn-primary cursor-pointer group"
-                >
-                  <span>List Your Property</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </button>
-
-                <button
-                  onClick={handleSpeakWithTeam}
-                  className="editorial-btn-secondary cursor-pointer"
-                >
-                  <span>Speak With Our Team</span>
-                </button>
-              </div>
-            </Reveal>
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 sm:mb-24 gap-6">
+          <div>
+            <span className="text-[10px] sm:text-xs font-mono tracking-[0.3em] uppercase text-[#8A877F] block mb-3">
+              04 / For Property Owners
+            </span>
+            <h2 className="font-editorial text-3xl sm:text-5xl md:text-6xl font-light text-[#111111] leading-[1.08] tracking-[-0.01em]">
+              Your property.<br />
+              <span className="italic text-[#8A877F]">The right audience.</span>
+            </h2>
           </div>
 
-          {/* Right Image (5 cols) */}
-          <div className="lg:col-span-5 relative min-h-[360px] lg:min-h-full overflow-hidden bg-[#18191d]">
-            <ParallaxImage
+          <p className="text-sm sm:text-base text-[#2B2A27] max-w-md font-light leading-relaxed">
+            Consigning an exceptional residence requires discretion, architectural storytelling, and access to qualified international capital.
+          </p>
+        </div>
+
+        {/* 2-Column Split: Editorial Imagery + Process Steps */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          
+          {/* Left Column: Image with Framing */}
+          <div className="lg:col-span-5 relative group overflow-hidden bg-[#F7F4EC] border border-[#E7E3DA]">
+            <img
               src="/images/seller_estate.jpg"
-              alt="Exclusive Dubai Private Estate"
-              className="w-full h-full"
-              speed={0.05}
+              alt="Consign Your Dubai Residence"
+              className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-102"
+              loading="lazy"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#121316] via-transparent to-transparent lg:hidden" />
+            <div className="p-6 bg-white border-t border-[#E7E3DA] flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-mono uppercase text-[#8A877F] block">
+                  Listing Mandate
+                </span>
+                <span className="text-xs font-medium text-[#111111]">
+                  Direct Title Deed Representation
+                </span>
+              </div>
+              <span className="text-xs font-mono text-[#8A877F]">
+                ORN #88921
+              </span>
+            </div>
+          </div>
+
+          {/* Right Column: 4-Step Process */}
+          <div className="lg:col-span-7 space-y-8">
+            <div className="space-y-6">
+              {steps.map((st) => (
+                <div key={st.num} className="p-6 bg-[#F7F4EC] border border-[#E7E3DA] transition hover:border-[#111111]">
+                  <div className="flex items-start gap-4">
+                    <span className="font-mono text-xs font-semibold text-[#8A877F] pt-1">
+                      {st.num}
+                    </span>
+                    <div>
+                      <h3 className="font-editorial text-xl sm:text-2xl text-[#111111] font-light mb-1">
+                        {st.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-[#2B2A27] font-light leading-relaxed">
+                        {st.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-4 flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={() => {
+                  setCurrentPage('sell');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="btn-editorial-primary"
+              >
+                <span>List Your Property</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </button>
+
+              <button
+                onClick={() => {
+                  setCurrentPage('contact');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="btn-editorial-secondary"
+              >
+                <span>Request Private Valuation</span>
+              </button>
+            </div>
           </div>
 
         </div>

@@ -1,46 +1,34 @@
 import React from 'react';
 import { CinematicHero } from '../components/home/CinematicHero';
-import { FloatingSearch } from '../components/home/FloatingSearch';
 import { BrandStatement } from '../components/home/BrandStatement';
-import { DifferenceSection } from '../components/home/DifferenceSection';
 import { DubaiLens } from '../components/home/DubaiLens';
 import { FeaturedProperties } from '../components/home/FeaturedProperties';
 import { SellWithUs } from '../components/home/SellWithUs';
-import { ClientExperience } from '../components/home/ClientExperience';
 import { PropertyJournal } from '../components/home/PropertyJournal';
 import { FinalCTA } from '../components/home/FinalCTA';
 
 export const HomePage: React.FC = () => {
   return (
-    <div className="relative w-full bg-[#0a0b0d] text-[#f7f5f0] overflow-x-clip">
-      {/* 01. Cinematic Scroll-Controlled Hero Journey */}
+    <div className="relative w-full bg-[#FFFFFF] text-[#111111] overflow-x-clip">
+      {/* 01. Cinematic Scroll-Controlled Video Hero */}
       <CinematicHero />
 
-      {/* Floating Minimal Search Bar */}
-      <FloatingSearch />
-
-      {/* 02. The Brand Statement */}
+      {/* 02. The Brand Philosophy (Cream) */}
       <BrandStatement />
 
-      {/* 03. The Dubai Estates Difference */}
-      <DifferenceSection />
-
-      {/* 04. Dubai, Through Our Lens */}
+      {/* 03. Dubai, Through Our Lens (White) */}
       <DubaiLens />
 
-      {/* 05. Curated Properties (The Collection) */}
+      {/* 04. Curated Collection - Max 3 Properties (Cream) */}
       <FeaturedProperties />
 
-      {/* 06. For Property Owners (Sell With Us) */}
+      {/* 05. For Property Owners - Sell With Us (White) */}
       <SellWithUs />
 
-      {/* 07. Private Client Experience */}
-      <ClientExperience />
-
-      {/* 08. Market Intelligence (The Property Journal) */}
+      {/* 06. Dubai Property Journal (Cream) */}
       <PropertyJournal />
 
-      {/* 09. Final Brand Statement & Conclusion */}
+      {/* 07. Final Destination CTA (White) */}
       <FinalCTA />
     </div>
   );

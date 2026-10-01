@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Mail, Phone, MapPin, ShieldCheck, ArrowUpRight, Star } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const { setCurrentPage, setIsGoldenVisaModalOpen, setIsEnquiryDrawerOpen, setSelectedDrawerProject } = useApp();
@@ -11,101 +11,93 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#0a0b0d] border-t border-white/10 text-[#96938a] text-xs">
+    <footer className="bg-[#111111] text-[#F7F4EC] border-t border-[#1B1B1B]">
       
-      {/* Footer Top Header: Wordmark & Regulatory Badges */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-16 pb-12 border-b border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div 
-          onClick={() => { setCurrentPage('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-          className="cursor-pointer select-none group"
-        >
-          <div className="flex flex-col text-left">
-            <span className="font-editorial text-2xl font-light tracking-[0.24em] uppercase text-[#f7f5f0] group-hover:text-[#c4ad8e] transition-colors">
-              Dubai Estates
+      {/* Editorial Top Hero Statement */}
+      <div className="editorial-container pt-20 pb-16 border-b border-[#2B2A27]">
+        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-10">
+          <div>
+            <span className="text-[10px] tracking-[0.35em] uppercase font-mono text-[#8A877F] block mb-4">
+              Dubai Estates • Private Property House
             </span>
-            <span className="text-[8px] tracking-[0.35em] uppercase font-mono text-[#c4ad8e] mt-0.5">
-              The Private Office • Prime Real Estate Marketplace
-            </span>
+            <h2 className="font-editorial text-4xl sm:text-6xl md:text-7xl font-light tracking-[-0.02em] text-[#FFFFFF] leading-[1.05]">
+              Property, considered.<br />
+              <span className="italic text-[#8A877F]">A distinct perspective on Dubai.</span>
+            </h2>
           </div>
-        </div>
 
-        <div className="flex items-center gap-2 text-[#b8b5ad] text-[11px] tracking-wider uppercase font-medium">
-          <ShieldCheck className="w-4 h-4 text-[#c4ad8e]" />
-          <span>Regulated by Dubai Real Estate Regulatory Agency • ORN #88921</span>
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <button
+              onClick={() => {
+                setCurrentPage('properties');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="btn-editorial-white"
+            >
+              <span>Explore Collection</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => {
+                setCurrentPage('sell');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="btn-editorial-ghost-white"
+            >
+              <span>List With Us</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Main 4 Columns */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      {/* Main 4 Column Index */}
+      <div className="editorial-container py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 text-xs">
         
-        {/* Column 1: FEATURED RESIDENCES */}
+        {/* Col 1: Selected Addresses */}
         <div className="space-y-4">
-          <h4 className="text-[#f7f5f0] text-xs font-semibold uppercase tracking-[0.2em] font-mono pb-2 border-b border-white/10">
-            Featured Residences
-          </h4>
-          <ul className="space-y-2.5 text-[#b8b5ad] text-xs font-light">
-            <li>
-              <button 
-                onClick={() => handleEnquiryClick('Palm Jumeirah Signature Beachfront Villa')}
-                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
-              >
-                Palm Jumeirah Signature Villa
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => handleEnquiryClick('Downtown Dubai Sky Penthouse')}
-                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
-              >
-                Downtown Dubai Sky Penthouse
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => handleEnquiryClick('Dubai Hills Estate Fairway Vista')}
-                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
-              >
-                Dubai Hills Fairway Vista
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => handleEnquiryClick('Dubai Marina Duplex Sky Penthouse')}
-                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
-              >
-                Dubai Marina Sky Duplex
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => handleEnquiryClick('Emirates Hills Montgomerie Estate')}
-                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
-              >
-                Emirates Hills Golf Estate
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => handleEnquiryClick('Jumeirah Bay Island Waterfront Residence')}
-                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
-              >
-                Jumeirah Bay Island Residence
-              </button>
-            </li>
+          <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-[#8A877F] block pb-2 border-b border-[#2B2A27]">
+            01 / Singular Addresses
+          </span>
+          <ul className="space-y-2.5 text-[#E7E3DA] font-light">
+            {[
+              'Palm Jumeirah Signature Beachfront',
+              'Downtown Dubai Sky Penthouse',
+              'Dubai Hills Fairway Vista',
+              'Emirates Hills Private Sanctuary',
+              'Dubai Marina Waterfront Duplex'
+            ].map(item => (
+              <li key={item}>
+                <button
+                  onClick={() => handleEnquiryClick(item)}
+                  className="hover:text-white transition cursor-pointer text-left"
+                >
+                  {item}
+                </button>
+              </li>
+            ))}
           </ul>
         </div>
 
-        {/* Column 2: COMMUNITIES */}
+        {/* Col 2: Sovereign Communities */}
         <div className="space-y-4">
-          <h4 className="text-[#f7f5f0] text-xs font-semibold uppercase tracking-[0.2em] font-mono pb-2 border-b border-white/10">
-            Sovereign Enclaves
-          </h4>
-          <ul className="space-y-2.5 text-[#b8b5ad] text-xs font-light">
-            {['Palm Jumeirah', 'Downtown Dubai', 'Emirates Hills', 'Dubai Hills Estate', 'Dubai Marina', 'Business Bay'].map((comm) => (
+          <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-[#8A877F] block pb-2 border-b border-[#2B2A27]">
+            02 / Communities
+          </span>
+          <ul className="space-y-2.5 text-[#E7E3DA] font-light">
+            {[
+              'Palm Jumeirah',
+              'Downtown Dubai',
+              'Dubai Hills Estate',
+              'Emirates Hills',
+              'Dubai Marina'
+            ].map(comm => (
               <li key={comm}>
-                <button 
-                  onClick={() => { setCurrentPage('communities'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                  className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
+                <button
+                  onClick={() => {
+                    setCurrentPage('communities');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-white transition cursor-pointer text-left"
                 >
                   {comm}
                 </button>
@@ -114,105 +106,82 @@ export const Footer: React.FC = () => {
           </ul>
         </div>
 
-        {/* Column 3: ADVISORY & SERVICES */}
+        {/* Col 3: Fiduciary Advisory */}
         <div className="space-y-4">
-          <h4 className="text-[#f7f5f0] text-xs font-semibold uppercase tracking-[0.2em] font-mono pb-2 border-b border-white/10">
-            Advisory & Privileges
-          </h4>
-          <ul className="space-y-2.5 text-[#b8b5ad] text-xs font-light">
+          <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-[#8A877F] block pb-2 border-b border-[#2B2A27]">
+            03 / Advisory & Representation
+          </span>
+          <ul className="space-y-2.5 text-[#E7E3DA] font-light">
             <li>
-              <button 
+              <button
                 onClick={() => setIsGoldenVisaModalOpen(true)}
-                className="text-[#c4ad8e] hover:underline transition cursor-pointer font-medium text-left"
+                className="hover:text-white transition cursor-pointer text-left"
               >
-                UAE 10-Year Golden Visa Office
+                UAE 10-Year Golden Visa Desk
               </button>
             </li>
             <li>
-              <button 
+              <button
                 onClick={() => { setCurrentPage('sell'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
+                className="hover:text-white transition cursor-pointer text-left"
               >
-                List Or Consign Your Trophy Estate
+                Owner Mandate & Private Consignment
               </button>
             </li>
             <li>
-              <button 
-                onClick={() => { setCurrentPage('agent'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
-              >
-                Senior RERA Certified Advisory Directors
-              </button>
-            </li>
-            <li>
-              <button 
+              <button
                 onClick={() => { setCurrentPage('about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
+                className="hover:text-white transition cursor-pointer text-left"
               >
-                Our Heritage & Fiduciary Standards
+                Heritage & Fiduciary Charter
               </button>
             </li>
             <li>
-              <button 
+              <button
                 onClick={() => { setCurrentPage('contact'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="hover:text-[#f7f5f0] transition cursor-pointer text-left"
+                className="hover:text-white transition cursor-pointer text-left"
               >
-                DIFC Private Office Concierge
+                Private Client Office (DIFC)
               </button>
             </li>
           </ul>
         </div>
 
-        {/* Column 4: CLIENT FEEDBACK & CONTACT */}
-        <div className="space-y-5">
-          {/* Rating Badge */}
-          <div className="p-4 bg-[#121316] border border-white/10 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="font-editorial text-sm text-[#f7f5f0]">
-                Client Experience
-              </span>
-              <span className="text-[11px] font-mono text-[#c4ad8e] bg-white/5 px-2 py-0.5 border border-white/10">
-                4.9 / 5.0
-              </span>
-            </div>
-            <div className="flex items-center gap-1 text-[#c4ad8e]">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-3.5 h-3.5 fill-[#c4ad8e] text-transparent" />
-              ))}
-            </div>
-            <p className="text-[10px] text-[#96938a] leading-tight font-light">
-              Representing verified sovereign wealth and ultra-high-net-worth investors across 42 countries.
+        {/* Col 4: Private Desk Location */}
+        <div className="space-y-4">
+          <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-[#8A877F] block pb-2 border-b border-[#2B2A27]">
+            04 / DIFC Private Office
+          </span>
+          <div className="text-[#8A877F] space-y-2 font-light leading-relaxed">
+            <p className="text-[#F7F4EC]">
+              Burj Daman Tower, Level 42<br />
+              Dubai International Financial Centre<br />
+              Dubai, United Arab Emirates
             </p>
-          </div>
-
-          {/* DIFC Contact */}
-          <div className="text-[#b8b5ad] text-[11px] space-y-1.5 font-light">
-            <p className="flex items-center gap-2">
-              <MapPin className="w-3.5 h-3.5 text-[#c4ad8e] shrink-0" />
-              <span>Burj Daman Tower, DIFC, Dubai, UAE</span>
-            </p>
-            <p className="flex items-center gap-2">
-              <Phone className="w-3.5 h-3.5 text-[#c4ad8e] shrink-0" />
-              <span>+971 4 800 3782 (Private Desk)</span>
-            </p>
-            <p className="flex items-center gap-2">
-              <Mail className="w-3.5 h-3.5 text-[#c4ad8e] shrink-0" />
+            <p className="pt-2 text-xs">
+              <span className="text-white block font-medium">+971 4 800 3782</span>
               <span>private@dubaiestates.ae</span>
+            </p>
+            <p className="text-[11px] pt-1">
+              RERA Certified Agency • ORN #88921
             </p>
           </div>
         </div>
 
       </div>
 
-      {/* Footer Bottom Bar */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-[#63615b]">
-        <p>© 2026 DUBAI ESTATES. All rights reserved. Licensed under Dubai Land Department (DLD).</p>
-        <div className="flex items-center gap-5">
-          <span className="hover:text-[#f7f5f0] transition cursor-pointer">Privacy Charter</span>
+      {/* Bottom Bar */}
+      <div className="editorial-container py-8 border-t border-[#2B2A27] flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-[#8A877F]">
+        <div className="flex items-center gap-3">
+          <span className="w-2 h-2 bg-[#F7F4EC]" />
+          <span>© 2026 DUBAI ESTATES. All rights reserved. Registered with Dubai Land Department.</span>
+        </div>
+        <div className="flex items-center gap-6">
+          <span className="hover:text-white transition cursor-pointer">Privacy Charter</span>
           <span>•</span>
-          <span className="hover:text-[#f7f5f0] transition cursor-pointer">Regulatory Disclosures</span>
+          <span className="hover:text-white transition cursor-pointer">Regulatory Disclosures</span>
           <span>•</span>
-          <span className="hover:text-[#f7f5f0] transition cursor-pointer">Terms of Representation</span>
+          <span className="hover:text-white transition cursor-pointer">Fiduciary Governance</span>
         </div>
       </div>
 

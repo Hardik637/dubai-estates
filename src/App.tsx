@@ -6,9 +6,8 @@ import { AuthModal } from './components/AuthModal';
 import { GoldenVisaModal } from './components/GoldenVisaModal';
 import { RegisterInterestDrawer } from './components/RegisterInterestDrawer';
 import { WhatsAppFloat } from './components/WhatsAppFloat';
-import { DubaiBackground } from './components/DubaiBackground';
 
-// Pages matching all 12 Figma screens
+// Primary Pages
 import { HomePage } from './pages/HomePage';
 import { PropertiesPage } from './pages/PropertiesPage';
 import { PropertyDetailPage } from './pages/PropertyDetailPage';
@@ -54,7 +53,7 @@ const MainContent: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col text-[#f7f5f0] bg-[#0a0b0d] selection:bg-[#c4ad8e] selection:text-[#0a0b0d]">
+    <div className="relative min-h-screen flex flex-col text-[#111111] bg-[#FFFFFF] selection:bg-[#111111] selection:text-[#FFFFFF]">
       <Navbar />
       <main className="flex-1">
         {renderPage()}
@@ -67,7 +66,6 @@ const MainContent: React.FC = () => {
     </div>
   );
 };
-
 
 export function App() {
   return (

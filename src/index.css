@@ -2,31 +2,28 @@
 
 @layer base {
   :root {
-    --bg-obsidian: #0a0b0d;
-    --bg-charcoal: #121316;
-    --bg-surface: #18191d;
-    --bg-surface-elevated: #202126;
-    --border-hairline: rgba(255, 255, 255, 0.08);
-    --border-refined: rgba(255, 255, 255, 0.14);
-    --accent-champagne: #c4ad8e;
-    --accent-champagne-light: #dfcbaf;
-    --accent-champagne-dark: #917c60;
-    --accent-emerald-subtle: #14241d;
-    --text-ivory: #f7f5f0;
-    --text-sand: #eae6df;
-    --text-muted: #96938a;
-    --text-subtle: #63615b;
+    /* Brand Foundation: White + Very Light Cream + Black */
+    --color-primary-white: #FFFFFF;
+    --color-cream: #F7F4EC;
+    --color-cream-subtle: #FAF8F3;
+    --color-black: #111111;
+    --color-black-soft: #1B1B1B;
+    --color-border-subtle: #E7E3DA;
+    --color-border-dark: rgba(17, 17, 17, 0.12);
+    --color-text-body: #2B2A27;
+    --color-text-muted: #8A877F;
+    --color-text-light: #F7F4EC;
   }
 
   html {
     scroll-behavior: smooth;
-    background-color: #0a0b0d;
-    color: #f7f5f0;
+    background-color: #FFFFFF;
+    color: #111111;
   }
 
   body {
-    background-color: #0a0b0d;
-    color: #f7f5f0;
+    background-color: #FFFFFF;
+    color: #111111;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -44,123 +41,209 @@
   }
 }
 
-/* Custom Architectural Scrollbar */
+/* Custom Minimalist Architectural Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0b0d;
+  background: #F7F4EC;
 }
 ::-webkit-scrollbar-thumb {
-  background: #23252a;
-  border-radius: 2px;
+  background: #111111;
+  border-radius: 0px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #c4ad8e;
+  background: #8A877F;
 }
 
 /* Typography Helpers */
 .font-editorial {
-  font-family: 'Cormorant Garamond', 'Cinzel', Georgia, serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
 }
 .font-serif-luxury {
   font-family: 'Cinzel', Georgia, serif;
 }
 
-/* Editorial Minimalist Buttons */
-.editorial-btn-primary {
+/* Architectural Minimalist Button System */
+.btn-editorial-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  background-color: #f7f5f0;
-  color: #0a0b0d;
+  gap: 0.625rem;
+  background-color: #111111;
+  color: #FFFFFF;
   font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
+  font-weight: 500;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  padding: 0.875rem 1.75rem;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  border: 1px solid #f7f5f0;
+  padding: 0.95rem 2rem;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid #111111;
+  cursor: pointer;
 }
-.editorial-btn-primary:hover {
-  background-color: #c4ad8e;
-  border-color: #c4ad8e;
-  color: #0a0b0d;
-  transform: translateY(-1px);
+.btn-editorial-primary:hover {
+  background-color: #FFFFFF;
+  color: #111111;
+}
+
+.btn-editorial-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  background-color: transparent;
+  color: #111111;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.95rem 2rem;
+  border: 1px solid #111111;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+.btn-editorial-secondary:hover {
+  background-color: #111111;
+  color: #FFFFFF;
+}
+
+.btn-editorial-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  background-color: #FFFFFF;
+  color: #111111;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.95rem 2rem;
+  border: 1px solid #FFFFFF;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+.btn-editorial-white:hover {
+  background-color: transparent;
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-editorial-ghost-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.95rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+.btn-editorial-ghost-white:hover {
+  background-color: #FFFFFF;
+  color: #111111;
+  border-color: #FFFFFF;
+}
+
+/* Architectural Framing & Layout Helpers */
+.editorial-container {
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+@media (min-width: 640px) {
+  .editorial-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .editorial-container {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+/* Light Navigation Scrolled Header */
+.nav-scrolled-light {
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid #E7E3DA;
+}
+
+/* Dark Navigation Scrolled Header */
+.nav-scrolled-cream {
+  background-color: rgba(247, 244, 236, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid #E7E3DA;
+}
+
+/* Section Rhythms */
+.section-white {
+  background-color: #FFFFFF;
+  color: #111111;
+}
+
+.section-cream {
+  background-color: #F7F4EC;
+  color: #111111;
+}
+
+/* Backward compatibility aliases */
+.editorial-btn-primary, .cognac-btn, .gold-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  background-color: #111111;
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.95rem 2rem;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid #111111;
+  cursor: pointer;
+}
+.editorial-btn-primary:hover, .cognac-btn:hover, .gold-btn:hover {
+  background-color: #FFFFFF;
+  color: #111111;
 }
 
 .editorial-btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.625rem;
   background-color: transparent;
-  color: #f7f5f0;
+  color: #111111;
   font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  padding: 0.875rem 1.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0.95rem 2rem;
+  border: 1px solid #111111;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
 }
 .editorial-btn-secondary:hover {
-  border-color: #f7f5f0;
-  background-color: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-  transform: translateY(-1px);
+  background-color: #111111;
+  color: #FFFFFF;
 }
 
-.editorial-btn-champagne {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background-color: #c4ad8e;
-  color: #0a0b0d;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  padding: 0.875rem 1.75rem;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  border: 1px solid #c4ad8e;
-}
-.editorial-btn-champagne:hover {
-  background-color: #dfcbaf;
-  border-color: #dfcbaf;
-  transform: translateY(-1px);
-}
-
-/* Glassmorphism restrained */
-.nav-frosted-dark {
-  background: rgba(10, 11, 13, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-/* Line reveal animation utilities */
-.clip-reveal {
-  clip-path: inset(0 0 0 0);
-  transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Legacy helper aliases for backwards compatibility with secondary subpages */
-.cognac-btn, .gold-btn {
-  background: #f7f5f0;
-  color: #0a0b0d;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  transition: all 0.3s ease;
-}
-.cognac-btn:hover, .gold-btn:hover {
-  background: #c4ad8e;
-  color: #0a0b0d;
-}
 .cognac-gradient-text, .gold-gradient-text {
-  color: #c4ad8e;
+  color: #111111;
 }

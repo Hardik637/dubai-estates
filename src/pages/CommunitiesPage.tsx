@@ -1,47 +1,47 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { MapPin, TrendingUp, Sparkles, ChevronRight, Building } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 export const CommunitiesPage: React.FC = () => {
   const { communities, navigateToCommunity } = useApp();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-  const categories = ['All', 'Waterfront', 'Family Living', 'Luxury', 'Investment'];
+  const categories = ['All', 'Waterfront', 'Luxury', 'Family Living', 'Investment'];
 
   const filteredCommunities = selectedCategory === 'All'
     ? communities
     : communities.filter(c => c.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-transparent pt-24 sm:pt-28 pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-
+    <div className="min-h-screen bg-[#FFFFFF] text-[#111111] pt-28 sm:pt-36 pb-24">
+      <div className="editorial-container">
         
-        {/* Header matching Figma 05 */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-1.5 text-xs text-[#c87a50] font-semibold tracking-wider uppercase mb-2">
-            <Sparkles className="w-3.5 h-3.5" /> Curated Dubai Enclaves
+        {/* Header */}
+        <div className="border-b border-[#E7E3DA] pb-12 mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-[#8A877F] block mb-2">
+              The Geographical Atlas
+            </span>
+            <h1 className="font-editorial text-4xl sm:text-6xl text-[#111111] font-light">
+              Iconic Enclaves
+            </h1>
           </div>
-          <h1 className="font-serif-luxury text-3xl sm:text-5xl font-bold text-[#f5ede6] leading-tight">
-            Explore Dubai's <br />
-            <span className="cognac-gradient-text">Iconic Communities</span>
-          </h1>
-          <p className="text-xs sm:text-sm text-[#baa99c] mt-3">
-            From beachfront living to urban sophistication, find the community that fits your lifestyle and investment criteria.
+
+          <p className="text-xs sm:text-sm text-[#2B2A27] font-light max-w-sm leading-relaxed">
+            From the shores of Palm Jumeirah to the green fairways of Dubai Hills, discover the districts defining prime Dubai.
           </p>
         </div>
 
-        {/* Category Filter Pills matching Figma 05: All, Waterfront, Family Living, Luxury, Investment */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+        {/* Category Filters */}
+        <div className="flex flex-wrap items-center gap-2 mb-12">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-5 py-2 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer ${
+              className={`text-xs px-4 py-1.5 transition cursor-pointer ${
                 selectedCategory === cat
-                  ? 'bg-[#c87a50] text-[#120d0b] font-bold shadow-lg'
-                  : 'bg-[#221915] text-[#baa99c] hover:text-[#f5ede6] border border-[#3d2f27] hover:border-[#c87a50]/40'
+                  ? 'bg-[#111111] text-white'
+                  : 'bg-[#F7F4EC] text-[#111111] border border-[#E7E3DA] hover:border-[#111111]'
               }`}
             >
               {cat}
@@ -49,62 +49,43 @@ export const CommunitiesPage: React.FC = () => {
           ))}
         </div>
 
-        {/* Communities Grid matching Figma 05 */}
+        {/* Communities Editorial Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCommunities.map((comm) => (
             <div
               key={comm.id}
               onClick={() => navigateToCommunity(comm.id)}
-              className="group relative bg-[#221915] border border-[#3d2f27] hover:border-[#c87a50]/60 rounded-3xl overflow-hidden cursor-pointer shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-[#c87a50]/10 flex flex-col"
+              className="group cursor-pointer bg-white border border-[#E7E3DA] p-6 flex flex-col justify-between transition-all duration-300 hover:border-[#111111]"
             >
-              {/* Image */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#18110e]">
-                <img
-                  src={comm.heroImage}
-                  alt={comm.name}
-                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#221915] via-transparent to-black/30" />
-
-                <div className="absolute top-4 left-4">
-                  <span className="px-2.5 py-1 text-[10px] font-bold uppercase rounded-md bg-[#c87a50] text-[#120d0b] shadow">
+              <div>
+                <div className="relative aspect-[16/10] overflow-hidden mb-5 bg-[#F7F4EC] border border-[#E7E3DA]">
+                  <img
+                    src={comm.heroImage}
+                    alt={comm.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-104"
+                    loading="lazy"
+                  />
+                  <div className="absolute top-3 left-3 bg-[#111111] text-white text-[9px] font-mono tracking-[0.2em] uppercase px-2.5 py-1">
                     {comm.category}
-                  </span>
+                  </div>
                 </div>
 
-                <div className="absolute bottom-3 right-3 bg-[#140e0c]/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-[#df8a5e] border border-[#3d2f27]">
-                  {comm.stats.propertiesCount}+ Properties
-                </div>
+                <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#8A877F] block mb-1">
+                  Average Price: {comm.stats.averagePriceAED}
+                </span>
+
+                <h3 className="font-editorial text-2xl text-[#111111] font-light mb-2">
+                  {comm.name}
+                </h3>
+
+                <p className="text-xs text-[#2B2A27] font-light leading-relaxed line-clamp-2">
+                  {comm.description}
+                </p>
               </div>
 
-              {/* Info */}
-              <div className="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="font-serif-luxury text-xl font-bold text-[#f5ede6] group-hover:text-[#df8a5e] transition-colors mb-2">
-                    {comm.name}
-                  </h3>
-                  <p className="text-xs text-[#baa99c] line-clamp-2 leading-relaxed mb-4">
-                    {comm.description}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-[#3d2f27]">
-                  <div className="grid grid-cols-2 gap-2 text-xs mb-4">
-                    <div>
-                      <span className="text-[11px] text-[#857467] block">Avg Price</span>
-                      <span className="font-semibold text-[#f5ede6]">{comm.stats.averagePriceAED.split('-')[0]}</span>
-                    </div>
-                    <div>
-                      <span className="text-[11px] text-[#857467] block">Rental Yield</span>
-                      <span className="font-bold text-[#df8a5e]">{comm.stats.rentalYield} ROI</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between text-xs font-bold text-[#c87a50] group-hover:translate-x-1 transition-transform">
-                    <span>Explore Community Guide</span>
-                    <ChevronRight className="w-4 h-4" />
-                  </div>
-                </div>
+              <div className="pt-4 mt-6 border-t border-[#E7E3DA] flex items-center justify-between text-xs font-medium uppercase tracking-[0.16em] text-[#111111]">
+                <span>Explore Enclave</span>
+                <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </div>
             </div>
           ))}

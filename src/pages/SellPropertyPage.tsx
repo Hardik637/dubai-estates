@@ -1,635 +1,355 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Property, PropertyType, ListingStatus } from '../types';
-import confetti from 'canvas-confetti';
-import { 
-  Building2, 
-  Globe, 
-  TrendingUp, 
-  ShieldCheck, 
-  CheckCircle2, 
-  ArrowRight, 
-  ArrowLeft, 
-  Upload, 
-  Image as ImageIcon,
-  Sparkles,
-  DollarSign,
-  User,
-  Key
-} from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, ArrowUpRight } from 'lucide-react';
 
 export const SellPropertyPage: React.FC = () => {
-  const { addNewProperty, user, navigateToProperty, setCurrentPage, formatPrice } = useApp();
+  const { addNewProperty, user, navigateToProperty, formatPrice } = useApp();
 
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [submittedPropertyId, setSubmittedPropertyId] = useState<string | null>(null);
 
-  // Form states matching Figma 04
-  // Step 1: Details
+  // Form states
   const [propertyType, setPropertyType] = useState<PropertyType>('Villa');
   const [listingType, setListingType] = useState<ListingStatus>('For Sale');
   const [bedrooms, setBedrooms] = useState(4);
   const [bathrooms, setBathrooms] = useState(5);
   const [community, setCommunity] = useState('Palm Jumeirah');
-  const [subCommunity, setSubCommunity] = useState('Frond M');
   const [sizeSqFt, setSizeSqFt] = useState(5800);
-  const [title, setTitle] = useState('Luxury Beachfront Villa with Private Infinity Pool');
-  const [description, setDescription] = useState('Spectacular contemporary villa featuring custom Italian interiors, private beach frontage, manicured tropical gardens, and smart home automation.');
+  const [title, setTitle] = useState('Contemporary Waterfront Villa with Private Beachfront');
+  const [description, setDescription] = useState('Spectacular modern architecture featuring floor-to-ceiling glass, custom European stone finishes, private infinity pool, and direct beach access.');
   const [furnishing, setFurnishing] = useState<'Furnished' | 'Unfurnished' | 'Semi-Furnished'>('Furnished');
 
-  // Step 2: Photos
-  const presetLuxuryImages = [
+  const presetImages = [
     'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=85',
     'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85',
-    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85',
-    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85',
-    'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85'
+    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85'
   ];
-  const [selectedImages, setSelectedImages] = useState<string[]>([presetLuxuryImages[0], presetLuxuryImages[1]]);
-  const [customImageUrl, setCustomImageUrl] = useState('');
+  const [selectedImage, setSelectedImage] = useState(presetImages[0]);
 
-  // Step 3: Pricing
   const [priceAED, setPriceAED] = useState(18500000);
-  const [developer, setDeveloper] = useState('Emaar Properties');
-  const [serviceCharge, setServiceCharge] = useState(4.5);
-
-  // Step 4: Seller Info
   const [sellerName, setSellerName] = useState(user.name);
   const [sellerEmail, setSellerEmail] = useState(user.email);
   const [sellerPhone, setSellerPhone] = useState(user.phone);
-  const [titleDeedStatus, setTitleDeedStatus] = useState('Ready Title Deed (Oqood/DLD)');
 
-  const handleAddCustomImage = () => {
-    if (customImageUrl && customImageUrl.startsWith('http')) {
-      setSelectedImages(prev => [...prev, customImageUrl]);
-      setCustomImageUrl('');
-    }
-  };
-
-  const handleTogglePresetImage = (url: string) => {
-    if (selectedImages.includes(url)) {
-      if (selectedImages.length > 1) {
-        setSelectedImages(selectedImages.filter(img => img !== url));
-      }
-    } else {
-      setSelectedImages([...selectedImages, url]);
-    }
-  };
-
-  const handleFinalSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newId = `custom-${Date.now()}`;
-    const refNum = `DE-SELL-${Math.floor(1000 + Math.random() * 9000)}`;
-
     const newProp: Property = {
       id: newId,
-      title: title || `${bedrooms} Bedroom ${propertyType} in ${community}`,
-      slug: `custom-${newId}`,
-      priceAED: Number(priceAED),
-      listingType: listingType,
-      propertyType: propertyType,
-      bedrooms: Number(bedrooms),
-      bathrooms: Number(bathrooms),
-      areaSqFt: Number(sizeSqFt),
-      community: community,
-      subCommunity: subCommunity,
-      address: `${subCommunity ? subCommunity + ', ' : ''}${community}, Dubai, UAE`,
+      title,
+      slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      priceAED,
+      listingType,
+      propertyType,
+      bedrooms,
+      bathrooms,
+      areaSqFt: sizeSqFt,
+      community,
+      address: `${community}, Dubai, UAE`,
       completionStatus: 'Ready',
-      handoverDate: 'Ready to Move',
-      furnishing: furnishing,
-      developer: developer,
-      reraPermitNumber: `RERA-REG-${Math.floor(10000 + Math.random() * 90000)}`,
-      referenceNumber: refNum,
-      description: description,
+      furnishing,
+      reraPermitNumber: `RERA-${Math.floor(10000 + Math.random() * 90000)}`,
+      referenceNumber: `DE-${community.substring(0, 2).toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`,
+      description,
       featured: true,
-      images: selectedImages.length > 0 ? selectedImages : presetLuxuryImages.slice(0, 3),
-      amenities: [
-        'Private Swimming Pool',
-        'Concierge Service',
-        'Security 24/7',
-        'Smart Home System',
-        'Balcony'
-      ],
-      coordinates: {
-        lat: community === 'Palm Jumeirah' ? 25.1124 : community === 'Downtown Dubai' ? 25.1972 : 25.1118,
-        lng: community === 'Palm Jumeirah' ? 55.1390 : community === 'Downtown Dubai' ? 55.2744 : 55.2443
-      },
+      images: [selectedImage, ...presetImages.filter(img => img !== selectedImage)],
+      amenities: ['Private Pool', 'Beach Access', 'Smart Home', '24/7 Security'],
+      coordinates: { lat: 25.1185, lng: 55.2443 },
       agentId: 'agent-1',
-      createdAt: new Date().toISOString().split('T')[0]
+      createdAt: new Date().toISOString()
     };
 
     addNewProperty(newProp);
     setSubmittedPropertyId(newId);
-
-    // Trigger celebratory confetti
-    try {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
-    } catch (e) { /* ignore */ }
   };
 
   return (
-    <div className="min-h-screen bg-transparent pt-24 sm:pt-28 pb-24">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-
-
+    <div className="min-h-screen bg-[#FFFFFF] text-[#111111] pt-28 sm:pt-36 pb-24">
+      <div className="editorial-container max-w-4xl">
         
-        {/* Hero Banner matching Figma 04 */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-1.5 text-xs text-[#c87a50] font-semibold tracking-wider uppercase mb-2">
-            <Sparkles className="w-3.5 h-3.5" /> High-End Landlord & Seller Portal
-          </div>
-          <h1 className="font-serif-luxury text-3xl sm:text-5xl font-bold text-white leading-tight">
-            Sell Your Property <br />
-            <span className="cognac-gradient-text">with Confidence</span>
+        {/* Header */}
+        <div className="border-b border-[#E7E3DA] pb-10 mb-12">
+          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-[#8A877F] block mb-2">
+            Owner Mandate & Consignment
+          </span>
+          <h1 className="font-editorial text-4xl sm:text-6xl text-[#111111] font-light">
+            List Your Residence
           </h1>
-          <p className="text-xs sm:text-sm text-[#baa99c] mt-3">
-            Reach serious buyers worldwide. Get the best market valuation. Work with Dubai's certified real estate leaders.
+          <p className="text-sm text-[#2B2A27] font-light mt-3 max-w-lg">
+            Directly connect your property with sovereign entities, private family offices, and verified international capital.
           </p>
         </div>
 
-        {/* 3 Value Pillars matching Figma 04 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-          <div className="bg-[#221915] border border-[#3d2f27] rounded-2xl p-5 text-center">
-            <Globe className="w-8 h-8 text-[#c87a50] mx-auto mb-2.5" />
-            <h3 className="text-sm font-bold text-white mb-1">Wide Exposure</h3>
-            <p className="text-xs text-[#baa99c]">Direct syndication across local & international high-net-worth investor channels.</p>
-          </div>
-
-          <div className="bg-[#221915] border border-[#3d2f27] rounded-2xl p-5 text-center">
-            <TrendingUp className="w-8 h-8 text-[#c87a50] mx-auto mb-2.5" />
-            <h3 className="text-sm font-bold text-white mb-1">Expert Valuation</h3>
-            <p className="text-xs text-[#baa99c]">Get the true market price powered by recent Dubai Land Department closed transactions.</p>
-          </div>
-
-          <div className="bg-[#221915] border border-[#3d2f27] rounded-2xl p-5 text-center">
-            <ShieldCheck className="w-8 h-8 text-[#c87a50] mx-auto mb-2.5" />
-            <h3 className="text-sm font-bold text-white mb-1">Dedicated Support</h3>
-            <p className="text-xs text-[#baa99c]">From listing, VIP staging, and private viewings to final DLD conveyance and funds transfer.</p>
-          </div>
-        </div>
-
-        {/* Main Form Container */}
         {submittedPropertyId ? (
-          /* Success Screen */
-          <div className="bg-[#221915] border border-[#c87a50]/40 rounded-3xl p-8 sm:p-12 text-center shadow-2xl animate-fade-in">
-            <div className="w-20 h-20 rounded-full bg-[#c87a50]/20 border-2 border-[#c87a50] flex items-center justify-center mx-auto mb-6 text-[#c87a50]">
-              <CheckCircle2 className="w-10 h-10" />
-            </div>
-            <h2 className="font-serif-luxury text-2xl sm:text-3xl font-bold text-white mb-2">
-              Property Successfully Listed!
+          <div className="bg-[#F7F4EC] border border-[#E7E3DA] p-12 text-center space-y-6">
+            <CheckCircle2 className="w-12 h-12 text-[#111111] mx-auto" />
+            <h2 className="font-editorial text-3xl sm:text-4xl text-[#111111] font-light">
+              Property Consigned Successfully
             </h2>
-            <p className="text-xs sm:text-sm text-[#baa99c] max-w-lg mx-auto mb-6">
-              Your property has been indexed into Dubai Estates active inventory and assigned to Senior Consultant Ahmad Al Mansoori.
+            <p className="text-sm text-[#2B2A27] font-light max-w-md mx-auto">
+              Your property has been indexed into the Dubai Estates private portfolio and is now active.
             </p>
-
-            <div className="bg-[#18110e] rounded-2xl p-5 max-w-md mx-auto mb-8 border border-[#3d2f27] text-xs text-left space-y-2">
-              <div className="flex justify-between">
-                <span className="text-[#baa99c]">Property Title:</span>
-                <span className="text-white font-semibold">{title}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[#baa99c]">Asking Price:</span>
-                <span className="text-[#c87a50] font-bold">{formatPrice(priceAED)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[#baa99c]">Location:</span>
-                <span className="text-white font-semibold">{community}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-[#baa99c]">Status:</span>
-                <span className="text-emerald-400 font-bold">Active & Verified</span>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row justify-center gap-3">
+            <div className="pt-4 flex justify-center gap-4">
               <button
                 onClick={() => navigateToProperty(submittedPropertyId)}
-                className="cognac-btn py-3 px-6 rounded-xl text-xs font-bold cursor-pointer"
+                className="btn-editorial-primary"
               >
-                View Your Live Listing Page
-              </button>
-              <button
-                onClick={() => {
-                  setCurrentPage('dashboard');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="py-3 px-6 rounded-xl bg-[#2b201a] hover:bg-white/20 text-white text-xs font-semibold cursor-pointer"
-              >
-                Manage in Dashboard
+                <span>View Property Dossier</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
         ) : (
-          /* Multi-Step Wizard matching Figma 04 */
-          <div className="bg-[#221915] border border-[#3d2f27] rounded-3xl p-6 sm:p-10 shadow-2xl">
-            {/* Step Header matching Figma 04: 1. Property Details, 2. Photos, 3. Price, 4. Your Details */}
-            <div className="flex items-center justify-between mb-8 pb-6 border-b border-[#3d2f27]">
-              <h2 className="text-xl font-bold font-serif-luxury text-white">List Your Property</h2>
-              
-              <div className="flex items-center gap-2 sm:gap-4 text-xs">
-                {[
-                  { num: 1, label: 'Details' },
-                  { num: 2, label: 'Photos' },
-                  { num: 3, label: 'Pricing' },
-                  { num: 4, label: 'Contact' }
-                ].map((s) => (
-                  <div key={s.num} className="flex items-center gap-1.5">
-                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold ${
-                      step === s.num
-                        ? 'bg-[#c87a50] text-[#120d0b] shadow'
-                        : step > s.num
-                          ? 'bg-emerald-500 text-[#120d0b]'
-                          : 'bg-[#2b201a] text-[#baa99c]'
-                    }`}>
-                      {step > s.num ? '✓' : s.num}
-                    </span>
-                    <span className={`hidden sm:inline font-medium ${
-                      step === s.num ? 'text-white' : 'text-[#baa99c]'
-                    }`}>
-                      {s.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
+          <div className="bg-[#F7F4EC] border border-[#E7E3DA] p-6 sm:p-10 space-y-8">
+            
+            {/* Step Indicators */}
+            <div className="flex items-center justify-between border-b border-[#E7E3DA] pb-6">
+              {[
+                { s: 1, label: '01 / Specifications' },
+                { s: 2, label: '02 / Photography' },
+                { s: 3, label: '03 / Pricing' },
+                { s: 4, label: '04 / Verification' }
+              ].map(item => (
+                <button
+                  key={item.s}
+                  onClick={() => setStep(item.s as any)}
+                  className={`text-[10px] sm:text-xs font-mono uppercase transition cursor-pointer ${
+                    step === item.s ? 'text-[#111111] font-bold border-b border-[#111111] pb-1' : 'text-[#8A877F]'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
 
-            {/* STEP 1: PROPERTY DETAILS matching Figma 04 */}
+            {/* Step 1: Specs */}
             {step === 1 && (
-              <div className="space-y-5 animate-fade-in">
+              <div className="space-y-6 animate-fadeIn">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Property Type */}
                   <div>
-                    <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Property Type</label>
+                    <label className="text-[10px] font-mono uppercase text-[#8A877F] block mb-1.5">Property Type</label>
                     <select
                       value={propertyType}
                       onChange={(e) => setPropertyType(e.target.value as any)}
-                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50] cursor-pointer"
+                      className="w-full text-xs text-[#111111] bg-white border border-[#E7E3DA] p-3 focus:outline-none"
                     >
                       <option value="Villa">Villa</option>
                       <option value="Apartment">Apartment</option>
                       <option value="Penthouse">Penthouse</option>
-                      <option value="Townhouse">Townhouse</option>
                       <option value="Mansion">Mansion</option>
                     </select>
                   </div>
 
-                  {/* Listing Type */}
                   <div>
-                    <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Listing Category</label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        type="button"
-                        onClick={() => setListingType('For Sale')}
-                        className={`py-2 text-xs font-semibold rounded-xl border transition cursor-pointer ${
-                          listingType === 'For Sale' ? 'bg-[#c87a50] text-[#120d0b] border-[#c87a50] font-bold' : 'border-[#3d2f27] text-[#baa99c]'
-                        }`}
-                      >
-                        For Sale
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setListingType('For Rent')}
-                        className={`py-2 text-xs font-semibold rounded-xl border transition cursor-pointer ${
-                          listingType === 'For Rent' ? 'bg-[#c87a50] text-[#120d0b] border-[#c87a50] font-bold' : 'border-[#3d2f27] text-[#baa99c]'
-                        }`}
-                      >
-                        For Rent
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bedrooms & Bathrooms */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div>
-                    <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Bedrooms</label>
-                    <select
-                      value={bedrooms}
-                      onChange={(e) => setBedrooms(Number(e.target.value))}
-                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50]"
-                    >
-                      {[1, 2, 3, 4, 5, 6, 7].map(n => (
-                        <option key={n} value={n}>{n} Bedroom{n > 1 ? 's' : ''}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Bathrooms</label>
-                    <select
-                      value={bathrooms}
-                      onChange={(e) => setBathrooms(Number(e.target.value))}
-                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50]"
-                    >
-                      {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
-                        <option key={n} value={n}>{n} Bathroom{n > 1 ? 's' : ''}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Property Size (sqft)</label>
-                    <input
-                      type="number"
-                      value={sizeSqFt}
-                      onChange={(e) => setSizeSqFt(Number(e.target.value))}
-                      placeholder="e.g. 6200"
-                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50]"
-                      required
-                    />
-                  </div>
-                </div>
-
-                {/* Community / Location matching Figma 04 */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Community / Location</label>
+                    <label className="text-[10px] font-mono uppercase text-[#8A877F] block mb-1.5">Community Enclave</label>
                     <select
                       value={community}
                       onChange={(e) => setCommunity(e.target.value)}
-                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50]"
+                      className="w-full text-xs text-[#111111] bg-white border border-[#E7E3DA] p-3 focus:outline-none"
                     >
                       <option value="Palm Jumeirah">Palm Jumeirah</option>
                       <option value="Downtown Dubai">Downtown Dubai</option>
                       <option value="Dubai Hills Estate">Dubai Hills Estate</option>
-                      <option value="Dubai Marina">Dubai Marina</option>
                       <option value="Emirates Hills">Emirates Hills</option>
-                      <option value="Business Bay">Business Bay</option>
+                      <option value="Dubai Marina">Dubai Marina</option>
                     </select>
                   </div>
+                </div>
 
+                <div className="grid grid-cols-3 gap-4">
                   <div>
-                    <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Sub-Community / Tower</label>
+                    <label className="text-[10px] font-mono uppercase text-[#8A877F] block mb-1.5">Bedrooms</label>
                     <input
-                      type="text"
-                      value={subCommunity}
-                      onChange={(e) => setSubCommunity(e.target.value)}
-                      placeholder="e.g. Frond M, Opera District, etc."
-                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50]"
+                      type="number"
+                      value={bedrooms}
+                      onChange={(e) => setBedrooms(parseInt(e.target.value) || 1)}
+                      className="w-full text-xs text-[#111111] bg-white border border-[#E7E3DA] p-3 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-mono uppercase text-[#8A877F] block mb-1.5">Bathrooms</label>
+                    <input
+                      type="number"
+                      value={bathrooms}
+                      onChange={(e) => setBathrooms(parseInt(e.target.value) || 1)}
+                      className="w-full text-xs text-[#111111] bg-white border border-[#E7E3DA] p-3 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-mono uppercase text-[#8A877F] block mb-1.5">Area (Sq Ft)</label>
+                    <input
+                      type="number"
+                      value={sizeSqFt}
+                      onChange={(e) => setSizeSqFt(parseInt(e.target.value) || 500)}
+                      className="w-full text-xs text-[#111111] bg-white border border-[#E7E3DA] p-3 focus:outline-none"
                     />
                   </div>
                 </div>
 
-                {/* Title */}
                 <div>
-                  <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Listing Headline</label>
+                  <label className="text-[10px] font-mono uppercase text-[#8A877F] block mb-1.5">Listing Title</label>
                   <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="e.g. 4 Bedroom Contemporary Villa with Palm Views"
-                    className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50]"
-                    required
+                    className="w-full text-xs text-[#111111] bg-white border border-[#E7E3DA] p-3 focus:outline-none"
                   />
                 </div>
 
-                {/* Description matching Figma 04 */}
                 <div>
-                  <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Additional Details</label>
+                  <label className="text-[10px] font-mono uppercase text-[#8A877F] block mb-1.5">Architectural Narrative</label>
                   <textarea
+                    rows={3}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Tell us more about your property (view, upgrades, high floor, private pool)..."
-                    className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#c87a50] resize-none h-24"
+                    className="w-full text-xs text-[#111111] bg-white border border-[#E7E3DA] p-3 focus:outline-none resize-none"
                   />
                 </div>
 
                 <div className="pt-4 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setStep(2)}
-                    className="cognac-btn py-2.5 px-6 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer"
-                  >
-                    <span>Next: Upload Photos</span>
-                    <ArrowRight className="w-4 h-4" />
+                  <button onClick={() => setStep(2)} className="btn-editorial-primary">
+                    <span>Next: Photography</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
             )}
 
-            {/* STEP 2: PHOTOS */}
+            {/* Step 2: Photos */}
             {step === 2 && (
-              <div className="space-y-6 animate-fade-in">
-                <div>
-                  <label className="text-xs font-semibold text-[#baa99c] block mb-1">Select / Add High-Resolution Imagery</label>
-                  <p className="text-xs text-[#baa99c] mb-3">Choose from our curated Dubai architectural library or paste your custom image URL</p>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
-                    {presetLuxuryImages.map((img, i) => {
-                      const isChosen = selectedImages.includes(img);
-                      return (
-                        <div
-                          key={i}
-                          onClick={() => handleTogglePresetImage(img)}
-                          className={`relative aspect-[16/10] rounded-xl overflow-hidden cursor-pointer border-2 transition ${
-                            isChosen ? 'border-[#c87a50] shadow-lg' : 'border-[#3d2f27] opacity-60 hover:opacity-100'
-                          }`}
-                        >
-                          <img src={img} alt="" className="w-full h-full object-cover" />
-                          {isChosen && (
-                            <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-[#c87a50] text-[#120d0b] flex items-center justify-center font-bold text-xs">
-                              ✓
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* Add URL field */}
-                  <div className="flex gap-2">
-                    <input
-                      type="url"
-                      value={customImageUrl}
-                      onChange={(e) => setCustomImageUrl(e.target.value)}
-                      placeholder="Paste online image URL (https://...)"
-                      className="flex-1 bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-[#c87a50]"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleAddCustomImage}
-                      className="px-4 py-2 bg-[#2b201a] hover:bg-white/20 text-white rounded-xl text-xs font-semibold cursor-pointer"
+              <div className="space-y-6 animate-fadeIn">
+                <span className="text-[10px] font-mono uppercase text-[#8A877F] block">
+                  Select Architectural Cover Imagery
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {presetImages.map((img, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => setSelectedImage(img)}
+                      className={`relative aspect-[16/10] overflow-hidden border cursor-pointer ${
+                        selectedImage === img ? 'border-[#111111] ring-2 ring-[#111111]' : 'border-[#E7E3DA] opacity-70 hover:opacity-100'
+                      }`}
                     >
-                      Add Photo
-                    </button>
-                  </div>
+                      <img src={img} alt="Preset Option" className="w-full h-full object-cover" />
+                      {selectedImage === img && (
+                        <span className="absolute top-2 right-2 bg-[#111111] text-white text-[9px] font-mono px-2 py-0.5">
+                          Selected
+                        </span>
+                      )}
+                    </div>
+                  ))}
                 </div>
 
                 <div className="pt-4 flex justify-between">
-                  <button
-                    type="button"
-                    onClick={() => setStep(1)}
-                    className="px-5 py-2.5 rounded-xl bg-[#2b201a] text-white text-xs font-semibold flex items-center gap-2 cursor-pointer"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
+                  <button onClick={() => setStep(1)} className="btn-editorial-secondary">
+                    <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Back</span>
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => setStep(3)}
-                    className="cognac-btn py-2.5 px-6 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer"
-                  >
-                    <span>Next: Pricing & Terms</span>
-                    <ArrowRight className="w-4 h-4" />
+                  <button onClick={() => setStep(3)} className="btn-editorial-primary">
+                    <span>Next: Pricing</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
             )}
 
-            {/* STEP 3: PRICING */}
+            {/* Step 3: Pricing */}
             {step === 3 && (
-              <div className="space-y-6 animate-fade-in">
+              <div className="space-y-6 animate-fadeIn">
                 <div>
-                  <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">
-                    Asking Price (AED) {listingType === 'For Rent' ? 'per Year' : ''}
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      value={priceAED}
-                      onChange={(e) => setPriceAED(Number(e.target.value))}
-                      placeholder="e.g. 12500000"
-                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-4 py-3 text-base font-bold text-[#c87a50] focus:outline-none focus:border-[#c87a50]"
-                      required
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-[#baa99c]">
-                      AED
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-[#baa99c] mt-1">
-                    Equivalent: ~{formatPrice(priceAED)}
-                  </p>
+                  <label className="text-[10px] font-mono uppercase text-[#8A877F] block mb-1.5">Asking Price (AED)</label>
+                  <input
+                    type="number"
+                    value={priceAED}
+                    onChange={(e) => setPriceAED(parseInt(e.target.value) || 0)}
+                    className="w-full text-base font-editorial text-[#111111] bg-white border border-[#E7E3DA] p-3 focus:outline-none"
+                  />
+                  <span className="text-xs font-mono text-[#8A877F] mt-1 block">
+                    Formally evaluated: {formatPrice(priceAED)}
+                  </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Master Developer</label>
-                    <select
-                      value={developer}
-                      onChange={(e) => setDeveloper(e.target.value)}
-                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50]"
-                    >
-                      <option value="Emaar Properties">Emaar Properties</option>
-                      <option value="Nakheel">Nakheel</option>
-                      <option value="DAMAC">DAMAC</option>
-                      <option value="Omniyat">Omniyat</option>
-                      <option value="Meraas">Meraas</option>
-                      <option value="Custom Builder">Custom / Private Builder</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Furnishing</label>
-                    <select
-                      value={furnishing}
-                      onChange={(e) => setFurnishing(e.target.value as any)}
-                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50]"
-                    >
-                      <option value="Furnished">Furnished</option>
-                      <option value="Unfurnished">Unfurnished</option>
-                      <option value="Semi-Furnished">Semi-Furnished</option>
-                    </select>
+                <div>
+                  <label className="text-[10px] font-mono uppercase text-[#8A877F] block mb-1.5">Furnishing Standard</label>
+                  <div className="grid grid-cols-3 gap-3">
+                    {(['Furnished', 'Unfurnished', 'Semi-Furnished'] as const).map(f => (
+                      <button
+                        key={f}
+                        type="button"
+                        onClick={() => setFurnishing(f)}
+                        className={`text-xs py-3 border transition cursor-pointer ${
+                          furnishing === f ? 'bg-[#111111] text-white border-[#111111]' : 'bg-white text-[#111111] border-[#E7E3DA]'
+                        }`}
+                      >
+                        {f}
+                      </button>
+                    ))}
                   </div>
                 </div>
 
                 <div className="pt-4 flex justify-between">
-                  <button
-                    type="button"
-                    onClick={() => setStep(2)}
-                    className="px-5 py-2.5 rounded-xl bg-[#2b201a] text-white text-xs font-semibold flex items-center gap-2 cursor-pointer"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
+                  <button onClick={() => setStep(2)} className="btn-editorial-secondary">
+                    <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Back</span>
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => setStep(4)}
-                    className="cognac-btn py-2.5 px-6 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer"
-                  >
-                    <span>Next: Owner Contact</span>
-                    <ArrowRight className="w-4 h-4" />
+                  <button onClick={() => setStep(4)} className="btn-editorial-primary">
+                    <span>Next: Owner Verification</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
             )}
 
-            {/* STEP 4: CONTACT & VERIFICATION */}
+            {/* Step 4: Verification & Submit */}
             {step === 4 && (
-              <form onSubmit={handleFinalSubmit} className="space-y-5 animate-fade-in">
+              <form onSubmit={handleSubmit} className="space-y-6 animate-fadeIn">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Owner / Agent Full Name</label>
+                    <label className="text-[10px] font-mono uppercase text-[#8A877F] block mb-1.5">Principal / Owner Name</label>
                     <input
                       type="text"
+                      required
                       value={sellerName}
                       onChange={(e) => setSellerName(e.target.value)}
-                      placeholder="Hardik"
-                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50]"
-                      required
+                      className="w-full text-xs text-[#111111] bg-white border border-[#E7E3DA] p-3 focus:outline-none"
                     />
                   </div>
-
                   <div>
-                    <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Phone / WhatsApp</label>
+                    <label className="text-[10px] font-mono uppercase text-[#8A877F] block mb-1.5">Direct Phone (WhatsApp)</label>
                     <input
                       type="tel"
+                      required
                       value={sellerPhone}
                       onChange={(e) => setSellerPhone(e.target.value)}
-                      placeholder="+971 50 123 4567"
-                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50]"
-                      required
+                      className="w-full text-xs text-[#111111] bg-white border border-[#E7E3DA] p-3 focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Email Address</label>
+                  <label className="text-[10px] font-mono uppercase text-[#8A877F] block mb-1.5">Official Email</label>
                   <input
                     type="email"
+                    required
                     value={sellerEmail}
                     onChange={(e) => setSellerEmail(e.target.value)}
-                    placeholder="hardik@luxuryinvest.ae"
-                    className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50]"
-                    required
+                    className="w-full text-xs text-[#111111] bg-white border border-[#E7E3DA] p-3 focus:outline-none"
                   />
                 </div>
 
-                <div>
-                  <label className="text-xs font-semibold text-[#baa99c] block mb-1.5">Title Deed Status</label>
-                  <select
-                    value={titleDeedStatus}
-                    onChange={(e) => setTitleDeedStatus(e.target.value)}
-                    className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c87a50]"
-                  >
-                    <option>Ready Title Deed (Oqood/DLD Registered)</option>
-                    <option>Off-Plan SPA (Sales & Purchase Agreement)</option>
-                    <option>Power of Attorney (POA Verified)</option>
-                  </select>
-                </div>
-
-                <div className="bg-[#c87a50]/10 border border-[#c87a50]/30 rounded-xl p-3 text-xs text-[#df8a5e] flex items-start gap-2">
-                  <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5" />
-                  <span>By submitting, you agree to listing your property under RERA Trakheesi regulatory requirements. Our compliance officer will verify deed status within 2 hours.</span>
+                <div className="p-4 bg-white border border-[#E7E3DA] text-xs text-[#8A877F] font-light">
+                  By submitting this listing mandate, you attest that you are the lawful owner or authorized fiduciary representative of the property. All submissions are cross-referenced with the Dubai Land Department (DLD) registry.
                 </div>
 
                 <div className="pt-4 flex justify-between">
-                  <button
-                    type="button"
-                    onClick={() => setStep(3)}
-                    className="px-5 py-2.5 rounded-xl bg-[#2b201a] text-white text-xs font-semibold flex items-center gap-2 cursor-pointer"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
+                  <button type="button" onClick={() => setStep(3)} className="btn-editorial-secondary">
+                    <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Back</span>
                   </button>
-                  <button
-                    type="submit"
-                    className="cognac-btn py-3 px-8 rounded-xl text-xs font-bold cursor-pointer shadow-xl"
-                  >
-                    Submit & Publish Property Listing
+                  <button type="submit" className="btn-editorial-primary">
+                    <span>Submit & Publish Mandate</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </form>
@@ -642,4 +362,3 @@ export const SellPropertyPage: React.FC = () => {
     </div>
   );
 };
-
