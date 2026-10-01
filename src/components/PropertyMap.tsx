@@ -64,9 +64,9 @@ export const PropertyMap: React.FC<PropertyMapProps> = ({
         className: 'custom-property-pin',
         html: `
           <div style="
-            background: ${isHighlighted ? '#c59b27' : '#0b111e'};
-            color: ${isHighlighted ? '#0b111e' : '#ffffff'};
-            border: 2px solid #c59b27;
+            background: ${isHighlighted ? '#c87a50' : '#1a1310'};
+            color: ${isHighlighted ? '#120d0b' : '#f5ede6'};
+            border: 2px solid #c87a50;
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 11px;
@@ -79,7 +79,7 @@ export const PropertyMap: React.FC<PropertyMapProps> = ({
             cursor: pointer;
             transition: transform 0.2s ease;
           ">
-            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${isHighlighted ? '#0b111e' : '#c59b27'}"></span>
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${isHighlighted ? '#120d0b' : '#c87a50'}"></span>
             ${priceText}
           </div>
         `,
@@ -91,20 +91,20 @@ export const PropertyMap: React.FC<PropertyMapProps> = ({
 
       // Popup
       const popupContent = `
-        <div style="font-family: 'Plus Jakarta Sans', sans-serif; min-width: 220px; color: #111a2e; padding: 2px;">
-          <img src="${prop.images[0]}" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;" />
-          <div style="font-weight: 700; color: #c59b27; font-size: 14px;">${formatPrice(prop.priceAED)}</div>
-          <div style="font-weight: 600; font-size: 12px; margin: 2px 0 6px 0; color: #1e293b;">${prop.title}</div>
-          <div style="font-size: 11px; color: #64748b; margin-bottom: 8px;">${prop.bedrooms} Beds • ${prop.bathrooms} Baths • ${prop.areaSqFt} sqft</div>
+        <div style="font-family: 'Plus Jakarta Sans', sans-serif; min-width: 220px; background: #221915; color: #f5ede6; padding: 4px; border-radius: 8px;">
+          <img src="${prop.images[0]}" style="width: 100%; height: 110px; object-fit: cover; border-radius: 6px; margin-bottom: 8px;" />
+          <div style="font-weight: 700; color: #df8a5e; font-size: 14px;">${formatPrice(prop.priceAED)}</div>
+          <div style="font-weight: 600; font-size: 12px; margin: 2px 0 6px 0; color: #f5ede6;">${prop.title}</div>
+          <div style="font-size: 11px; color: #baa99c; margin-bottom: 8px;">${prop.bedrooms} Beds • ${prop.bathrooms} Baths • ${prop.areaSqFt} sqft</div>
           <button id="view-prop-btn-${prop.id}" style="
             width: 100%;
-            background: #0b111e;
+            background: linear-gradient(135deg, #c87a50 0%, #a8582e 100%);
             color: #ffffff;
             border: none;
-            padding: 6px;
+            padding: 7px;
             border-radius: 6px;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
           ">View Listing</button>
         </div>
@@ -131,11 +131,11 @@ export const PropertyMap: React.FC<PropertyMapProps> = ({
   }, [properties, highlightedPropertyId, zoom, formatPrice]);
 
   return (
-    <div className={`relative w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl ${className}`}>
+    <div className={`relative w-full rounded-2xl overflow-hidden border border-[#3d2f27] shadow-2xl ${className}`}>
       <div ref={mapContainerRef} className="w-full h-full z-0" />
       {/* Map Badge */}
-      <div className="absolute top-3 left-3 z-10 bg-[#0b111e]/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 text-xs font-semibold text-white flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+      <div className="absolute top-3 left-3 z-10 bg-[#1a1310]/95 backdrop-blur-md px-3 py-1.5 rounded-lg border border-[#3d2f27] text-xs font-semibold text-[#f5ede6] flex items-center gap-2">
+        <span className="w-2 h-2 rounded-full bg-[#c87a50] animate-pulse"></span>
         Dubai Prime Locations ({properties.length})
       </div>
     </div>

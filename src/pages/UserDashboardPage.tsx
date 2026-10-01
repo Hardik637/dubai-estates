@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { PropertyCard } from '../components/PropertyCard';
 import { 
@@ -66,15 +66,15 @@ export const UserDashboardPage: React.FC = () => {
 
         
         {/* Welcome Banner matching Figma 08 */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-8 mb-8 border-b border-white/10 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-8 mb-8 border-b border-[#3d2f27] gap-4">
           <div>
-            <span className="text-xs uppercase tracking-widest text-amber-400 font-semibold">
+            <span className="text-xs uppercase tracking-widest text-[#c87a50] font-semibold">
               VIP Investor Portal
             </span>
             <h1 className="font-serif-luxury text-3xl sm:text-4xl font-bold text-white mt-1">
               Welcome Back, {user.name}
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1">
+            <p className="text-xs sm:text-sm text-[#baa99c] mt-1">
               Here's what's happening with your luxury properties & private viewing appointments.
             </p>
           </div>
@@ -85,7 +85,7 @@ export const UserDashboardPage: React.FC = () => {
                 setCurrentPage('sell');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="gold-btn py-2.5 px-4 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer shadow-lg"
+              className="cognac-btn py-2.5 px-4 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer shadow-lg"
             >
               <PlusCircle className="w-4 h-4" />
               <span>List New Property</span>
@@ -95,7 +95,7 @@ export const UserDashboardPage: React.FC = () => {
                 setCurrentPage('properties');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer"
+              className="py-2.5 px-4 rounded-xl bg-[#2b201a] hover:bg-[#3d2f27] text-white text-xs font-semibold cursor-pointer"
             >
               Browse Properties
             </button>
@@ -106,50 +106,50 @@ export const UserDashboardPage: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           <div 
             onClick={() => setActiveTab('saved')}
-            className="bg-[#111a2e] border border-white/10 hover:border-amber-500/40 rounded-2xl p-5 cursor-pointer transition"
+            className="bg-[#221915] border border-[#3d2f27] hover:border-[#c87a50]/40 rounded-2xl p-5 cursor-pointer transition"
           >
             <div className="flex justify-between items-start mb-2">
-              <span className="text-xs text-slate-400 font-medium">Saved Properties</span>
+              <span className="text-xs text-[#baa99c] font-medium">Saved Properties</span>
               <Heart className="w-4 h-4 text-red-400" />
             </div>
             <div className="font-serif-luxury text-3xl font-bold text-white">{savedProperties.length}</div>
-            <span className="text-[11px] text-amber-400 mt-1 inline-block">View saved collection →</span>
+            <span className="text-[11px] text-[#c87a50] mt-1 inline-block">View saved collection →</span>
           </div>
 
           <div 
             onClick={() => setActiveTab('enquiries')}
-            className="bg-[#111a2e] border border-white/10 hover:border-amber-500/40 rounded-2xl p-5 cursor-pointer transition"
+            className="bg-[#221915] border border-[#3d2f27] hover:border-[#c87a50]/40 rounded-2xl p-5 cursor-pointer transition"
           >
             <div className="flex justify-between items-start mb-2">
-              <span className="text-xs text-slate-400 font-medium">My Enquiries</span>
-              <MessageSquare className="w-4 h-4 text-amber-400" />
+              <span className="text-xs text-[#baa99c] font-medium">My Enquiries</span>
+              <MessageSquare className="w-4 h-4 text-[#c87a50]" />
             </div>
-            <div className="font-serif-luxury text-3xl font-bold text-amber-400">{inquiries.length}</div>
-            <span className="text-[11px] text-amber-400 mt-1 inline-block">Active VIP viewings →</span>
+            <div className="font-serif-luxury text-3xl font-bold text-[#c87a50]">{inquiries.length}</div>
+            <span className="text-[11px] text-[#c87a50] mt-1 inline-block">Active VIP viewings →</span>
           </div>
 
           <div 
             onClick={() => setActiveTab('searches')}
-            className="bg-[#111a2e] border border-white/10 hover:border-amber-500/40 rounded-2xl p-5 cursor-pointer transition"
+            className="bg-[#221915] border border-[#3d2f27] hover:border-[#c87a50]/40 rounded-2xl p-5 cursor-pointer transition"
           >
             <div className="flex justify-between items-start mb-2">
-              <span className="text-xs text-slate-400 font-medium">Saved Searches</span>
+              <span className="text-xs text-[#baa99c] font-medium">Saved Searches</span>
               <Search className="w-4 h-4 text-sky-400" />
             </div>
             <div className="font-serif-luxury text-3xl font-bold text-white">{savedSearches.length}</div>
-            <span className="text-[11px] text-amber-400 mt-1 inline-block">Instant alerts enabled →</span>
+            <span className="text-[11px] text-[#c87a50] mt-1 inline-block">Instant alerts enabled →</span>
           </div>
 
           <div 
             onClick={() => setActiveTab('listings')}
-            className="bg-[#111a2e] border border-white/10 hover:border-amber-500/40 rounded-2xl p-5 cursor-pointer transition"
+            className="bg-[#221915] border border-[#3d2f27] hover:border-[#c87a50]/40 rounded-2xl p-5 cursor-pointer transition"
           >
             <div className="flex justify-between items-start mb-2">
-              <span className="text-xs text-slate-400 font-medium">My Listings</span>
+              <span className="text-xs text-[#baa99c] font-medium">My Listings</span>
               <Building className="w-4 h-4 text-emerald-400" />
             </div>
             <div className="font-serif-luxury text-3xl font-bold text-white">{myListings.length}</div>
-            <span className="text-[11px] text-amber-400 mt-1 inline-block">Manage published listings →</span>
+            <span className="text-[11px] text-[#c87a50] mt-1 inline-block">Manage published listings →</span>
           </div>
         </div>
 
@@ -157,7 +157,7 @@ export const UserDashboardPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* LEFT 3-COLS: Navigation Sidebar matching Figma 08 */}
-          <aside className="lg:col-span-3 bg-[#111a2e] border border-white/10 rounded-2xl p-3 space-y-1">
+          <aside className="lg:col-span-3 bg-[#221915] border border-[#3d2f27] rounded-2xl p-3 space-y-1">
             {[
               { id: 'overview', label: 'Overview', icon: Building },
               { id: 'saved', label: `Saved Properties (${savedProperties.length})`, icon: Heart },
@@ -174,8 +174,8 @@ export const UserDashboardPage: React.FC = () => {
                   onClick={() => setActiveTab(item.id as any)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold transition cursor-pointer ${
                     isActive
-                      ? 'bg-amber-500 text-slate-950 font-bold shadow'
-                      : 'text-slate-300 hover:text-white hover:bg-white/5'
+                      ? 'bg-[#c87a50] text-[#120d0b] font-bold shadow'
+                      : 'text-[#baa99c] hover:text-white hover:bg-[#18110e]'
                   }`}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
@@ -184,7 +184,7 @@ export const UserDashboardPage: React.FC = () => {
               );
             })}
 
-            <div className="pt-2 border-t border-white/10 my-1"></div>
+            <div className="pt-2 border-t border-[#3d2f27] my-1"></div>
 
             <button
               onClick={handleLogout}
@@ -206,7 +206,7 @@ export const UserDashboardPage: React.FC = () => {
                     <h2 className="text-lg font-bold font-serif-luxury text-white">Recently Viewed Properties</h2>
                     <button
                       onClick={() => setActiveTab('saved')}
-                      className="text-xs text-amber-400 hover:underline cursor-pointer"
+                      className="text-xs text-[#c87a50] hover:underline cursor-pointer"
                     >
                       View All Saved
                     </button>
@@ -221,28 +221,28 @@ export const UserDashboardPage: React.FC = () => {
                 </div>
 
                 {/* Quick Enquiries Preview */}
-                <div className="bg-[#111a2e] border border-white/10 rounded-2xl p-6">
+                <div className="bg-[#221915] border border-[#3d2f27] rounded-2xl p-6">
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-sm font-bold text-white font-serif-luxury">Upcoming VIP Viewings</h3>
                     <button
                       onClick={() => setActiveTab('enquiries')}
-                      className="text-xs text-amber-400 hover:underline cursor-pointer"
+                      className="text-xs text-[#c87a50] hover:underline cursor-pointer"
                     >
                       View Full Schedule
                     </button>
                   </div>
                   <div className="space-y-3">
                     {inquiries.slice(0, 2).map(inq => (
-                      <div key={inq.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl bg-white/5 border border-white/5 text-xs gap-3">
+                      <div key={inq.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl bg-[#18110e] border border-[#3d2f27] text-xs gap-3">
                         <div className="flex items-center gap-3">
                           <img src={inq.propertyImage} alt="" className="w-12 h-12 rounded-lg object-cover" />
                           <div>
                             <span className="font-semibold text-white block">{inq.propertyTitle}</span>
-                            <span className="text-slate-400 text-[11px]">With {inq.agentName} • {inq.date} at {inq.preferredTourTime}</span>
+                            <span className="text-[#baa99c] text-[11px]">With {inq.agentName} • {inq.date} at {inq.preferredTourTime}</span>
                           </div>
                         </div>
                         <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold self-start sm:self-auto ${
-                          inq.status === 'Confirmed' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                          inq.status === 'Confirmed' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-[#c87a50]/20 text-[#c87a50] border border-[#c87a50]/30'
                         }`}>
                           {inq.status}
                         </span>
@@ -258,12 +258,12 @@ export const UserDashboardPage: React.FC = () => {
               <div className="space-y-6 animate-fade-in">
                 <h2 className="text-lg font-bold font-serif-luxury text-white">Your Saved Luxury Portfolio</h2>
                 {savedProperties.length === 0 ? (
-                  <div className="bg-[#111a2e] border border-white/10 rounded-2xl p-12 text-center">
+                  <div className="bg-[#221915] border border-[#3d2f27] rounded-2xl p-12 text-center">
                     <Heart className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-                    <p className="text-sm text-slate-300">You haven't saved any properties yet.</p>
+                    <p className="text-sm text-[#baa99c]">You haven't saved any properties yet.</p>
                     <button
                       onClick={() => setCurrentPage('properties')}
-                      className="gold-btn mt-4 px-5 py-2 rounded-xl text-xs font-bold cursor-pointer"
+                      className="cognac-btn mt-4 px-5 py-2 rounded-xl text-xs font-bold cursor-pointer"
                     >
                       Explore Properties
                     </button>
@@ -284,34 +284,34 @@ export const UserDashboardPage: React.FC = () => {
                 <h2 className="text-lg font-bold font-serif-luxury text-white">Viewing Requests & Advisory Sessions</h2>
                 <div className="space-y-4">
                   {inquiries.map(inq => (
-                    <div key={inq.id} className="bg-[#111a2e] border border-white/10 rounded-2xl p-5 flex flex-col sm:flex-row gap-5">
+                    <div key={inq.id} className="bg-[#221915] border border-[#3d2f27] rounded-2xl p-5 flex flex-col sm:flex-row gap-5">
                       <img src={inq.propertyImage} alt="" className="w-full sm:w-36 h-28 rounded-xl object-cover" />
                       <div className="flex-1 flex flex-col justify-between">
                         <div>
                           <div className="flex justify-between items-start">
                             <div>
                               <h4 className="text-sm font-bold text-white">{inq.propertyTitle}</h4>
-                              <p className="text-xs text-amber-400 font-bold mt-0.5">{formatPrice(inq.propertyPriceAED)}</p>
+                              <p className="text-xs text-[#c87a50] font-bold mt-0.5">{formatPrice(inq.propertyPriceAED)}</p>
                             </div>
                             <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold ${
-                              inq.status === 'Confirmed' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                              inq.status === 'Confirmed' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-[#c87a50]/20 text-[#c87a50] border border-[#c87a50]/30'
                             }`}>
                               {inq.status}
                             </span>
                           </div>
 
-                          <div className="mt-3 p-2.5 rounded-lg bg-white/5 text-xs text-slate-300 border border-white/5">
-                            <span className="text-slate-400 text-[11px] block">Your Message:</span>
+                          <div className="mt-3 p-2.5 rounded-lg bg-[#18110e] text-xs text-[#baa99c] border border-[#3d2f27]">
+                            <span className="text-[#baa99c] text-[11px] block">Your Message:</span>
                             "{inq.message}"
                           </div>
                         </div>
 
-                        <div className="mt-4 pt-3 border-t border-white/10 flex flex-wrap justify-between items-center text-xs text-slate-400 gap-2">
+                        <div className="mt-4 pt-3 border-t border-[#3d2f27] flex flex-wrap justify-between items-center text-xs text-[#baa99c] gap-2">
                           <span className="flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5 text-amber-400" />
+                            <Clock className="w-3.5 h-3.5 text-[#c87a50]" />
                             <span>Requested for {inq.date} at {inq.preferredTourTime}</span>
                           </span>
-                          <span className="font-semibold text-slate-300">
+                          <span className="font-semibold text-[#baa99c]">
                             Consultant: {inq.agentName}
                           </span>
                         </div>
@@ -329,7 +329,7 @@ export const UserDashboardPage: React.FC = () => {
                   <h2 className="text-lg font-bold font-serif-luxury text-white">Properties You Have Listed</h2>
                   <button
                     onClick={() => setCurrentPage('sell')}
-                    className="gold-btn py-2 px-4 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                    className="cognac-btn py-2 px-4 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer"
                   >
                     <PlusCircle className="w-3.5 h-3.5" />
                     <span>List Another Property</span>
@@ -338,7 +338,7 @@ export const UserDashboardPage: React.FC = () => {
 
                 <div className="space-y-4">
                   {myListings.map(prop => (
-                    <div key={prop.id} className="bg-[#111a2e] border border-white/10 rounded-2xl p-5 flex flex-col sm:flex-row gap-5 items-center justify-between">
+                    <div key={prop.id} className="bg-[#221915] border border-[#3d2f27] rounded-2xl p-5 flex flex-col sm:flex-row gap-5 items-center justify-between">
                       <div className="flex items-center gap-4">
                         <img src={prop.images[0]} alt="" className="w-24 h-20 rounded-xl object-cover" />
                         <div>
@@ -346,21 +346,21 @@ export const UserDashboardPage: React.FC = () => {
                             Live on Dubai Estates
                           </span>
                           <h4 className="text-sm font-bold text-white">{prop.title}</h4>
-                          <p className="text-xs text-amber-400 font-bold">{formatPrice(prop.priceAED)}</p>
-                          <p className="text-[11px] text-slate-400 mt-0.5">Ref: {prop.referenceNumber} • {prop.community}</p>
+                          <p className="text-xs text-[#c87a50] font-bold">{formatPrice(prop.priceAED)}</p>
+                          <p className="text-[11px] text-[#baa99c] mt-0.5">Ref: {prop.referenceNumber} • {prop.community}</p>
                         </div>
                       </div>
 
                       <div className="flex gap-2 w-full sm:w-auto">
                         <button
                           onClick={() => navigateToProperty(prop.id)}
-                          className="flex-1 sm:flex-none px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-semibold transition cursor-pointer"
+                          className="flex-1 sm:flex-none px-4 py-2 bg-[#2b201a] hover:bg-white/20 text-white rounded-xl text-xs font-semibold transition cursor-pointer"
                         >
                           View Listing
                         </button>
                         <button
                           onClick={() => showToast('Editing property listing modal opened')}
-                          className="flex-1 sm:flex-none px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 rounded-xl text-xs font-semibold border border-amber-500/30 transition cursor-pointer"
+                          className="flex-1 sm:flex-none px-4 py-2 bg-[#c87a50]/10 hover:bg-[#c87a50]/20 text-[#df8a5e] rounded-xl text-xs font-semibold border border-[#c87a50]/30 transition cursor-pointer"
                         >
                           Edit
                         </button>
@@ -377,10 +377,10 @@ export const UserDashboardPage: React.FC = () => {
                 <h2 className="text-lg font-bold font-serif-luxury text-white">Your Saved Search Criteria</h2>
                 <div className="space-y-3">
                   {savedSearches.map(s => (
-                    <div key={s.id} className="bg-[#111a2e] border border-white/10 rounded-2xl p-5 flex justify-between items-center">
+                    <div key={s.id} className="bg-[#221915] border border-[#3d2f27] rounded-2xl p-5 flex justify-between items-center">
                       <div>
                         <h4 className="text-sm font-bold text-white">{s.title}</h4>
-                        <p className="text-xs text-amber-400 mt-0.5">{s.filter}</p>
+                        <p className="text-xs text-[#c87a50] mt-0.5">{s.filter}</p>
                         <span className="text-[11px] text-slate-500">Saved in {s.date}</span>
                       </div>
                       <div className="flex gap-2">
@@ -389,7 +389,7 @@ export const UserDashboardPage: React.FC = () => {
                             setCurrentPage('properties');
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
-                          className="gold-btn py-1.5 px-4 rounded-xl text-xs font-bold cursor-pointer"
+                          className="cognac-btn py-1.5 px-4 rounded-xl text-xs font-bold cursor-pointer"
                         >
                           Run Search
                         </button>
@@ -402,14 +402,14 @@ export const UserDashboardPage: React.FC = () => {
 
             {/* PROFILE & PREFERENCES TAB */}
             {activeTab === 'profile' && (
-              <div className="bg-[#111a2e] border border-white/10 rounded-2xl p-6 sm:p-8 space-y-6 animate-fade-in">
+              <div className="bg-[#221915] border border-[#3d2f27] rounded-2xl p-6 sm:p-8 space-y-6 animate-fade-in">
                 <h2 className="text-lg font-bold font-serif-luxury text-white">Investor Profile & Preferences</h2>
-                <div className="flex items-center gap-4 pb-6 border-b border-white/10">
-                  <img src={user.avatar} alt="" className="w-16 h-16 rounded-full object-cover border-2 border-amber-500" />
+                <div className="flex items-center gap-4 pb-6 border-b border-[#3d2f27]">
+                  <img src={user.avatar} alt="" className="w-16 h-16 rounded-full object-cover border-2 border-[#c87a50]" />
                   <div>
                     <h3 className="text-base font-bold text-white">{user.name}</h3>
-                    <p className="text-xs text-slate-400">{user.email}</p>
-                    <span className="text-[10px] text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded mt-1 inline-block">
+                    <p className="text-xs text-[#baa99c]">{user.email}</p>
+                    <span className="text-[10px] text-[#c87a50] font-bold bg-[#c87a50]/10 px-2 py-0.5 rounded mt-1 inline-block">
                       Tier 1 Accredited Investor
                     </span>
                   </div>
@@ -417,28 +417,28 @@ export const UserDashboardPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
-                    <label className="text-slate-400 block mb-1 font-semibold">Primary Phone (WhatsApp Verified)</label>
+                    <label className="text-[#baa99c] block mb-1 font-semibold">Primary Phone (WhatsApp Verified)</label>
                     <input
                       type="text"
                       defaultValue={user.phone}
-                      className="w-full bg-[#0b111e] border border-white/10 rounded-xl p-2.5 text-white"
+                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl p-2.5 text-white"
                     />
                   </div>
                   <div>
-                    <label className="text-slate-400 block mb-1 font-semibold">Preferred Currency</label>
+                    <label className="text-[#baa99c] block mb-1 font-semibold">Preferred Currency</label>
                     <input
                       type="text"
                       defaultValue="AED (United Arab Emirates Dirham)"
-                      className="w-full bg-[#0b111e] border border-white/10 rounded-xl p-2.5 text-white"
+                      className="w-full bg-[#18110e] border border-[#3d2f27] rounded-xl p-2.5 text-white"
                       disabled
                     />
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-white/10 flex justify-end">
+                <div className="pt-4 border-t border-[#3d2f27] flex justify-end">
                   <button
                     onClick={() => showToast('Profile preferences updated!')}
-                    className="gold-btn py-2.5 px-6 rounded-xl text-xs font-bold cursor-pointer"
+                    className="cognac-btn py-2.5 px-6 rounded-xl text-xs font-bold cursor-pointer"
                   >
                     Save Preferences
                   </button>
@@ -454,3 +454,4 @@ export const UserDashboardPage: React.FC = () => {
     </div>
   );
 };
+

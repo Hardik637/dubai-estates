@@ -54,7 +54,7 @@ const MainContent: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col text-[#16191f] bg-[#fcfbfa] selection:bg-[#b88d3d] selection:text-white">
+    <div className="relative min-h-screen flex flex-col text-[#f5ede6] bg-[#1a1310] selection:bg-[#c87a50] selection:text-white">
       <Navbar />
       <main className="flex-1">
         {renderPage()}

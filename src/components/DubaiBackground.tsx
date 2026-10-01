@@ -69,8 +69,8 @@ export const DubaiBackground: React.FC = () => {
         );
       })}
 
-      {/* Very light, natural gradient at the top/bottom so images remain clear and NOT shadowed out */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0b111e]/40 via-transparent to-[#0b111e]/85" />
+      {/* Natural gradient at the top/bottom in dirty chocolate tones so images remain clear and luxury depth is preserved */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1a1310]/40 via-transparent to-[#1a1310]/85" />
     </div>
   );
 };

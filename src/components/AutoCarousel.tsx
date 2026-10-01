@@ -123,13 +123,13 @@ export const AutoCarousel: React.FC<AutoCarouselProps> = ({
               onClick={() => scrollToItem(idx)}
               className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                 idx === activeDot
-                  ? 'w-7 bg-amber-400'
-                  : 'w-1.5 bg-white/20 hover:bg-white/50'
+                  ? 'w-7 bg-[#c87a50]'
+                  : 'w-1.5 bg-[#3d2f27] hover:bg-[#523f35]'
               }`}
               aria-label={`Jump to property ${idx + 1}`}
             />
           ))}
-          <span className="text-[10px] text-slate-400 ml-2 font-medium hidden sm:inline">
+          <span className="text-[10px] text-[#baa99c] ml-2 font-medium hidden sm:inline">
             {isPaused ? 'Paused' : 'Auto-moving'}
           </span>
         </div>
@@ -138,14 +138,14 @@ export const AutoCarousel: React.FC<AutoCarouselProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={scrollPrev}
-            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#111a2e]/90 hover:bg-amber-500 hover:text-slate-950 border border-white/10 text-white flex items-center justify-center transition cursor-pointer shadow-lg active:scale-95"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#221915]/90 hover:bg-[#c87a50] hover:text-[#120d0b] border border-[#3d2f27] text-[#f5ede6] flex items-center justify-center transition cursor-pointer shadow-lg active:scale-95"
             aria-label="Previous property"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={scrollNext}
-            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#111a2e]/90 hover:bg-amber-500 hover:text-slate-950 border border-white/10 text-white flex items-center justify-center transition cursor-pointer shadow-lg active:scale-95"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#221915]/90 hover:bg-[#c87a50] hover:text-[#120d0b] border border-[#3d2f27] text-[#f5ede6] flex items-center justify-center transition cursor-pointer shadow-lg active:scale-95"
             aria-label="Next property"
           >
             <ChevronRight className="w-4 h-4" />

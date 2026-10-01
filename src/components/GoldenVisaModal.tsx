@@ -13,43 +13,43 @@ export const GoldenVisaModal: React.FC = () => {
   const shortfall = minRequiredAED - propertyValueAED;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
       <div 
-        className="bg-[#0f172a] border border-amber-500/40 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative overflow-hidden"
+        className="bg-[#221915] border border-[#3d2f27] rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative overflow-hidden text-[#f5ede6]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Gold Glow effect */}
-        <div className="absolute -top-24 -right-24 w-60 h-60 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+        {/* Warm copper glow effect */}
+        <div className="absolute -top-24 -right-24 w-60 h-60 bg-[#c87a50]/15 rounded-full blur-3xl pointer-events-none" />
         
         {/* Close Button */}
         <button 
           onClick={() => setIsGoldenVisaModalOpen(false)}
-          className="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition cursor-pointer"
+          className="absolute top-5 right-5 text-[#baa99c] hover:text-white p-2 rounded-full hover:bg-white/10 transition cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+          <div className="w-12 h-12 rounded-2xl bg-[#c87a50]/20 border border-[#c87a50]/30 flex items-center justify-center text-[#df8a5e]">
             <Sparkles className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-xl sm:text-2xl font-bold font-serif-luxury text-white">UAE 10-Year Golden Visa</h2>
-              <span className="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
+              <h2 className="text-xl sm:text-2xl font-bold font-serif-luxury text-[#f5ede6]">UAE 10-Year Golden Visa</h2>
+              <span className="text-[10px] px-2 py-0.5 rounded bg-[#c87a50]/20 text-[#df8a5e] font-bold border border-[#c87a50]/30">
                 OFFICIAL
               </span>
             </div>
-            <p className="text-xs text-slate-400">Eligibility & Investment Checker for Property Buyers</p>
+            <p className="text-xs text-[#baa99c]">Eligibility & Investment Checker for Property Buyers</p>
           </div>
         </div>
 
         {/* Investment Slider */}
-        <div className="bg-[#1e293b]/60 border border-white/10 rounded-2xl p-5 mb-6">
-          <label className="text-xs font-semibold text-slate-300 flex justify-between mb-2">
+        <div className="bg-[#1a1310] border border-[#3d2f27] rounded-2xl p-5 mb-6">
+          <label className="text-xs font-semibold text-[#baa99c] flex justify-between mb-2">
             <span>Your Property Investment Amount:</span>
-            <span className="text-amber-400 font-bold text-base">{formatPrice(propertyValueAED)}</span>
+            <span className="text-[#df8a5e] font-bold text-base">{formatPrice(propertyValueAED)}</span>
           </label>
           <input 
             type="range"
@@ -58,17 +58,17 @@ export const GoldenVisaModal: React.FC = () => {
             step={250000}
             value={propertyValueAED}
             onChange={(e) => setPropertyValueAED(Number(e.target.value))}
-            className="w-full h-2.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500"
+            className="w-full h-2.5 bg-[#2b201a] rounded-lg appearance-none cursor-pointer accent-[#c87a50]"
           />
 
-          <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
-            <span className="text-xs text-slate-400">Statutory Requirement: <strong>AED 2,000,000</strong></span>
+          <div className="mt-4 pt-3 border-t border-[#3d2f27] flex items-center justify-between">
+            <span className="text-xs text-[#baa99c]">Statutory Requirement: <strong className="text-[#f5ede6]">AED 2,000,000</strong></span>
             {isEligible ? (
               <span className="flex items-center gap-1.5 text-xs text-emerald-400 font-bold bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-500/30">
                 <CheckCircle2 className="w-4 h-4" /> 100% Eligible for 10-Yr Visa
               </span>
             ) : (
-              <span className="text-xs text-amber-300 font-medium">
+              <span className="text-xs text-[#df8a5e] font-medium">
                 Add {formatPrice(shortfall)} more to qualify
               </span>
             )}
@@ -77,35 +77,35 @@ export const GoldenVisaModal: React.FC = () => {
 
         {/* Key Benefits Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-          <div className="p-3 bg-white/5 rounded-xl border border-white/5 flex items-start gap-2.5">
-            <Users className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+          <div className="p-3 bg-[#2b201a] rounded-xl border border-[#3d2f27] flex items-start gap-2.5">
+            <Users className="w-4 h-4 text-[#df8a5e] mt-0.5 shrink-0" />
             <div>
-              <h4 className="text-xs font-semibold text-white">Full Family Sponsorship</h4>
-              <p className="text-[11px] text-slate-400">Sponsor spouse, children of any age, and domestic staff with zero restrictions.</p>
+              <h4 className="text-xs font-semibold text-[#f5ede6]">Full Family Sponsorship</h4>
+              <p className="text-[11px] text-[#baa99c]">Sponsor spouse, children of any age, and domestic staff with zero restrictions.</p>
             </div>
           </div>
 
-          <div className="p-3 bg-white/5 rounded-xl border border-white/5 flex items-start gap-2.5">
-            <Globe className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+          <div className="p-3 bg-[#2b201a] rounded-xl border border-[#3d2f27] flex items-start gap-2.5">
+            <Globe className="w-4 h-4 text-[#df8a5e] mt-0.5 shrink-0" />
             <div>
-              <h4 className="text-xs font-semibold text-white">No Minimum Stay Required</h4>
-              <p className="text-[11px] text-slate-400">Maintain residency even if you spend months abroad without entering the UAE.</p>
+              <h4 className="text-xs font-semibold text-[#f5ede6]">No Minimum Stay Required</h4>
+              <p className="text-[11px] text-[#baa99c]">Maintain residency even if you spend months abroad without entering the UAE.</p>
             </div>
           </div>
 
-          <div className="p-3 bg-white/5 rounded-xl border border-white/5 flex items-start gap-2.5">
-            <Building className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+          <div className="p-3 bg-[#2b201a] rounded-xl border border-[#3d2f27] flex items-start gap-2.5">
+            <Building className="w-4 h-4 text-[#df8a5e] mt-0.5 shrink-0" />
             <div>
-              <h4 className="text-xs font-semibold text-white">Off-Plan & Mortgages Allowed</h4>
-              <p className="text-[11px] text-slate-400">Approved projects by Emaar, Nakheel, and DAMAC qualify with minimum paid capital.</p>
+              <h4 className="text-xs font-semibold text-[#f5ede6]">Off-Plan & Mortgages Allowed</h4>
+              <p className="text-[11px] text-[#baa99c]">Approved projects by Sobha, Emaar, and Nakheel qualify with minimum paid capital.</p>
             </div>
           </div>
 
-          <div className="p-3 bg-white/5 rounded-xl border border-white/5 flex items-start gap-2.5">
-            <Shield className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+          <div className="p-3 bg-[#2b201a] rounded-xl border border-[#3d2f27] flex items-start gap-2.5">
+            <Shield className="w-4 h-4 text-[#df8a5e] mt-0.5 shrink-0" />
             <div>
-              <h4 className="text-xs font-semibold text-white">0% Income & Capital Gains Tax</h4>
-              <p className="text-[11px] text-slate-400">100% tax-free personal income and rental returns under UAE tax residency.</p>
+              <h4 className="text-xs font-semibold text-[#f5ede6]">0% Income & Capital Gains Tax</h4>
+              <p className="text-[11px] text-[#baa99c]">100% tax-free personal income and rental returns under UAE tax residency.</p>
             </div>
           </div>
         </div>
@@ -118,15 +118,15 @@ export const GoldenVisaModal: React.FC = () => {
               const text = encodeURIComponent(
                 `Hello Dubai Estates, I want to apply for the UAE 10-Year Golden Visa with a budget of ${formatPrice(propertyValueAED)}. Please connect me with your legal conveyance team.`
               );
-              window.open(`https://wa.me/971501234567?text=${text}`, '_blank');
+              window.open(`https://wa.me/971508924110?text=${text}`, '_blank');
             }}
-            className="flex-1 gold-btn py-3 rounded-xl text-xs font-bold text-center cursor-pointer shadow-lg"
+            className="flex-1 py-3 rounded-xl bg-[#c87a50] hover:bg-[#b8683b] text-white text-xs font-bold text-center cursor-pointer shadow-lg transition"
           >
             Apply for Golden Visa Consultation
           </button>
           <button
             onClick={() => setIsGoldenVisaModalOpen(false)}
-            className="px-5 py-3 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-white/10 hover:bg-white/15 cursor-pointer"
+            className="px-5 py-3 rounded-xl text-xs font-semibold text-[#baa99c] hover:text-white bg-[#2b201a] hover:bg-[#332720] border border-[#3d2f27] cursor-pointer"
           >
             Close
           </button>
