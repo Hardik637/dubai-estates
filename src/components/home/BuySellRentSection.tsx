@@ -9,7 +9,8 @@ export const BuySellRentSection: React.FC = () => {
     {
       action: 'BUY',
       sub: 'Acquire Trophy Residences',
-      desc: 'Prime waterfront villas, sky duplexes, and private golf estates. Sovereign verification on every title deed.',
+      image: '/assets/hero/hero-architectural-residence.jpg',
+      desc: 'Prime waterfront villas, sky penthouses, and private golf estates. Sovereign verification on every title deed.',
       onClick: () => {
         setFilters(prev => ({ ...prev, listingType: 'For Sale' }));
         setCurrentPage('properties');
@@ -19,6 +20,7 @@ export const BuySellRentSection: React.FC = () => {
     {
       action: 'SELL',
       sub: 'Owner Mandates & Consignment',
+      image: '/assets/editorial/seller-monolith-mansion.jpg',
       desc: 'Discreet placement before verified family offices, private capital, and international principals without public footprint.',
       onClick: () => {
         setCurrentPage('sell');
@@ -28,6 +30,7 @@ export const BuySellRentSection: React.FC = () => {
     {
       action: 'RENT',
       sub: 'Long-Term Prime Tenancies',
+      image: '/assets/interiors/luxury-living-gallery.jpg',
       desc: 'Fully serviced and turnkey architectural residences in Dubai’s most guarded residential addresses.',
       onClick: () => {
         setFilters(prev => ({ ...prev, listingType: 'For Rent' }));
@@ -38,59 +41,69 @@ export const BuySellRentSection: React.FC = () => {
   ];
 
   return (
-    <section className="bg-[#111111] text-[#FFFFFF] py-28 sm:py-36 border-b border-[#2B2A27]">
+    <section className="bg-[#111111] text-[#FFFFFF] py-28 sm:py-44 border-b border-[#2B2A27] overflow-hidden select-none">
       <div className="editorial-container">
         
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6 border-b border-[#2B2A27] pb-12">
-          <div>
-            <span className="text-[10px] sm:text-xs font-mono tracking-[0.35em] uppercase text-[#8A877F] block mb-3">
-              Marketplace Directives
-            </span>
-            <h2 className="font-editorial text-4xl sm:text-6xl md:text-7xl font-light text-[#FFFFFF] leading-[1.04] tracking-[-0.02em]">
-              Buy. Sell. Rent.<br />
-              <span className="italic text-[#8A877F]">Direct advisory without friction.</span>
-            </h2>
-          </div>
-
-          <p className="text-sm text-[#E7E3DA] max-w-sm font-light leading-relaxed">
-            Choose your mandate. Every transaction is governed through our DIFC office desk under strict RERA escrow regulations.
-          </p>
+        {/* Section Index Marker */}
+        <div className="flex items-center justify-between pb-6 mb-16 sm:mb-24 border-b border-[#2B2A27]">
+          <span className="text-[10px] font-mono tracking-[0.35em] uppercase text-[#8A877F]">
+            PLATE V // MANDATE DIRECTIVES
+          </span>
+          <span className="text-[10px] font-mono tracking-[0.35em] uppercase text-[#8A877F]">
+            MARKETPLACE TRANSITION
+          </span>
         </div>
 
-        {/* 3 Interactive Monolith Areas */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {tracks.map((t, idx) => (
-            <div
-              key={t.action}
-              onClick={t.onClick}
-              className="group cursor-pointer bg-[#1B1B1B] border border-[#2B2A27] p-8 sm:p-10 flex flex-col justify-between transition-all duration-400 hover:border-white hover:bg-[#202020]"
-            >
-              <div>
-                <div className="flex items-center justify-between text-xs font-mono text-[#8A877F] mb-12">
-                  <span>0{idx + 1}</span>
-                  <ArrowUpRight className="w-4 h-4 text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+        {/* Vertical Stacking: Giant White Typography Intersecting with Architectural Images */}
+        <div className="space-y-16 sm:space-y-28">
+          {tracks.map((t, idx) => {
+            const isAlternate = idx % 2 === 1;
+
+            return (
+              <div
+                key={t.action}
+                onClick={t.onClick}
+                className="group cursor-pointer grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center border-b border-[#2B2A27] pb-16 sm:pb-24 transition-colors"
+              >
+                {/* Text and Massive Title */}
+                <div className={`space-y-4 ${isAlternate ? 'lg:col-span-7 lg:order-2' : 'lg:col-span-7 lg:order-1'}`}>
+                  <div className="flex items-center gap-3 text-xs font-mono text-[#8A877F]">
+                    <span>0{idx + 1}</span>
+                    <span className="w-8 h-[1px] bg-[#8A877F]" />
+                    <span className="uppercase tracking-[0.2em]">{t.sub}</span>
+                  </div>
+
+                  <h3 className="font-editorial text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-light leading-[0.9] tracking-[-0.03em] text-[#FFFFFF] group-hover:text-[#8A877F] transition-colors">
+                    {t.action}
+                  </h3>
+
+                  <p className="text-sm text-[#E7E3DA] font-light max-w-md leading-relaxed pt-2">
+                    {t.desc}
+                  </p>
+
+                  <div className="pt-4 flex items-center gap-2 text-xs font-mono uppercase tracking-[0.25em] text-[#FFFFFF]">
+                    <span>ENTER DIRECTIVE</span>
+                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  </div>
                 </div>
 
-                <h3 className="font-editorial text-4xl sm:text-5xl font-light text-white mb-3">
-                  {t.action}.
-                </h3>
-
-                <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#8A877F] block mb-4">
-                  {t.sub}
-                </span>
-
-                <p className="text-xs sm:text-sm text-[#E7E3DA] font-light leading-relaxed">
-                  {t.desc}
-                </p>
+                {/* Intersecting Architectural Image */}
+                <div className={`relative ${isAlternate ? 'lg:col-span-5 lg:order-1' : 'lg:col-span-5 lg:order-2'}`}>
+                  <div className="relative aspect-[4/3] bg-[#1B1B1B] border border-[#2B2A27] overflow-hidden group-hover:border-white transition-colors">
+                    <img
+                      src={t.image}
+                      alt={t.action}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                      loading="lazy"
+                    />
+                    <div className="absolute bottom-3 left-3 bg-[#111111]/90 px-3 py-1 text-[9px] font-mono uppercase tracking-wider text-white border border-[#2B2A27]">
+                      MANDATE // 0{idx + 1}
+                    </div>
+                  </div>
+                </div>
               </div>
-
-              <div className="pt-8 mt-8 border-t border-[#2B2A27] flex items-center justify-between text-xs font-mono uppercase tracking-[0.2em] text-white">
-                <span>Enter Mandate</span>
-                <span className="text-[#8A877F] group-hover:text-white transition-colors">→</span>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
       </div>

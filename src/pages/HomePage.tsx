@@ -1,38 +1,34 @@
 import React from 'react';
-import { CinematicMovieExperience } from '../components/home/CinematicMovieExperience';
-import { BrandStatement } from '../components/home/BrandStatement';
-import { DubaiLens } from '../components/home/DubaiLens';
-import { FeaturedProperties } from '../components/home/FeaturedProperties';
+import { EditorialHero } from '../components/home/EditorialHero';
+import { AsymmetricEditorialSpread } from '../components/home/AsymmetricEditorialSpread';
+import { ChevronTransition } from '../components/home/ChevronTransition';
+import { DubaiEditorialSection } from '../components/home/DubaiEditorialSection';
+import { EditorialPropertyFeatures } from '../components/home/EditorialPropertyFeatures';
 import { BuySellRentSection } from '../components/home/BuySellRentSection';
-import { SellWithUs } from '../components/home/SellWithUs';
-import { PropertyJournal } from '../components/home/PropertyJournal';
 import { FinalCTA } from '../components/home/FinalCTA';
 
 export const HomePage: React.FC = () => {
   return (
     <div className="relative w-full bg-[#FFFFFF] text-[#111111] overflow-x-clip">
-      {/* SCENE 01: The Cinematic Movie Scroll Experience (Skyline -> Descent -> District -> Villa -> Sanctuary) */}
-      <CinematicMovieExperience />
+      {/* SCENE 01 — INTRODUCTION: White, Minimal, Oversized Headline "DUBAI HAS MORE TO OFFER", Small Image Block */}
+      <EditorialHero />
 
-      {/* SCENE 02: Editorial Brand Statement (Cream) */}
-      <BrandStatement />
+      {/* SCENE 02 & 04 — EDITORIAL IMAGE COMPOSITION & BRAND STATEMENT: Asymmetric Spread in Warm Cream */}
+      <AsymmetricEditorialSpread />
 
-      {/* SCENE 03 & 04: Dubai & Communities Through Our Lens (White) */}
-      <DubaiLens />
+      {/* SCENE 03 — CHEVRON TRANSITION: Architectural Horizontal Chevron Slider (> > > > >) */}
+      <ChevronTransition />
 
-      {/* SCENE 05: Curated Editorial Properties Collection (Cream) */}
-      <FeaturedProperties />
+      {/* SCENE 05 — DUBAI: Interactive Editorial Storytelling (Location on left, big image on right) */}
+      <DubaiEditorialSection />
 
-      {/* SCENE 06: The Marketplace - Buy / Sell / Rent Interactive Monolith (Dark Contrast #111111) */}
+      {/* SCENE 06 & 07 — PROPERTY DISCOVERY & EDITORIAL SPLIT: 3 Hand-Selected Alternating Spreads */}
+      <EditorialPropertyFeatures />
+
+      {/* SCENE 08 — BUY / SELL / RENT: Massive Black (#111111) Transition with Giant White Typography */}
       <BuySellRentSection />
 
-      {/* SCENE 07: For Property Owners - Consignment & Valuation (White) */}
-      <SellWithUs />
-
-      {/* SCENE 08: Dubai Property Journal - Market Intelligence & Editorial Notes (Cream) */}
-      <PropertyJournal />
-
-      {/* SCENE 09: Final Destination & Private Client Desk CTA (White) */}
+      {/* SCENE 09 — FINAL CTA: Minimalist White "FIND YOUR PLACE IN DUBAI" */}
       <FinalCTA />
     </div>
   );
