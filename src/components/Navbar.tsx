@@ -15,17 +15,23 @@ export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchVal, setSearchVal] = useState('');
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolledPastHero, setScrolledPastHero] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
+      // If we are on homepage, reveal navbar only when user has progressed through the hero sequence
+      // Hero container is 380vh, so window.innerHeight * 2.5 is when the animation has reached completion and the page starts
+      const threshold = currentPage === 'home' ? window.innerHeight * 2.5 : 40;
+      setScrolledPastHero(window.scrollY > threshold);
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [currentPage]);
 
   const navLinks: { label: string; page: PageRoute; action?: () => void }[] = [
+    { label: 'PROPERTIES', page: 'properties' },
     { 
       label: 'BUY', 
       page: 'properties',
@@ -37,7 +43,8 @@ export const Navbar: React.FC = () => {
       action: () => setFilters(prev => ({ ...prev, listingType: 'For Rent' }))
     },
     { label: 'SELL', page: 'sell' },
-    { label: 'COMMUNITIES', page: 'communities' },
+    { label: 'AREAS', page: 'communities' },
+    { label: 'ABOUT', page: 'about' },
   ];
 
   const handleNavClick = (link: typeof navLinks[0]) => {
@@ -63,10 +70,10 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ${
-          currentPage === 'home' && !scrolled
-            ? 'opacity-0 pointer-events-none -translate-y-4'
-            : 'opacity-100 pointer-events-auto translate-y-0 bg-white/95 backdrop-blur-md py-4 border-b border-[#E7E3DA] shadow-[0_1px_8px_rgba(0,0,0,0.03)]'
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-700 ease-out ${
+          currentPage === 'home' && !scrolledPastHero
+            ? 'opacity-0 pointer-events-none -translate-y-8'
+            : 'opacity-100 pointer-events-auto translate-y-0 bg-[#FFFFFF]/95 backdrop-blur-md py-4 border-b border-[#E7E3DA] shadow-[0_1px_12px_rgba(0,0,0,0.04)]'
         }`}
       >
         <div className="editorial-container flex items-center justify-between">
@@ -143,6 +150,18 @@ export const Navbar: React.FC = () => {
               ACCOUNT
             </button>
 
+            {/* List Your Property CTA */}
+            <button
+              onClick={() => {
+                setCurrentPage('sell');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="hidden md:inline-flex items-center gap-2 px-4 py-2 border border-[#111111] bg-[#111111] text-white hover:bg-transparent hover:text-[#111111] text-[10px] font-mono tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer"
+            >
+              <span>List Your Property</span>
+              <ArrowUpRight className="w-3 h-3" />
+            </button>
+
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(true)}
@@ -188,16 +207,25 @@ export const Navbar: React.FC = () => {
             ))}
           </div>
 
-          <div className="pt-6 border-t border-[#E7E3DA] space-y-4">
+          <div className="pt-6 border-t border-[#E7E3DA] space-y-3">
+            <button
+              onClick={() => {
+                setCurrentPage('sell');
+                setMobileMenuOpen(false);
+              }}
+              className="btn-editorial-primary w-full justify-center"
+            >
+              <span>List Your Property</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
             <button
               onClick={() => {
                 setCurrentPage('dashboard');
                 setMobileMenuOpen(false);
               }}
-              className="btn-editorial-primary w-full justify-center"
+              className="btn-editorial-secondary w-full justify-center"
             >
               <span>Access Private Account</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
