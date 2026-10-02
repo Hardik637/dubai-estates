@@ -14,6 +14,7 @@ export const CinematicHero: React.FC = () => {
   const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
   const currentFrameRef = useRef<number>(1);
   const isRenderingRef = useRef<boolean>(false);
+  const lastDrawnFrameRef = useRef<number>(1);
 
   // Helper to format frame path
   const getFramePath = (index: number) => {
@@ -26,7 +27,24 @@ export const CinematicHero: React.FC = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const img = imagesRef.current[frameIndex - 1];
+    // Use current requested frame or fallback to nearest available loaded frame
+    let img = imagesRef.current[frameIndex - 1];
+    if (!img || !img.complete || img.naturalWidth === 0) {
+      // Find nearest loaded frame backward, then forward
+      for (let offset = 1; offset < TOTAL_FRAMES; offset++) {
+        const prev = imagesRef.current[frameIndex - 1 - offset];
+        if (prev && prev.complete && prev.naturalWidth > 0) {
+          img = prev;
+          break;
+        }
+        const next = imagesRef.current[frameIndex - 1 + offset];
+        if (next && next.complete && next.naturalWidth > 0) {
+          img = next;
+          break;
+        }
+      }
+    }
+
     if (!img || !img.complete || img.naturalWidth === 0) return;
 
     const ctx = canvas.getContext('2d');
@@ -56,6 +74,8 @@ export const CinematicHero: React.FC = () => {
       imgWidth * ratio,
       imgHeight * ratio
     );
+
+    lastDrawnFrameRef.current = frameIndex;
   };
 
   // Resize canvas to client dimensions taking DPR into account
@@ -84,7 +104,7 @@ export const CinematicHero: React.FC = () => {
     // Initialize image cache array
     imagesRef.current = new Array(TOTAL_FRAMES).fill(null);
 
-    // 1. Immediately load frame 1
+    // 1. Immediately load frame 1 for instant visual
     const firstImg = new Image();
     firstImg.src = getFramePath(1);
     firstImg.onload = () => {
@@ -94,17 +114,47 @@ export const CinematicHero: React.FC = () => {
       drawFrame(1);
     };
 
-    // 2. Preload remaining frames progressively
+    // 2. Intelligent Progressive Loading Pipeline:
+    // With high-res frames, prioritize initial segment (frames 2..20) then keyframes throughout the journey
+    const loadQueue: number[] = [];
+    
+    // First priority: initial 20 frames for smooth scroll start
+    for (let i = 2; i <= Math.min(25, TOTAL_FRAMES); i++) {
+      loadQueue.push(i);
+    }
+    // Second priority: stepped keyframes every 4th frame across the timeline
+    for (let i = 28; i <= TOTAL_FRAMES; i += 4) {
+      loadQueue.push(i);
+    }
+    // Third priority: fill in remaining frames
     for (let i = 2; i <= TOTAL_FRAMES; i++) {
+      if (!loadQueue.includes(i)) {
+        loadQueue.push(i);
+      }
+    }
+
+    let currentIndex = 0;
+    const concurrency = 4; // 4 concurrent connections avoids browser thread choke
+
+    const loadNext = () => {
+      if (currentIndex >= loadQueue.length) return;
+      const frameNum = loadQueue[currentIndex++];
       const img = new Image();
-      img.src = getFramePath(i);
+      img.src = getFramePath(frameNum);
       img.onload = () => {
-        imagesRef.current[i - 1] = img;
-        // If scroll landed on this frame before it finished loading, draw it now
-        if (currentFrameRef.current === i) {
-          drawFrame(i);
+        imagesRef.current[frameNum - 1] = img;
+        if (currentFrameRef.current === frameNum) {
+          drawFrame(frameNum);
         }
+        loadNext();
       };
+      img.onerror = () => {
+        loadNext();
+      };
+    };
+
+    for (let c = 0; c < concurrency; c++) {
+      loadNext();
     }
 
     // 3. Setup resize handler
@@ -119,6 +169,7 @@ export const CinematicHero: React.FC = () => {
         trigger: containerRef.current,
         start: 'top top',
         end: 'bottom bottom',
+        pin: '.hero-pinned-viewport',
         scrub: 0.3,
         anticipatePin: 1,
         onUpdate: (self) => {
@@ -158,12 +209,11 @@ export const CinematicHero: React.FC = () => {
       {/* 
         Sticky full-viewport container:
         Zero UI on initial load. Pure cinematic visual experience.
-        Uses dual-layer fallback: Background <img> element + HTML5 <canvas>
-        guaranteeing the frame is NEVER black even before canvas paints or during rapid scrolls.
+        Dual-layer: Hardware-accelerated canvas on top, guaranteed img layer beneath.
       */}
-      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center justify-center bg-[#0a0b0d]">
+      <div className="hero-pinned-viewport sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center justify-center bg-[#0a0b0d]">
         
-        {/* Layer 1: Guaranteed Image Fallback (Always displays current frame) */}
+        {/* Layer 1: Guaranteed Image Fallback */}
         <img
           src={getFramePath(currentFrameNum)}
           alt="Dubai Residence Hero Frame"
