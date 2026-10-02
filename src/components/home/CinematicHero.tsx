@@ -9,26 +9,31 @@ const TOTAL_FRAMES = 150;
 export const CinematicHero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
-  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const [currentFrameNum, setCurrentFrameNum] = useState<number>(1);
+  const [isFirstFrameLoaded, setIsFirstFrameLoaded] = useState(false);
+  const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
   const currentFrameRef = useRef<number>(1);
+  const isRenderingRef = useRef<boolean>(false);
 
-  // Helper to get formatted frame path
+  // Helper to format frame path
   const getFramePath = (index: number) => {
     const frameNumber = String(index).padStart(4, '0');
     return `/hero-frame/frames_${frameNumber}.jpg`;
   };
 
-  // Draw a frame covering the entire canvas (aspect ratio cover math)
-  const renderFrame = (img: HTMLImageElement) => {
+  // Draw frame on canvas with object-fit: cover logic
+  const drawFrame = (frameIndex: number) => {
     const canvas = canvasRef.current;
-    if (!canvas || !img || !img.complete || img.naturalWidth === 0) return;
+    if (!canvas) return;
+
+    const img = imagesRef.current[frameIndex - 1];
+    if (!img || !img.complete || img.naturalWidth === 0) return;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     const canvasWidth = canvas.width;
     const canvasHeight = canvas.height;
-
     const imgWidth = img.naturalWidth;
     const imgHeight = img.naturalHeight;
 
@@ -53,16 +58,18 @@ export const CinematicHero: React.FC = () => {
     );
   };
 
-  // Resize canvas according to device pixel ratio for crystal-clear retina rendering
-  const resizeCanvas = () => {
+  // Resize canvas to client dimensions taking DPR into account
+  const handleResize = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const dpr = window.devicePixelRatio || 1;
-    const width = window.innerWidth;
-    const height = window.innerHeight;
 
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const width = rect.width || window.innerWidth;
+    const height = rect.height || window.innerHeight;
+
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
 
     const ctx = canvas.getContext('2d');
     if (ctx) {
@@ -70,69 +77,66 @@ export const CinematicHero: React.FC = () => {
       ctx.imageSmoothingQuality = 'high';
     }
 
-    // Re-draw current frame immediately after resize
-    const currImg = imagesRef.current[currentFrameRef.current - 1];
-    if (currImg && currImg.complete) {
-      renderFrame(currImg);
-    }
+    drawFrame(currentFrameRef.current);
   };
 
   useEffect(() => {
-    // 1. Preload images
-    const images: HTMLImageElement[] = [];
-    imagesRef.current = images;
+    // Initialize image cache array
+    imagesRef.current = new Array(TOTAL_FRAMES).fill(null);
 
-    // First load frame 1 immediately to paint initial view with zero delay
+    // 1. Immediately load frame 1
     const firstImg = new Image();
     firstImg.src = getFramePath(1);
     firstImg.onload = () => {
-      images[0] = firstImg;
-      resizeCanvas();
-      renderFrame(firstImg);
-      setImagesLoaded(true);
+      imagesRef.current[0] = firstImg;
+      setIsFirstFrameLoaded(true);
+      handleResize();
+      drawFrame(1);
     };
 
-    // Load remaining frames
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
-      if (i === 1) {
-        images[0] = firstImg;
-        continue;
-      }
+    // 2. Preload remaining frames progressively
+    for (let i = 2; i <= TOTAL_FRAMES; i++) {
       const img = new Image();
       img.src = getFramePath(i);
-      images[i - 1] = img;
+      img.onload = () => {
+        imagesRef.current[i - 1] = img;
+        // If scroll landed on this frame before it finished loading, draw it now
+        if (currentFrameRef.current === i) {
+          drawFrame(i);
+        }
+      };
     }
 
-    // 2. Setup Resize listener
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    // 3. Setup resize handler
+    window.addEventListener('resize', handleResize);
+    handleResize();
 
-    // 3. Setup GSAP ScrollTrigger pinning and scrubbing
+    // 4. GSAP ScrollTrigger
     const ctx = gsap.context(() => {
       if (!containerRef.current) return;
-
-      const frameState = { frame: 1 };
 
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: 'top top',
         end: 'bottom bottom',
-        pin: '.hero-pinned-viewport',
-        scrub: 0.5, // Crisp, ultra-smooth interpolation
+        scrub: 0.3,
         anticipatePin: 1,
         onUpdate: (self) => {
-          // Map scroll progress (0.0 to 1.0) to frame index 1 to 150
-          const targetFrame = Math.min(
+          const frameIndex = Math.min(
             TOTAL_FRAMES,
             Math.max(1, Math.round(self.progress * (TOTAL_FRAMES - 1)) + 1)
           );
 
-          if (targetFrame !== currentFrameRef.current) {
-            currentFrameRef.current = targetFrame;
-            frameState.frame = targetFrame;
-            const img = imagesRef.current[targetFrame - 1];
-            if (img && img.complete) {
-              renderFrame(img);
+          if (frameIndex !== currentFrameRef.current) {
+            currentFrameRef.current = frameIndex;
+            setCurrentFrameNum(frameIndex);
+
+            if (!isRenderingRef.current) {
+              isRenderingRef.current = true;
+              requestAnimationFrame(() => {
+                drawFrame(currentFrameRef.current);
+                isRenderingRef.current = false;
+              });
             }
           }
         }
@@ -140,7 +144,7 @@ export const CinematicHero: React.FC = () => {
     }, containerRef);
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('resize', handleResize);
       ctx.revert();
     };
   }, []);
@@ -149,32 +153,45 @@ export const CinematicHero: React.FC = () => {
     <div
       ref={containerRef}
       id="hero-scroll-container"
-      className="relative w-full h-[380vh] bg-black select-none pointer-events-none"
+      className="relative w-full h-[400vh] bg-[#0a0b0d] select-none"
     >
       {/* 
-        Pinned 100vh viewport:
-        ABSOLUTELY ZERO UI on initial load.
-        No text, no navbar, no buttons, no branding, no overlay.
-        Pure cinematic canvas experience.
+        Sticky full-viewport container:
+        Zero UI on initial load. Pure cinematic visual experience.
+        Uses dual-layer fallback: Background <img> element + HTML5 <canvas>
+        guaranteeing the frame is NEVER black even before canvas paints or during rapid scrolls.
       */}
-      <div className="hero-pinned-viewport sticky top-0 left-0 w-full h-screen overflow-hidden bg-black">
+      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center justify-center bg-[#0a0b0d]">
+        
+        {/* Layer 1: Guaranteed Image Fallback (Always displays current frame) */}
+        <img
+          src={getFramePath(currentFrameNum)}
+          alt="Dubai Residence Hero Frame"
+          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none select-none transition-none"
+          loading="eager"
+          decoding="sync"
+          fetchPriority="high"
+        />
+
+        {/* Layer 2: Smooth Hardware-Accelerated Canvas */}
         <canvas
           ref={canvasRef}
-          className="w-full h-full block object-cover"
+          className="absolute inset-0 w-full h-full object-cover z-10 pointer-events-none"
           style={{ width: '100%', height: '100%' }}
         />
 
-        {/* Subtle initial hint indicator that disappears as soon as user touches scroll */}
+        {/* Subtle Scroll Hint on First Load */}
         <div 
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-700 ${
-            imagesLoaded ? 'opacity-40 hover:opacity-70' : 'opacity-0'
+          className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 pointer-events-none transition-opacity duration-700 ${
+            isFirstFrameLoaded && currentFrameNum === 1 ? 'opacity-50' : 'opacity-0'
           }`}
         >
-          <span className="text-[9px] font-mono tracking-[0.3em] uppercase text-white font-light">
+          <span className="text-[9px] font-mono tracking-[0.3em] uppercase text-white font-light drop-shadow-md">
             Scroll to Enter
           </span>
           <div className="w-[1px] h-6 bg-gradient-to-b from-white to-transparent animate-pulse" />
         </div>
+
       </div>
     </div>
   );
